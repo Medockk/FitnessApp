@@ -41,10 +41,26 @@ class SignInViewModel(
             SignInEvent.SignInClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
-                        signInUseCase(
-                            _state.value.email,
-                            state.value.password
-                        )
+                        if (
+                            _state.value.email.isNotBlank() &&
+                            _state.value.password.isNotBlank()
+                        ){
+                            signInUseCase(
+                                _state.value.email,
+                                state.value.password
+                            )
+                            _state.value = state.value.copy(
+                                isComplete = true
+                            )
+                        }else if (_state.value.email.isBlank()){
+                            _state.value = state.value.copy(
+                                exception = "Поле Почта не может быть пустым!"
+                            )
+                        }else if (_state.value.password.isBlank()){
+                            _state.value = state.value.copy(
+                                exception = "Поле Пароль не может быть пустым!"
+                            )
+                        }
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
                             exception = e.message.toString()
@@ -59,12 +75,6 @@ class SignInViewModel(
             is SignInEvent.SetException -> {
                 _state.value = state.value.copy(
                     exception = event.value
-                )
-            }
-
-            SignInEvent.IsSuccessfulSignInWithGoogle -> {
-                _state.value = state.value.copy(
-                    successfulSignInWithGoogle = true
                 )
             }
         }

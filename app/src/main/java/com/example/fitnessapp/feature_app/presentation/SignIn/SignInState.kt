@@ -5,7 +5,7 @@ data class SignInState(
     val password: String = "",
     val showHidePasswordState: Boolean = false,
 
-    val successfulSignInWithGoogle: Boolean = false,
+    val isComplete: Boolean = false,
 
     val exception: String = "",
 )

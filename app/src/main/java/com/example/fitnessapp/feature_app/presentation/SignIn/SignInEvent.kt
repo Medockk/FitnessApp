@@ -11,6 +11,5 @@ sealed class SignInEvent {
     data object ForgotPassword : SignInEvent()
 
     data object ResetException : SignInEvent()
-    data object IsSuccessfulSignInWithGoogle : SignInEvent()
     data class SetException(val value: String) : SignInEvent()
 }

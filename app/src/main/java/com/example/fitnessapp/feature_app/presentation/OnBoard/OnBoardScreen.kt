@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.OnBoard
 
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
@@ -13,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.OnBoard.componets.OnBoardDefaultScreen
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -52,10 +54,10 @@ fun OnBoardScreen(
             OnBoardDefaultScreen(
                 onBoardItem = state.onBoardItem
             ) {
-                coroutineScope.launch {
+                coroutineScope.launch(Dispatchers.Main) {
                     pagerState.animateScrollToPage(
                         state.currentPage,
-                        animationSpec = tween(300)
+                        animationSpec = tween(500, easing = FastOutLinearInEasing)
                     )
                 }
                 viewModel.onEvent(OnBoardEvent.NextPage(state.currentPage+1))

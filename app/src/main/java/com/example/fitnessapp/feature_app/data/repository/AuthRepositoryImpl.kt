@@ -31,9 +31,7 @@ class AuthRepositoryImpl : AuthRepository {
         client.postgrest["Users"].insert(
             mapOf(
                 "userID" to userID,
-                "name" to userData.name,
-                "surname" to userData.surname,
-                "patronymic" to userData.patronymic,
+                "fio" to userData.fio,
                 "phone" to userData.phone
             )
         )
@@ -41,5 +39,21 @@ class AuthRepositoryImpl : AuthRepository {
 
     override suspend fun signUpWithGoogle() {
         client.auth.signUpWith(Google)
+    }
+
+    override suspend fun createProfile(
+        gender: String,
+        birthdayData: String,
+        weight: String,
+        height: String
+    ) {
+        client.postgrest["Users"].insert(
+            mapOf(
+                "gender" to gender,
+                "birthdayData" to birthdayData,
+                "weight" to weight,
+                "height" to height
+            )
+        )
     }
 }

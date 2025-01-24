@@ -9,4 +9,10 @@ interface AuthRepository {
 
     suspend fun signUp(mail: String, pass: String, userData: UserData)
     suspend fun signUpWithGoogle()
+    suspend fun createProfile(
+        gender: String,
+        birthdayData: String,
+        weight: String,
+        height: String
+    )
 }
