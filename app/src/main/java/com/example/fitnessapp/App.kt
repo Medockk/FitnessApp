@@ -1,6 +1,7 @@
 package com.example.fitnessapp
 
 import android.app.Application
+import com.example.di.moduleAuth
 import com.example.di.moduleQueue
 import com.example.di.moduleViewModel
 import org.koin.android.ext.koin.androidContext
@@ -18,7 +19,7 @@ class App : Application() {
             androidLogger(Level.DEBUG)
             modules(
                 listOf(
-                    moduleQueue, moduleViewModel
+                    moduleQueue, moduleViewModel, moduleAuth
                 )
             )
         }

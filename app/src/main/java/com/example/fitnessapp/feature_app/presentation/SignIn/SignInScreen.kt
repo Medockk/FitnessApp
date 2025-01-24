@@ -4,11 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -22,15 +25,25 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.common.CustomAssistChip
 import com.example.common.CustomGreenButton
+import com.example.common.CustomHorizontalDivider
 import com.example.common.CustomTextField
 import com.example.fitnessapp.R
+import com.example.fitnessapp.Route
+import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.ui.theme._1D1617
+import com.example.fitnessapp.ui.theme.montserrat40014_1D1617
 import com.example.fitnessapp.ui.theme.montserrat40016_1D1617
 import com.example.fitnessapp.ui.theme.montserrat50012_ADA4A5
+import com.example.fitnessapp.ui.theme.montserrat50014_228F7D
 import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
+import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
+import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
+import io.github.jan.supabase.compose.auth.composeAuth
+import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -41,12 +54,27 @@ private fun Prev() {
 @Composable
 fun SignInScreen(
     navController: NavController,
-    viewModel: SignInViewModel = viewModel()
+    viewModel: SignInViewModel = koinViewModel()
 ) {
 
     val state = viewModel.state.value
     val paddingBottom = LocalConfiguration.current.screenHeightDp / 20
     val paddingTop = LocalConfiguration.current.screenHeightDp / 15
+
+    val authState = client.composeAuth.rememberSignInWithGoogle({
+        when (it){
+            NativeSignInResult.ClosedByUser -> {}
+            is NativeSignInResult.Error -> {
+                viewModel.onEvent(SignInEvent.SetException(it.exception.toString()))
+            }
+            is NativeSignInResult.NetworkError -> {
+                viewModel.onEvent(SignInEvent.SetException(it.message))
+            }
+            NativeSignInResult.Success -> {
+                viewModel.onEvent(SignInEvent.IsSuccessfulSignInWithGoogle)
+            }
+        }
+    })
 
     Box(Modifier.fillMaxSize().background(Color.White))
 
@@ -138,9 +166,63 @@ fun SignInScreen(
                         .fillMaxWidth()
                 ) {
                     viewModel.onEvent(SignInEvent.SignInClick)
+                    navController.navigate(Route.SuccessRegistrationScreen.route){
+                        popUpTo(Route.SignInScreen.route){
+                            inclusive = true
+                        }
+                    }
                 }
-
-
+                Spacer(Modifier.height(25.dp))
+                CustomHorizontalDivider(
+                    color = _1D1617,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Spacer(Modifier.height(25.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    CustomAssistChip(
+                        icon = ImageVector.vectorResource(R.drawable.google_icon),
+                        modifier = Modifier
+                            .size(50.dp)
+                    ) {
+                        authState.startFlow()
+                    }
+                    Spacer(Modifier.width(30.dp))
+                    CustomAssistChip(
+                        icon = ImageVector.vectorResource(R.drawable.facebook_icon),
+                        modifier = Modifier
+                            .size(50.dp)
+                    ) { }
+                }
+                Spacer(Modifier.height(25.dp))
+                TextButton(
+                    onClick = {
+                        navController.navigate(Route.SignUpScreen.route){
+                            popUpTo(Route.SignInScreen.route){
+                                inclusive = true
+                            }
+                        }
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = Color.Transparent
+                    )
+                ) {
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Text(
+                            text = "Нет аккаунта? ",
+                            style = montserrat40014_1D1617
+                        )
+                        Text(
+                            text = "Зарегистрироваться",
+                            style = montserrat50014_228F7D
+                        )
+                    }
+                }
             }
         }
     }

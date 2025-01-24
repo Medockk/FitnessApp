@@ -6,9 +6,11 @@ sealed class SignInEvent {
     data class EnterPassword(val value: String) : SignInEvent()
 
     data object ShowHidePassword : SignInEvent()
-    data object ResetException : SignInEvent()
-
     data object SignInClick : SignInEvent()
+
     data object ForgotPassword : SignInEvent()
-    data object SignInWithGoogle : SignInEvent()
+
+    data object ResetException : SignInEvent()
+    data object IsSuccessfulSignInWithGoogle : SignInEvent()
+    data class SetException(val value: String) : SignInEvent()
 }
