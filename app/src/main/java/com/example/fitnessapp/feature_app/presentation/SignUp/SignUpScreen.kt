@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.presentation.SignIn
+package com.example.fitnessapp.feature_app.presentation.SignUp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,13 +13,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
@@ -37,10 +41,12 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.ui.theme._1D1617
-import com.example.fitnessapp.ui.theme.montserrat40014_1D1617
+import com.example.fitnessapp.ui.theme._228F7D
+import com.example.fitnessapp.ui.theme._ADA4A5
+import com.example.fitnessapp.ui.theme.montserrat40010_ADA4A5
 import com.example.fitnessapp.ui.theme.montserrat40016_1D1617
-import com.example.fitnessapp.ui.theme.montserrat50012_ADA4A5
 import com.example.fitnessapp.ui.theme.montserrat50014_228F7D
+import com.example.fitnessapp.ui.theme.montserrat50014_ADA4A5
 import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
 import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
@@ -50,31 +56,57 @@ import org.koin.androidx.compose.koinViewModel
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun Prev() {
-    SignInScreen(rememberNavController())
+    SignUpScreen(rememberNavController())
 }
 
 @Composable
-fun SignInScreen(
+fun SignUpScreen(
     navController: NavController,
-    viewModel: SignInViewModel = koinViewModel()
+    viewModel: SignUpViewModel = koinViewModel()
 ) {
 
     val state = viewModel.state.value
-    val paddingBottom = LocalConfiguration.current.screenHeightDp / 20
     val paddingTop = LocalConfiguration.current.screenHeightDp / 15
+    val paddingBottom = LocalConfiguration.current.screenHeightDp / 20
+    val signUpList = listOf(
+        listOf(
+            state.fio,
+            {it: String -> viewModel.onEvent(SignUpEvent.EnterFIO(it)) },
+            ImageVector.vectorResource(R.drawable.fio_icon),
+            "ФИО"
+        ),
+        listOf(
+            state.phone,
+            {it: String -> viewModel.onEvent(SignUpEvent.EnterPhone(it)) },
+            ImageVector.vectorResource(R.drawable.phone_icon),
+            "Номер телефона"
+        ),
+        listOf(
+            state.email,
+            {it: String -> viewModel.onEvent(SignUpEvent.EnterEmail(it)) },
+            ImageVector.vectorResource(R.drawable.email_icon),
+            "Почта"
+        ),
+        listOf(
+            state.password,
+            {it: String -> viewModel.onEvent(SignUpEvent.EnterPassword(it)) },
+            ImageVector.vectorResource(R.drawable.password_icon),
+            "Пароль"
+        ),
+    )
 
     val authState = client.composeAuth.rememberSignInWithGoogle({
         when (it){
             NativeSignInResult.ClosedByUser -> {}
             is NativeSignInResult.Error -> {
-                viewModel.onEvent(SignInEvent.SetException(it.exception.toString()))
+                viewModel.onEvent(SignUpEvent.SetException(it.exception.toString()))
             }
             is NativeSignInResult.NetworkError -> {
-                viewModel.onEvent(SignInEvent.SetException(it.message))
+                viewModel.onEvent(SignUpEvent.SetException(it.message))
             }
             NativeSignInResult.Success -> {
-                navController.navigate(Route.SuccessRegistrationScreen.route){
-                    popUpTo(Route.SignInScreen.route){
+                navController.navigate(Route.RegisterPageScreen.route){
+                    popUpTo(Route.SignUpScreen.route){
                         inclusive = true
                     }
                 }
@@ -84,8 +116,8 @@ fun SignInScreen(
 
     LaunchedEffect(key1 = !state.isComplete) {
         if (state.isComplete){
-            navController.navigate(Route.SuccessRegistrationScreen.route){
-                popUpTo(Route.SignInScreen.route){
+            navController.navigate(Route.RegisterPageScreen.route){
+                popUpTo(Route.SignUpScreen.route){
                     inclusive = true
                 }
             }
@@ -96,29 +128,29 @@ fun SignInScreen(
         CustomAlertDialog(
             description = state.exception
         ) {
-            viewModel.onEvent(SignInEvent.ResetException)
+            viewModel.onEvent(SignUpEvent.ResetException)
         }
     }
 
-    Box(Modifier.fillMaxSize().background(Color.White))
+    Box(Modifier
+        .fillMaxSize()
+        .background(Color.White))
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                start = 30.dp,
-                end = 30.dp,
-                bottom = paddingBottom.dp,
-                top = paddingTop.dp
+                start = 30.dp, end = 30.dp,
+                top = paddingTop.dp, bottom = paddingBottom.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         item {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillParentMaxWidth()
+                    .fillParentMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "Привет,",
@@ -126,54 +158,63 @@ fun SignInScreen(
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
-                    text = "Добро пожаловать",
+                    text = "Создай аккаунт",
                     style = montserrat70020_1D1617
                 )
+                Spacer(Modifier.height(30.dp))
+
             }
-            Spacer(Modifier.height(30.dp))
-
-            CustomTextField(
-                value = state.email,
-                onValueChange = {
-                    viewModel.onEvent(SignInEvent.EnterEmail(it))
-                },
-                icon = ImageVector.vectorResource(R.drawable.email_icon),
-                hint = "Почта",
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            Spacer(Modifier.height(15.dp))
-
-            CustomTextField(
-                value = state.password,
-                onValueChange = {
-                    viewModel.onEvent(SignInEvent.EnterPassword(it))
-                },
-                icon = ImageVector.vectorResource(R.drawable.password_icon),
-                hint = "Пароль",
+            signUpList.forEach {
+                CustomTextField(
+                    value = it[0] as String,
+                    onValueChange = it[1] as (String) -> Unit,
+                    icon = it[2] as ImageVector,
+                    hint = it[3] as String,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    isPassword = signUpList[3] == it,
+                    showHidePasswordState = if (signUpList[3] == it){
+                        state.showHidePasswordState
+                    }else{
+                        false
+                    },
+                    showHidePasswordClick = {
+                        viewModel.onEvent(SignUpEvent.ChangeShowHidePasswordState)
+                    }
+                )
+                Spacer(Modifier.height(15.dp))
+            }
+            Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                isPassword = true,
-                showHidePasswordState = state.showHidePasswordState,
-                showHidePasswordClick = {
-                    viewModel.onEvent(SignInEvent.ShowHidePassword)
-                }
-            )
-
-            Spacer(Modifier.height(10.dp))
-
-            TextButton(
-                onClick = {
-                    viewModel.onEvent(SignInEvent.ForgotPassword)
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent
-                )
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
             ) {
-                Text(
-                    text = "Забыл пароль?",
-                    style = montserrat50012_ADA4A5
+                Checkbox(
+                    checked = state.checkBoxState,
+                    onCheckedChange = {
+                        viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(it))
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = _228F7D,
+                        uncheckedColor = _ADA4A5,
+                        checkmarkColor = Color.White
+                    ),
+                    modifier = Modifier.clip(RoundedCornerShape(3.dp))
                 )
+                TextButton(
+                    onClick = {
+                        viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(!state.checkBoxState))
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = "Продолжая, вы принимаете нашу Политику конфиденциальности и Условия использования.",
+                        style = montserrat40010_ADA4A5
+                    )
+                }
             }
         }
 
@@ -184,12 +225,11 @@ fun SignInScreen(
                     .fillParentMaxWidth()
             ) {
                 CustomGreenButton(
-                    text = "Войти",
-                    isSignInScreen = true,
+                    text = "Зарегистрироваться",
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    viewModel.onEvent(SignInEvent.SignInClick)
+                    viewModel.onEvent(SignUpEvent.SignUp)
                 }
                 Spacer(Modifier.height(25.dp))
                 CustomHorizontalDivider(
@@ -199,11 +239,11 @@ fun SignInScreen(
                 )
                 Spacer(Modifier.height(25.dp))
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     CustomAssistChip(
-                        icon = ImageVector.vectorResource(R.drawable.google_icon),
+                        icon =
+                            ImageVector.vectorResource(R.drawable.google_icon),
                         modifier = Modifier
                             .size(50.dp)
                     ) {
@@ -211,16 +251,17 @@ fun SignInScreen(
                     }
                     Spacer(Modifier.width(30.dp))
                     CustomAssistChip(
-                        icon = ImageVector.vectorResource(R.drawable.facebook_icon),
+                        icon =
+                            ImageVector.vectorResource(R.drawable.facebook_icon),
                         modifier = Modifier
                             .size(50.dp)
                     ) { }
                 }
-                Spacer(Modifier.height(25.dp))
+                Spacer(Modifier.height(20.dp))
                 TextButton(
                     onClick = {
-                        navController.navigate(Route.SignUpScreen.route){
-                            popUpTo(Route.SignInScreen.route){
+                        navController.navigate(Route.SignInScreen.route){
+                            popUpTo(Route.SignUpScreen.route){
                                 inclusive = true
                             }
                         }
@@ -229,15 +270,15 @@ fun SignInScreen(
                         containerColor = Color.Transparent
                     )
                 ) {
-                    Row (
+                    Row(
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Text(
-                            text = "Нет аккаунта? ",
-                            style = montserrat40014_1D1617
+                            text = "Имеете уже аккаунт? ",
+                            style = montserrat50014_ADA4A5
                         )
                         Text(
-                            text = "Зарегистрироваться",
+                            text = "Войти",
                             style = montserrat50014_228F7D
                         )
                     }

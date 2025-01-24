@@ -6,8 +6,15 @@ import kotlinx.serialization.Serializable
 data class UserData(
     val id: Int = 0,
     val userID: String,
-    val name: String,
-    val surname: String,
-    val patronymic: String,
-    val phone: String
-)
+    val fio: String,
+    val phone: String,
+    val gender: String = "",
+    val birthdayData: String = "",
+    val weight: String = "",
+    val height: String = ""
+){
+    companion object{
+        val male = "Мужской"
+        val female = "Женский"
+    }
+}
