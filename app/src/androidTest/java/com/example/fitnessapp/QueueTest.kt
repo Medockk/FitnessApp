@@ -50,7 +50,7 @@ class QueueTest {
     }
 
     @Test
-    fun u(){
+    fun firstTest(){
         runBlocking {
             queueUseCase.clearQueueUseCase()
 
@@ -72,6 +72,10 @@ class QueueTest {
                 ),
             )
             Log.e("m", onBoardItemList.toString())
+
+            viewModel = OnBoardViewModel(
+                queueUseCase
+            )
 
         }
 
