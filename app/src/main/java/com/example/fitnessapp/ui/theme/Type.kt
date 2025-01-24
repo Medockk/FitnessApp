@@ -1,6 +1,7 @@
 package com.example.fitnessapp.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -48,10 +49,22 @@ val montserrat70036_1D1617 = TextStyle (
     fontSize = 36.sp,
     color = _1D1617
 )
+val montserrat40016_1D1617 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(400),
+    fontSize = 16.sp,
+    color = _1D1617
+)
 val montserrat70024_1D1617 = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(700),
     fontSize = 24.sp,
+    color = _1D1617
+)
+val montserrat70020_1D1617 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(700),
+    fontSize = 20.sp,
     color = _1D1617
 )
 val montserrat40018_CFCFCF = TextStyle (
@@ -63,6 +76,25 @@ val montserrat40018_CFCFCF = TextStyle (
 val montserrat40014_B6B4C2 = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(400),
-    fontSize = 18.sp,
+    fontSize = 14.sp,
     color = _B6B4C2
+)
+
+val montserrat40012_ADA4A5 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(400),
+    fontSize = 12.sp,
+    color = _ADA4A5
+)
+val montserrat50012_ADA4A5 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(500),
+    fontSize = 12.sp,
+    color = _ADA4A5
+)
+val montserrat70016White = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(700),
+    fontSize = 16.sp,
+    color = Color.White
 )
