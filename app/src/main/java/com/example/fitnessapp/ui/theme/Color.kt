@@ -16,3 +16,6 @@ val _CFCFCF = Color(0xFFCFCFCF)
 val _9CEEDF = Color(0xFF9CEEDF)
 val _228F7D = Color(0xFF228F7D)
 val _B6B4C2 = Color(0xFFB6B4C2)
+
+val _ADA4A5 = Color(0xFFADA4A5)
+val _F7F8F8 = Color(0xFFF7F8F8)
