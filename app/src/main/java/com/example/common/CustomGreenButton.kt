@@ -36,7 +36,7 @@ fun CustomGreenButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    val brush = Brush.linearGradient(
+    val brush = Brush.horizontalGradient(
         listOf(
             _228F7D,
             _9CEEDF

@@ -3,8 +3,14 @@ package com.example.fitnessapp.feature_app.presentation.SignIn
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(
+    private val signInUseCase: SignInUseCase
+) : ViewModel() {
 
     private val _state = mutableStateOf(SignInState())
     val state: State<SignInState> = _state
@@ -33,14 +39,33 @@ class SignInViewModel : ViewModel() {
             }
 
             SignInEvent.SignInClick -> {
-
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        signInUseCase(
+                            _state.value.email,
+                            state.value.password
+                        )
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(
+                            exception = e.message.toString()
+                        )
+                    }
+                }
             }
-            SignInEvent.SignInWithGoogle -> {
-
-            }
-
             SignInEvent.ForgotPassword -> {
 
+            }
+
+            is SignInEvent.SetException -> {
+                _state.value = state.value.copy(
+                    exception = event.value
+                )
+            }
+
+            SignInEvent.IsSuccessfulSignInWithGoogle -> {
+                _state.value = state.value.copy(
+                    successfulSignInWithGoogle = true
+                )
             }
         }
     }

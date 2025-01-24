@@ -1,6 +1,8 @@
 package com.example.fitnessapp.feature_app.data.network
 
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.compose.auth.ComposeAuth
+import io.github.jan.supabase.compose.auth.googleNativeLogin
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 
@@ -12,5 +14,8 @@ object SupabaseClient {
     ){
         install(Auth)
         install(Postgrest)
+        install(ComposeAuth){
+            this.googleNativeLogin("856230107300-4dl6egvaddr2a63segvho5qp7irh890o.apps.googleusercontent.com")
+        }
     }
 }

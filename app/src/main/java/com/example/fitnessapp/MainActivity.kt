@@ -36,8 +36,15 @@ class MainActivity : ComponentActivity() {
                     composable(Route.OnBoardScreen.route){
                         OnBoardScreen(navController)
                     }
+
                     composable(Route.SignInScreen.route){
                         SignInScreen(navController)
+                    }
+                    composable(Route.SuccessRegistrationScreen.route){
+
+                    }
+                    composable(Route.SignUpScreen.route){
+
                     }
                 }
             }
