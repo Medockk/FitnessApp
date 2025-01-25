@@ -56,4 +56,15 @@ class AuthRepositoryImpl : AuthRepository {
             )
         )
     }
+
+    override suspend fun selectPurpose(purpose: String) {
+
+        val userID = client.auth.currentUserOrNull()?.id?:""
+        client.postgrest["Purpose"].insert(
+            mapOf(
+                "userID" to userID,
+                "purpose" to purpose
+            )
+        )
+    }
 }

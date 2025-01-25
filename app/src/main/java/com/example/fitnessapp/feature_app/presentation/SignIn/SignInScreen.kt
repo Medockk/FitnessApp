@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.SignIn
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -65,7 +66,9 @@ fun SignInScreen(
 
     val authState = client.composeAuth.rememberSignInWithGoogle({
         when (it){
-            NativeSignInResult.ClosedByUser -> {}
+            NativeSignInResult.ClosedByUser -> {
+                Log.e("in", "closed")
+            }
             is NativeSignInResult.Error -> {
                 viewModel.onEvent(SignInEvent.SetException(it.exception.toString()))
             }
@@ -73,6 +76,7 @@ fun SignInScreen(
                 viewModel.onEvent(SignInEvent.SetException(it.message))
             }
             NativeSignInResult.Success -> {
+                Log.i("in", "successful")
                 navController.navigate(Route.SuccessRegistrationScreen.route){
                     popUpTo(Route.SignInScreen.route){
                         inclusive = true
@@ -207,7 +211,7 @@ fun SignInScreen(
                         modifier = Modifier
                             .size(50.dp)
                     ) {
-                        authState.startFlow()
+                        viewModel.onEvent(SignInEvent.SignInWithGoogle(authState))
                     }
                     Spacer(Modifier.width(30.dp))
                     CustomAssistChip(

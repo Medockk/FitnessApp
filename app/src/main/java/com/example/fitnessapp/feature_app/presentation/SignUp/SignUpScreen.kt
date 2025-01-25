@@ -1,14 +1,18 @@
 package com.example.fitnessapp.feature_app.presentation.SignUp
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -59,6 +63,7 @@ private fun Prev() {
     SignUpScreen(rememberNavController())
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SignUpScreen(
     navController: NavController,
@@ -97,7 +102,9 @@ fun SignUpScreen(
 
     val authState = client.composeAuth.rememberSignInWithGoogle({
         when (it){
-            NativeSignInResult.ClosedByUser -> {}
+            NativeSignInResult.ClosedByUser -> {
+                Log.e("up", "closed")
+            }
             is NativeSignInResult.Error -> {
                 viewModel.onEvent(SignUpEvent.SetException(it.exception.toString()))
             }
@@ -105,6 +112,7 @@ fun SignUpScreen(
                 viewModel.onEvent(SignUpEvent.SetException(it.message))
             }
             NativeSignInResult.Success -> {
+                Log.i("up", "successful")
                 navController.navigate(Route.RegisterPageScreen.route){
                     popUpTo(Route.SignUpScreen.route){
                         inclusive = true
@@ -164,56 +172,62 @@ fun SignUpScreen(
                 Spacer(Modifier.height(30.dp))
 
             }
-            signUpList.forEach {
-                CustomTextField(
-                    value = it[0] as String,
-                    onValueChange = it[1] as (String) -> Unit,
-                    icon = it[2] as ImageVector,
-                    hint = it[3] as String,
+            Column(
+                modifier = Modifier
+                    .imePadding()
+                    .imeNestedScroll()
+            ) {
+                signUpList.forEach {
+                    CustomTextField(
+                        value = it[0] as String,
+                        onValueChange = it[1] as (String) -> Unit,
+                        icon = it[2] as ImageVector,
+                        hint = it[3] as String,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        isPassword = signUpList[3] == it,
+                        showHidePasswordState = if (signUpList[3] == it){
+                            state.showHidePasswordState
+                        }else{
+                            false
+                        },
+                        showHidePasswordClick = {
+                            viewModel.onEvent(SignUpEvent.ChangeShowHidePasswordState)
+                        }
+                    )
+                    Spacer(Modifier.height(15.dp))
+                }
+                Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    isPassword = signUpList[3] == it,
-                    showHidePasswordState = if (signUpList[3] == it){
-                        state.showHidePasswordState
-                    }else{
-                        false
-                    },
-                    showHidePasswordClick = {
-                        viewModel.onEvent(SignUpEvent.ChangeShowHidePasswordState)
-                    }
-                )
-                Spacer(Modifier.height(15.dp))
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Checkbox(
-                    checked = state.checkBoxState,
-                    onCheckedChange = {
-                        viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(it))
-                    },
-                    colors = CheckboxDefaults.colors(
-                        checkedColor = _228F7D,
-                        uncheckedColor = _ADA4A5,
-                        checkmarkColor = Color.White
-                    ),
-                    modifier = Modifier.clip(RoundedCornerShape(3.dp))
-                )
-                TextButton(
-                    onClick = {
-                        viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(!state.checkBoxState))
-                    },
-                    colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.Transparent
-                    )
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
                 ) {
-                    Text(
-                        text = "Продолжая, вы принимаете нашу Политику конфиденциальности и Условия использования.",
-                        style = montserrat40010_ADA4A5
+                    Checkbox(
+                        checked = state.checkBoxState,
+                        onCheckedChange = {
+                            viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(it))
+                        },
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = _228F7D,
+                            uncheckedColor = _ADA4A5,
+                            checkmarkColor = Color.White
+                        ),
+                        modifier = Modifier.clip(RoundedCornerShape(3.dp))
                     )
+                    TextButton(
+                        onClick = {
+                            viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(!state.checkBoxState))
+                        },
+                        colors = ButtonDefaults.textButtonColors(
+                            containerColor = Color.Transparent
+                        )
+                    ) {
+                        Text(
+                            text = "Продолжая, вы принимаете нашу Политику конфиденциальности и Условия использования.",
+                            style = montserrat40010_ADA4A5
+                        )
+                    }
                 }
             }
         }
@@ -247,7 +261,7 @@ fun SignUpScreen(
                         modifier = Modifier
                             .size(50.dp)
                     ) {
-                        authState.startFlow()
+                        viewModel.onEvent(SignUpEvent.SignUpWithGoogle(authState))
                     }
                     Spacer(Modifier.width(30.dp))
                     CustomAssistChip(
