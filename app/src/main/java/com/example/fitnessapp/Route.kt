@@ -12,4 +12,6 @@ sealed class Route(val route: String) {
     data object CreateProfileScreen : Route("CreateProfileScreen")
 
     data object HomeScreen : Route("RegisterPageScreen")
+    data object ProgressPhotoScreen : Route("ProgressPhotoScreen")
+    data object ProfileScreen : Route("ProfileScreen")
 }

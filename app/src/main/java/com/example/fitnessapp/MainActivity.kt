@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
+import com.example.fitnessapp.feature_app.presentation.Home.HomeScreen
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardScreen
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageScreen
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
@@ -76,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         CreateProfileScreen(navController)
                     }
                     composable(Route.HomeScreen.route){
-
+                        HomeScreen(navController)
                     }
                 }
             }
