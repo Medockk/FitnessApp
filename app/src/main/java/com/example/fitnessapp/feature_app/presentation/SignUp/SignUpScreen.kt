@@ -124,7 +124,7 @@ fun SignUpScreen(
 
     LaunchedEffect(key1 = !state.isComplete) {
         if (state.isComplete){
-            navController.navigate(Route.RegisterPageScreen.route){
+            navController.navigate(Route.CreateProfileScreen.route){
                 popUpTo(Route.SignUpScreen.route){
                     inclusive = true
                 }

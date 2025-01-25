@@ -75,6 +75,9 @@ class MainActivity : ComponentActivity() {
                     composable(Route.CreateProfileScreen.route){
                         CreateProfileScreen(navController)
                     }
+                    composable(Route.HomeScreen.route){
+
+                    }
                 }
             }
         }
