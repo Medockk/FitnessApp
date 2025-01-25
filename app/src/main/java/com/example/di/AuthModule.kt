@@ -2,6 +2,7 @@ package com.example.di
 
 import com.example.fitnessapp.feature_app.data.repository.AuthRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.AuthRepository
+import com.example.fitnessapp.feature_app.domain.usecase.Auth.SelectPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInWithGoogleUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
@@ -28,5 +29,9 @@ val moduleAuth = module {
 
     factory<SignUpWithGoogleUseCase> {
         SignUpWithGoogleUseCase(get())
+    }
+
+    factory<SelectPurposeUseCase> {
+        SelectPurposeUseCase(get())
     }
 }

@@ -15,4 +15,5 @@ interface AuthRepository {
         weight: String,
         height: String
     )
+    suspend fun selectPurpose(purpose: String)
 }

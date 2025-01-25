@@ -77,6 +77,12 @@ class SignInViewModel(
                     exception = event.value
                 )
             }
+
+            is SignInEvent.SignInWithGoogle -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    event.nativeSignInState.startFlow()
+                }
+            }
         }
     }
 }
