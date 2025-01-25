@@ -122,6 +122,12 @@ val montserrat50012_ADA4A5 = TextStyle (
     fontSize = 12.sp,
     color = _ADA4A5
 )
+val montserrat50012White = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(500),
+    fontSize = 12.sp,
+    color = Color.White
+)
 val montserrat50014_ADA4A5 = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(500),

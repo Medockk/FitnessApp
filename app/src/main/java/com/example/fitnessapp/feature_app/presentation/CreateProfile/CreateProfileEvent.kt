@@ -8,4 +8,7 @@ sealed class CreateProfileEvent {
     data class EnterBirthdayData(val value: String) : CreateProfileEvent()
     data class EnterWeight(val value: String) : CreateProfileEvent()
     data class EnterHeight(val value: String) : CreateProfileEvent()
+
+    data object CreateProfileClick : CreateProfileEvent()
+    data object ChangeDropDownMenuState : CreateProfileEvent()
 }

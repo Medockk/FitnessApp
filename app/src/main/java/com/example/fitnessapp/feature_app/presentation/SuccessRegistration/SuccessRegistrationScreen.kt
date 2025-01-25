@@ -85,7 +85,8 @@ fun SuccessRegistrationScreen(
                 Text(
                     text = "Добро пожаловать, \n" +
                             state.userData.fio,
-                    style = montserrat70020_1D1617
+                    style = montserrat70020_1D1617,
+                    textAlign = TextAlign.Center
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(

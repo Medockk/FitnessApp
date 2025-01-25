@@ -47,14 +47,19 @@ class AuthRepositoryImpl : AuthRepository {
         weight: String,
         height: String
     ) {
-        client.postgrest["Users"].insert(
+        val userID = client.auth.currentUserOrNull()?.id?:""
+        client.postgrest["Users"].update(
             mapOf(
                 "gender" to gender,
                 "birthdayData" to birthdayData,
                 "weight" to weight,
                 "height" to height
             )
-        )
+        ){
+            filter {
+                eq("userID", userID)
+            }
+        }
     }
 
     override suspend fun selectPurpose(purpose: String) {

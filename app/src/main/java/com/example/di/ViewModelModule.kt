@@ -1,5 +1,6 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardViewModel
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageViewModel
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
@@ -28,5 +29,9 @@ val moduleViewModel = module {
 
     viewModel<SuccessRegistrationViewModel>{
         SuccessRegistrationViewModel(get())
+    }
+
+    viewModel<CreateProfileViewModel>{
+        CreateProfileViewModel(get())
     }
 }
