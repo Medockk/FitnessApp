@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = Route.WelcomeScreen.route,
                     enterTransition = {
-                        slideInHorizontally(tween(550, easing = FastOutLinearInEasing),{it}) +
+                        slideInHorizontally(tween(350, easing = FastOutLinearInEasing)) { it } +
                                 expandHorizontally(expandFrom = Alignment.Start, initialWidth = {it}) +
                                 fadeIn()
                     },
