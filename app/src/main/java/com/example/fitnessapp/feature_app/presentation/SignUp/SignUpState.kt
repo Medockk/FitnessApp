@@ -10,7 +10,8 @@ data class SignUpState(
     val checkBoxState: Boolean = false,
 
     val successfulSignUpWithGoogle: Boolean = false,
-    val isComplete: Boolean = false,
+    val isFirstRegistration: Boolean = false,
+    val isNotFirstRegistration: Boolean = false,
 
     val exception: String = "",
 )

@@ -111,20 +111,23 @@ fun SignUpScreen(
             is NativeSignInResult.NetworkError -> {
                 viewModel.onEvent(SignUpEvent.SetException(it.message))
             }
-            NativeSignInResult.Success -> {
-                Log.i("up", "successful")
-                navController.navigate(Route.RegisterPageScreen.route){
-                    popUpTo(Route.SignUpScreen.route){
-                        inclusive = true
-                    }
-                }
-            }
+            NativeSignInResult.Success -> {}
         }
     })
 
-    LaunchedEffect(key1 = !state.isComplete) {
-        if (state.isComplete){
+    LaunchedEffect(key1 = !state.isFirstRegistration) {
+        if (state.isFirstRegistration){
             navController.navigate(Route.CreateProfileScreen.route){
+                popUpTo(Route.SignUpScreen.route){
+                    inclusive = true
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(key1 = !state.isNotFirstRegistration) {
+        if (state.isNotFirstRegistration){
+            navController.navigate(Route.SuccessRegistrationScreen.route){
                 popUpTo(Route.SignUpScreen.route){
                     inclusive = true
                 }
