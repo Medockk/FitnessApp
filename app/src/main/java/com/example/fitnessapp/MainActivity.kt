@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
@@ -44,39 +45,38 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = Route.WelcomeScreen.route,
                     enterTransition = {
-                        slideInHorizontally(tween(350, easing = FastOutLinearInEasing)) { it } +
-                                expandHorizontally(expandFrom = Alignment.Start, initialWidth = {it}) +
-                                fadeIn()
+                        fadeIn(tween(700, easing = LinearOutSlowInEasing)) +
+                                slideInHorizontally() +
+                                expandHorizontally()
                     },
                     exitTransition = {
-                        slideOutHorizontally() +
-                                shrinkHorizontally() +
-                                fadeOut()
+                        fadeOut() + slideOutHorizontally() +
+                                shrinkHorizontally()
                     }
-                ){
-                    composable(Route.WelcomeScreen.route){
+                ) {
+                    composable(Route.WelcomeScreen.route) {
                         WelcomeScreen(navController)
                     }
-                    composable(Route.OnBoardScreen.route){
+                    composable(Route.OnBoardScreen.route) {
                         OnBoardScreen(navController)
                     }
 
-                    composable(Route.SignInScreen.route){
+                    composable(Route.SignInScreen.route) {
                         SignInScreen(navController)
                     }
-                    composable(Route.SuccessRegistrationScreen.route){
+                    composable(Route.SuccessRegistrationScreen.route) {
                         SuccessRegistrationScreen(navController)
                     }
-                    composable(Route.SignUpScreen.route,){
+                    composable(Route.SignUpScreen.route) {
                         SignUpScreen(navController)
                     }
-                    composable(Route.RegisterPageScreen.route,){
+                    composable(Route.RegisterPageScreen.route) {
                         RegisterPageScreen(navController)
                     }
-                    composable(Route.CreateProfileScreen.route){
+                    composable(Route.CreateProfileScreen.route) {
                         CreateProfileScreen(navController)
                     }
-                    composable(Route.HomeScreen.route){
+                    composable(Route.HomeScreen.route) {
                         HomeScreen(navController)
                     }
                 }

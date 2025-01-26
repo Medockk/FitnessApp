@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
-    private val signUpUseCase: SignUpUseCase
+    private val signUpUseCase: SignUpUseCase,
+    private val signUpWithGoogleUseCase: SignUpWithGoogleUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SignUpState())
@@ -18,27 +20,47 @@ class SignUpViewModel(
 
     fun onEvent(event: SignUpEvent) {
         when (event) {
+
             is SignUpEvent.EnterEmail -> {
                 _state.value = state.value.copy(
                     email = event.value
                 )
             }
-
             is SignUpEvent.EnterFIO -> {
                 _state.value = state.value.copy(
                     fio = event.value
                 )
             }
-
             is SignUpEvent.EnterPassword -> {
                 _state.value = state.value.copy(
                     password = event.value
                 )
             }
-
             is SignUpEvent.EnterPhone -> {
                 _state.value = state.value.copy(
                     phone = event.value
+                )
+            }
+            is SignUpEvent.ChangeCheckBoxState -> {
+                _state.value = state.value.copy(
+                    checkBoxState = event.value
+                )
+            }
+            SignUpEvent.ChangeShowHidePasswordState -> {
+                _state.value = state.value.copy(
+                    showHidePasswordState = !state.value.showHidePasswordState
+                )
+            }
+
+
+            SignUpEvent.ResetException -> {
+                _state.value = state.value.copy(
+                    exception = ""
+                )
+            }
+            is SignUpEvent.SetException -> {
+                _state.value = state.value.copy(
+                    exception = event.value
                 )
             }
 
@@ -62,7 +84,7 @@ class SignUpViewModel(
                                 )
                             )
                             _state.value = state.value.copy(
-                                isComplete = true
+                                isFirstRegistration = true
                             )
                         } catch (e: Exception) {
                             _state.value = state.value.copy(
@@ -92,34 +114,25 @@ class SignUpViewModel(
                     )
                 }
             }
-
-            SignUpEvent.ChangeShowHidePasswordState -> {
-                _state.value = state.value.copy(
-                    showHidePasswordState = !state.value.showHidePasswordState
-                )
-            }
-
-            is SignUpEvent.ChangeCheckBoxState -> {
-                _state.value = state.value.copy(
-                    checkBoxState = event.value
-                )
-            }
-
-            SignUpEvent.ResetException -> {
-                _state.value = state.value.copy(
-                    exception = ""
-                )
-            }
-
-            is SignUpEvent.SetException -> {
-                _state.value = state.value.copy(
-                    exception = event.value
-                )
-            }
-
             is SignUpEvent.SignUpWithGoogle -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    event.nativeSignInState.startFlow()
+                    try {
+                        val signUpState = signUpWithGoogleUseCase(event.nativeSignInState)
+
+                        if (signUpState){
+                            _state.value = state.value.copy(
+                                isFirstRegistration = true
+                            )
+                        }else{
+                            _state.value = state.value.copy(
+                                isNotFirstRegistration = true
+                            )
+                        }
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(
+                            exception = e.message.toString()
+                        )
+                    }
                 }
             }
         }
