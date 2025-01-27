@@ -7,6 +7,7 @@ data class RegisterPageState(
     val currentPage: Int = 0,
 
     val isComplete: Boolean = false,
+    val exception: String = "",
 )
 
 val purposeList = listOf(

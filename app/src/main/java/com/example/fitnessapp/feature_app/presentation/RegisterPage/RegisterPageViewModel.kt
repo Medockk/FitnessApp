@@ -18,15 +18,27 @@ class RegisterPageViewModel(
     fun onEvent(event: RegisterEvent){
         when (event){
             is RegisterEvent.SelectPurpose -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    selectPurposeUseCase(
-                        _state.value.yourPurpose[event.value]
-                            .title
-                    )
+                try {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        selectPurposeUseCase(
+                            _state.value.yourPurpose[event.value]
+                                .title
+                        )
+                        _state.value = state.value.copy(
+                            isComplete = true
+                        )
+                    }
+                } catch (e: Exception) {
                     _state.value = state.value.copy(
-                        isComplete = true
+                        exception = e.message.toString()
                     )
                 }
+            }
+
+            RegisterEvent.ResetException -> {
+                _state.value = state.value.copy(
+                    exception = ""
+                )
             }
         }
     }

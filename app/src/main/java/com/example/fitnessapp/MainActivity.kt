@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
@@ -20,7 +19,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
 import com.example.fitnessapp.feature_app.presentation.Home.HomeScreen
+import com.example.fitnessapp.feature_app.presentation.Notification.NotificationScreen
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardScreen
+import com.example.fitnessapp.feature_app.presentation.Profile.ProfileScreen
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageScreen
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
@@ -45,9 +46,9 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = Route.WelcomeScreen.route,
                     enterTransition = {
-                        fadeIn(tween(700, easing = LinearOutSlowInEasing)) +
-                                slideInHorizontally() +
-                                expandHorizontally()
+                        slideInHorizontally(tween(700, easing = LinearOutSlowInEasing)) +
+                                expandHorizontally(expandFrom = Alignment.Start) +
+                                fadeIn()
                     },
                     exitTransition = {
                         fadeOut() + slideOutHorizontally() +
@@ -60,7 +61,6 @@ class MainActivity : ComponentActivity() {
                     composable(Route.OnBoardScreen.route) {
                         OnBoardScreen(navController)
                     }
-
                     composable(Route.SignInScreen.route) {
                         SignInScreen(navController)
                     }
@@ -78,6 +78,12 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.HomeScreen.route) {
                         HomeScreen(navController)
+                    }
+                    composable(Route.NotificationScreen.route) {
+                        NotificationScreen(navController)
+                    }
+                    composable(Route.ProfileScreen.route) {
+                        ProfileScreen(navController)
                     }
                 }
             }

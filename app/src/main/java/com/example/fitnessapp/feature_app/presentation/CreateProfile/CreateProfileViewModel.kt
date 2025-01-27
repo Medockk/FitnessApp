@@ -89,6 +89,10 @@ class CreateProfileViewModel(
                     _state.value = state.value.copy(
                         exception = "Поле Ваш Рост не может быть пустым!"
                     )
+                }else{
+                    _state.value = state.value.copy(
+                        exception = "Непредвиденная ошибка!"
+                    )
                 }
             }
 

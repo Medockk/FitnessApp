@@ -1,7 +1,10 @@
 package com.example.di
 
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
+import com.example.fitnessapp.feature_app.presentation.Home.HomeViewModel
+import com.example.fitnessapp.feature_app.presentation.Notification.NotificationViewModel
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardViewModel
+import com.example.fitnessapp.feature_app.presentation.Profile.ProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageViewModel
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
@@ -33,5 +36,23 @@ val moduleViewModel = module {
 
     viewModel<CreateProfileViewModel>{
         CreateProfileViewModel(get())
+    }
+
+    viewModel<HomeViewModel>{
+        HomeViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
+
+    viewModel<NotificationViewModel>{
+        NotificationViewModel(get())
+    }
+
+    viewModel<ProfileViewModel>{
+        ProfileViewModel(
+            get(), get()
+        )
     }
 }
