@@ -1,5 +1,9 @@
 package com.example.fitnessapp.feature_app.presentation.SuccessRegistration
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -82,12 +86,17 @@ fun SuccessRegistrationScreen(
                     contentScale = ContentScale.Crop
                 )
                 Spacer(Modifier.height(25.dp))
-                Text(
-                    text = "Добро пожаловать, \n" +
-                            state.userData.fio,
-                    style = montserrat70020_1D1617,
-                    textAlign = TextAlign.Center
-                )
+                AnimatedVisibility(
+                    visible = state.userData.fio.isNotEmpty(),
+                    enter = expandVertically(tween(500, easing = LinearOutSlowInEasing))
+                ) {
+                    Text(
+                        text = "Добро пожаловать, \n" +
+                                state.userData.fio,
+                        style = montserrat70020_1D1617,
+                        textAlign = TextAlign.Center
+                    )
+                }
                 Spacer(Modifier.height(5.dp))
                 Text(
                     text = "Теперь все готово, давайте\nдостигать ваших целей вместе с\nнами.",

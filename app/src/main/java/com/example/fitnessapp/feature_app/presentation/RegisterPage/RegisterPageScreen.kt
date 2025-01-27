@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.ui.theme._07856E
@@ -85,6 +86,14 @@ fun RegisterPageScreen(
                     inclusive = true
                 }
             }
+        }
+    }
+
+    if (state.exception.isNotEmpty()){
+        CustomAlertDialog(
+            description = state.exception
+        ) {
+            viewModel.onEvent(RegisterEvent.ResetException)
         }
     }
 

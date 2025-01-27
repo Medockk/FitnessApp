@@ -2,6 +2,10 @@ package com.example.di
 
 import com.example.fitnessapp.feature_app.data.repository.UserDataRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
+import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserBodyMassIndexUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.GetNotificationsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.UpdateUserDataUseCase
 import org.koin.dsl.module
@@ -18,5 +22,21 @@ val moduleUser = module {
 
     factory<UpdateUserDataUseCase> {
         UpdateUserDataUseCase(get())
+    }
+
+    factory<GetUserStatisticsUseCase> {
+        GetUserStatisticsUseCase(get())
+    }
+
+    factory<GetUserBodyMassIndexUseCase> {
+        GetUserBodyMassIndexUseCase(get())
+    }
+
+    factory<GetNotificationsUseCase> {
+        GetNotificationsUseCase(get())
+    }
+
+    factory<GetPurposeUseCase> {
+        GetPurposeUseCase(get())
     }
 }
