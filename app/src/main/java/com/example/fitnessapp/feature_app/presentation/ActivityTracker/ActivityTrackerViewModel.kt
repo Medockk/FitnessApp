@@ -41,7 +41,7 @@ class ActivityTrackerViewModel(
 
     fun onEvent(event: ActivityTrackerEvent){
         when (event){
-            ActivityTrackerEvent.AddPurpose -> TODO()
+            ActivityTrackerEvent.AddPurpose -> {}
             ActivityTrackerEvent.ResetException -> {
                 _state.value = state.value.copy(
                     exception = ""

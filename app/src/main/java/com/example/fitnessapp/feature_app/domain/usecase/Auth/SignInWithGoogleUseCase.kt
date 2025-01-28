@@ -6,7 +6,7 @@ class SignInWithGoogleUseCase(
     private val authRepository: AuthRepository
 ) {
 
-    suspend operator fun invoke(){
-        authRepository.signInWithGoogle()
+    suspend operator fun invoke() : Boolean{
+        return authRepository.signInWithGoogle()
     }
 }

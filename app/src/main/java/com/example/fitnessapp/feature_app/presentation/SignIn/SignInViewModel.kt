@@ -1,15 +1,18 @@
 package com.example.fitnessapp.feature_app.presentation.SignIn
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInWithGoogleUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignInViewModel(
-    private val signInUseCase: SignInUseCase
+    private val signInUseCase: SignInUseCase,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SignInState())
@@ -50,7 +53,7 @@ class SignInViewModel(
                                 state.value.password
                             )
                             _state.value = state.value.copy(
-                                isComplete = true
+                                isRegistered = true
                             )
                         }else if (_state.value.email.isBlank()){
                             _state.value = state.value.copy(
@@ -80,7 +83,24 @@ class SignInViewModel(
 
             is SignInEvent.SignInWithGoogle -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    event.nativeSignInState.startFlow()
+                    try {
+                        val result = signInWithGoogleUseCase()
+                        Log.e("res", result.toString())
+
+                        if (result){
+                            _state.value = state.value.copy(
+                                isRegistered = true
+                            )
+                        }else{
+                            _state.value = state.value.copy(
+                                exception = "Пользователь не зарегистрирован"
+                            )
+                        }
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(
+                            exception = e.message.toString()
+                        )
+                    }
                 }
             }
         }

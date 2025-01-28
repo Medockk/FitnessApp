@@ -22,27 +22,50 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getUserData()
+            try {
+                getUserData()
+            } catch (e: Exception) {
+                _state.value = state.value.copy(
+                    exception = e.message.toString()
+                )
+            }
         }
     }
 
     private suspend fun getUserData() {
 
         val userData = getUserDataUseCase()
-        val bodyMassIndex = getUserBodyMassIndexUseCase()
-        val userStatistics = getUserStatisticsUseCase()
+        val bodyMassIndex =
+            userData.weight.toFloat() / ((userData.height.toInt() / 100) * (userData.height.toInt() / 100))
+        val bodyMassComment = if (bodyMassIndex > 40){
+            "Ожирение 3 степени"
+        }else if (bodyMassIndex > 20 && bodyMassIndex < 30){
+            "Предожирение"
+        }else if (bodyMassIndex < 16){
+            "Дефицит веса"
+        }
+        else{
+            ""
+        }
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
                 userData = userData,
-                bodyMassIndex = bodyMassIndex.value,
+                bodyMassIndex = bodyMassIndex,
+                bodyMassComments = bodyMassComment
+            )
+        }
+
+        val userStatistics = getUserStatisticsUseCase()
+        withContext(Dispatchers.Main) {
+            _state.value = state.value.copy(
                 userStatistics = userStatistics
             )
         }
     }
 
-    fun onEvent(event: HomeEvent){
-        when (event){
+    fun onEvent(event: HomeEvent) {
+        when (event) {
             HomeEvent.ResetException -> {
                 _state.value = state.value.copy(
                     exception = ""

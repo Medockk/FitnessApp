@@ -1,11 +1,11 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import android.util.Log
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.repository.AuthRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.compose.auth.composable.NativeSignInState
 import io.github.jan.supabase.postgrest.postgrest
 
 class AuthRepositoryImpl : AuthRepository {
@@ -17,22 +17,16 @@ class AuthRepositoryImpl : AuthRepository {
         }
     }
 
-    override suspend fun signInWithGoogle() {
+    override suspend fun signInWithGoogle(): Boolean {
 
+        Log.e("sign in google", "use case")
         val userID = client.auth.currentUserOrNull()?.id ?: ""
-        val email = client.auth.currentUserOrNull()?.email ?: ""
 
-        try {
-            client.postgrest["Users"].insert(
-                mapOf(
-                    "userID" to userID,
-                    "fio" to email
-                )
-            )
-        } catch (_: Exception) {
+        client.postgrest["Users"].select {
+            filter { eq("userID", userID) }
+        }.decodeSingle<UserData>()
 
-        }
-
+        return true
     }
 
     override suspend fun signUp(mail: String, pass: String, userData: UserData) {
@@ -51,20 +45,13 @@ class AuthRepositoryImpl : AuthRepository {
         )
     }
 
-    override suspend fun signUpWithGoogle(nativeSignInState: NativeSignInState) : Boolean {
-
-        nativeSignInState.startFlow()
-
-        val userID = client.auth.currentUserOrNull()?.id ?: ""
-        val email = client.auth.currentUserOrNull()?.email ?: ""
+    override suspend fun signUpWithGoogle(): Boolean {
 
         try {
-            client.postgrest["Users"].insert(
-                mapOf(
-                    "userID" to userID,
-                    "fio" to email
-                )
-            )
+            val userID = client.auth.currentUserOrNull()?.id ?: ""
+            client.postgrest["Users"].select {
+                filter { eq("userID", userID) }
+            }
             return true
         } catch (_: Exception) {
             return false

@@ -1,7 +1,5 @@
 package com.example.fitnessapp.feature_app.presentation.SignUp
 
-import io.github.jan.supabase.compose.auth.composable.NativeSignInState
-
 sealed class SignUpEvent {
 
     data class EnterFIO(val value: String) : SignUpEvent()
@@ -12,7 +10,7 @@ sealed class SignUpEvent {
     data object ChangeShowHidePasswordState : SignUpEvent()
     data class ChangeCheckBoxState(val value: Boolean) : SignUpEvent()
 
-    data class SignUpWithGoogle(val nativeSignInState: NativeSignInState) : SignUpEvent()
+    data object SignUpWithGoogle : SignUpEvent()
 
     data class SetException(val value: String) : SignUpEvent()
     data object ResetException : SignUpEvent()

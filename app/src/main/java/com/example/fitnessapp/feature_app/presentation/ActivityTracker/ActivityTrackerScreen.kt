@@ -45,9 +45,11 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.ActivityTracker.components.ActivityBarChart
 import com.example.fitnessapp.ui.theme._07856E
 import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._81CCBF
+import com.example.fitnessapp.ui.theme._83F2A5
 import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme._A5A3B0
 import com.example.fitnessapp.ui.theme._C4C4C4
@@ -254,7 +256,22 @@ fun ActivityTrackerScreen(
                     colors = CardDefaults.cardColors(containerColor = Color.White),
                     elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
                 ) {
-
+                    Box(
+                        modifier = Modifier
+                            .fillParentMaxWidth()
+                            .background(Color.White),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ActivityBarChart(
+                            barChartList = state.activityProgress,
+                            lineColor = _83F2A5,
+                            padding = (LocalConfiguration.current.screenWidthDp/8).dp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.Center)
+                                .height(200.dp)
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(30.dp))
