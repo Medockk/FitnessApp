@@ -224,7 +224,10 @@ fun HomeScreen(
                     colors = CardDefaults.cardColors(containerColor = _5CBDAC),
                     shape = RoundedCornerShape(100.dp),
                     modifier = Modifier
-                        .fillParentMaxWidth()
+                        .fillParentMaxWidth(),
+                    onClick = {
+                        navController.navigate(Route.ActivityTrackerScreen.route)
+                    }
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -243,7 +246,7 @@ fun HomeScreen(
                                 .clip(RoundedCornerShape(100.dp))
                                 .background(_68C6B6, RoundedCornerShape(100.dp))
                                 .clickable {
-
+                                    navController.navigate(Route.ActivityTrackerScreen.route)
                                 }
                         ) {
                             Text(

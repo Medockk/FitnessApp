@@ -1,5 +1,6 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerViewModel
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.Home.HomeViewModel
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationViewModel
@@ -53,6 +54,12 @@ val moduleViewModel = module {
     viewModel<ProfileViewModel>{
         ProfileViewModel(
             get(), get()
+        )
+    }
+
+    viewModel<ActivityTrackerViewModel>{
+        ActivityTrackerViewModel(
+            get()
         )
     }
 }
