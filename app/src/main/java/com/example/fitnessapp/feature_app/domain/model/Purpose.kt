@@ -14,3 +14,12 @@ data class Purpose(
         const val loseWeight = "Похудеть"
     }
 }
+
+@Serializable
+data class CurrentPurpose(
+    val id: Int,
+    val userID: String,
+    val title: String,
+    val description: String,
+    val image: String
+)

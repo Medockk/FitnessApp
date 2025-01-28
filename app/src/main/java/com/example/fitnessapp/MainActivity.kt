@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerScreen
+import com.example.fitnessapp.feature_app.presentation.Congratulations.CongratulationsScreen
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
 import com.example.fitnessapp.feature_app.presentation.Home.HomeScreen
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationScreen
@@ -84,6 +86,12 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.ProfileScreen.route) {
                         ProfileScreen(navController)
+                    }
+                    composable(Route.CongratulationsScreen.route) {
+                        CongratulationsScreen(navController)
+                    }
+                    composable(Route.ActivityTrackerScreen.route) {
+                        ActivityTrackerScreen(navController)
                     }
                 }
             }
