@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,6 +47,7 @@ import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
 import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -77,17 +79,13 @@ fun SignInScreen(
             }
             NativeSignInResult.Success -> {
                 Log.i("in", "successful")
-                navController.navigate(Route.SuccessRegistrationScreen.route){
-                    popUpTo(Route.SignInScreen.route){
-                        inclusive = true
-                    }
-                }
+                viewModel.onEvent(SignInEvent.SignInWithGoogle)
             }
         }
     })
 
-    LaunchedEffect(key1 = !state.isComplete) {
-        if (state.isComplete){
+    LaunchedEffect(key1 = !state.isRegistered) {
+        if (state.isRegistered){
             navController.navigate(Route.SuccessRegistrationScreen.route){
                 popUpTo(Route.SignInScreen.route){
                     inclusive = true
@@ -206,12 +204,15 @@ fun SignInScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
+                    val coroutineScope = rememberCoroutineScope()
                     CustomAssistChip(
                         icon = ImageVector.vectorResource(R.drawable.google_icon),
                         modifier = Modifier
                             .size(50.dp)
                     ) {
-                        viewModel.onEvent(SignInEvent.SignInWithGoogle(authState))
+                        coroutineScope.launch {
+                            authState.startFlow()
+                        }
                     }
                     Spacer(Modifier.width(30.dp))
                     CustomAssistChip(

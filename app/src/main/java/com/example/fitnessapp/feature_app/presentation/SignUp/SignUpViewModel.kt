@@ -117,15 +117,15 @@ class SignUpViewModel(
             is SignUpEvent.SignUpWithGoogle -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
-                        val signUpState = signUpWithGoogleUseCase(event.nativeSignInState)
+                        val signUpState = signUpWithGoogleUseCase()
 
                         if (signUpState){
                             _state.value = state.value.copy(
-                                isFirstRegistration = true
+                                exception = "Ошибка!"
                             )
                         }else{
                             _state.value = state.value.copy(
-                                isNotFirstRegistration = true
+                                isFirstRegistration = true
                             )
                         }
                     } catch (e: Exception) {

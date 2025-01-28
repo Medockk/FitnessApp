@@ -9,7 +9,7 @@ data class ActivityTrackerState(
 
     val exception: String = "",
 
-    val activityProgress: List<Int> = listOf(0, 45, 752, 45 ,5646,4654, 654),
+    val activityProgress: List<Float> = listOf(12f, 45f, 75f, 94f, 43f, 34f, 76f),
     val currentPurpose: List<CurrentPurpose> = listOf(
         CurrentPurpose(
             0, "", "8Л", "Воды",

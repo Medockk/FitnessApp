@@ -111,7 +111,9 @@ fun SignUpScreen(
             is NativeSignInResult.NetworkError -> {
                 viewModel.onEvent(SignUpEvent.SetException(it.message))
             }
-            NativeSignInResult.Success -> {}
+            NativeSignInResult.Success -> {
+                viewModel.onEvent(SignUpEvent.SignUpWithGoogle)
+            }
         }
     })
 
@@ -264,7 +266,7 @@ fun SignUpScreen(
                         modifier = Modifier
                             .size(50.dp)
                     ) {
-                        viewModel.onEvent(SignUpEvent.SignUpWithGoogle(authState))
+                        authState.startFlow()
                     }
                     Spacer(Modifier.width(30.dp))
                     CustomAssistChip(

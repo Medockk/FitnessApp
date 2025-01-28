@@ -182,7 +182,7 @@ fun HomeScreen(
                             )
                             Spacer(Modifier.height(5.dp))
                             Text(
-                                text = "У тебя нормальный вес",
+                                text = state.bodyMassComments,
                                 style = montserrat40012White
                             )
                             Spacer(Modifier.height(20.dp))
