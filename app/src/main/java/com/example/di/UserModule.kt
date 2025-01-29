@@ -4,6 +4,7 @@ import com.example.fitnessapp.feature_app.data.repository.UserDataRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserBodyMassIndexUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetLastActivityUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetNotificationsUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
@@ -43,5 +44,9 @@ val moduleUser = module {
 
     factory<GetLastActivityUseCase> {
         GetLastActivityUseCase(get())
+    }
+
+    factory<GetHeartRateUseCase> {
+        GetHeartRateUseCase(get())
     }
 }

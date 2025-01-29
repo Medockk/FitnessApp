@@ -10,6 +10,7 @@ import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPage
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationViewModel
+import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -59,6 +60,13 @@ val moduleViewModel = module {
 
     viewModel<ActivityTrackerViewModel>{
         ActivityTrackerViewModel(
+            get()
+        )
+    }
+
+    viewModel<WorkoutViewModel>{
+        WorkoutViewModel(
+            get(), get(), get(),
             get()
         )
     }

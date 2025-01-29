@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.domain.repository
 
 import com.example.fitnessapp.feature_app.domain.model.BodyMassIndexData
+import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData
 import com.example.fitnessapp.feature_app.domain.model.Purpose
@@ -14,6 +15,7 @@ interface UserDataRepository {
 
     suspend fun getUserStatistics() : List<UserStatistics>
     suspend fun getUserBodyMassIndex() : BodyMassIndexData
+    suspend fun getHeartRate() : HeartRate
 
     suspend fun getNotifications() : List<NotificationData>
 

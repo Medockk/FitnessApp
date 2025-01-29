@@ -7,6 +7,7 @@ import com.example.fitnessapp.feature_app.domain.repository.AuthRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.postgrest
+import kotlin.random.Random
 
 class AuthRepositoryImpl : AuthRepository {
 
@@ -41,6 +42,14 @@ class AuthRepositoryImpl : AuthRepository {
                 "userID" to userID,
                 "fio" to userData.fio,
                 "phone" to userData.phone
+            )
+        )
+
+        val heartRate = getRandomHeartRate()
+        client.postgrest["HeartRate"].insert(
+            mapOf(
+                "userID" to userID,
+                "heartRateList" to heartRate
             )
         )
     }
@@ -88,5 +97,17 @@ class AuthRepositoryImpl : AuthRepository {
                 "purpose" to purpose
             )
         )
+    }
+
+    private fun getRandomHeartRate() : String{
+
+        var heartRate = ""
+
+        for (i in 0..11){
+
+            heartRate += Random.nextInt(1, 6).toString() + " "
+        }
+
+        return heartRate
     }
 }
