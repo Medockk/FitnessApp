@@ -17,4 +17,5 @@ sealed class Route(val route: String) {
     data object ProfileScreen : Route("ProfileScreen")
     data object CongratulationsScreen : Route("CongratulationsScreen")
     data object ActivityTrackerScreen : Route("ActivityTrackerScreen")
+    data object WorkoutTrackerScreen : Route("WorkoutTrackerScreen")
 }

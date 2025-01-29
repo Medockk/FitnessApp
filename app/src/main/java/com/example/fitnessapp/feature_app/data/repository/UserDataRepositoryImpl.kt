@@ -2,6 +2,7 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.BodyMassIndexData
+import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData
 import com.example.fitnessapp.feature_app.domain.model.Purpose
@@ -82,5 +83,14 @@ class UserDataRepositoryImpl : UserDataRepository {
         return client.postgrest["LastActivity"].select {
             filter { eq("userID", userID) }
         }.decodeList<LastActivityData>()
+    }
+
+    override suspend fun getHeartRate(): HeartRate {
+
+        val userID = client.auth.currentUserOrNull()?.id?:""
+
+        return client.postgrest["HeartRate"].select {
+            filter { eq("userID", userID) }
+        }.decodeSingle<HeartRate>()
     }
 }

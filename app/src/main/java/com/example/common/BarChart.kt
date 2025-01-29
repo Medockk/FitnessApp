@@ -8,8 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import co.yml.charts.axis.AxisData
-import co.yml.charts.axis.Gravity
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.models.BarChartData
 import co.yml.charts.ui.barchart.models.BarChartType
@@ -46,19 +44,12 @@ fun BarChart(
         lineColor, colorList,
         barChartType = BarChartType.VERTICAL)
 
-    val xAxisData = AxisData.Builder()
-        .steps(barChartList.size - 1)
-        .axisStepSize(axisStepSize)
-        .backgroundColor(Color.Transparent)
-        .axisLineColor(Color.Transparent)
-        .axisPosition(Gravity.BOTTOM)
-        .build()
-
     val barChart = BarChartData(
         chartData = barDataList,
-        xAxisData = xAxisData,
-        backgroundColor = Color.Transparent,
+        backgroundColor = Color.Unspecified,
+        horizontalExtraSpace = 20.dp,
         showYAxis = showLabel,
+        showXAxis = showLabel,
         barStyle = BarStyle(
             cornerRadius = 10.dp,
             paddingBetweenBars = axisStepSize

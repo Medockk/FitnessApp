@@ -5,6 +5,7 @@ import com.example.di.moduleAuth
 import com.example.di.moduleQueue
 import com.example.di.moduleUser
 import com.example.di.moduleViewModel
+import com.example.di.moduleWorkout
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -21,7 +22,7 @@ class App : Application() {
             modules(
                 listOf(
                     moduleQueue, moduleViewModel, moduleAuth,
-                    moduleUser
+                    moduleUser, moduleWorkout
                 )
             )
         }

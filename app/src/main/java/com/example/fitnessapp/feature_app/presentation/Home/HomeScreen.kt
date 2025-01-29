@@ -3,10 +3,9 @@ package com.example.fitnessapp.feature_app.presentation.Home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -48,22 +47,19 @@ import com.example.common.BarChart
 import com.example.common.BottomBar
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
+import com.example.common.CustomLightGreenCard
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.Home.components.ImtDiagram
 import com.example.fitnessapp.feature_app.presentation.Home.components.StatisticCard
 import com.example.fitnessapp.ui.theme._07856E
 import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._5CBDAC
-import com.example.fitnessapp.ui.theme._68C6B6
 import com.example.fitnessapp.ui.theme._81CCBF
 import com.example.fitnessapp.ui.theme._A8E3D9
 import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40011White
 import com.example.fitnessapp.ui.theme.montserrat40012White
 import com.example.fitnessapp.ui.theme.montserrat40012_A5A3B0
 import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
-import com.example.fitnessapp.ui.theme.montserrat50014_1D1617
 import com.example.fitnessapp.ui.theme.montserrat60013White
 import com.example.fitnessapp.ui.theme.montserrat60014_07856E
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
@@ -220,43 +216,13 @@ fun HomeScreen(
             }
 
             item {
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = _5CBDAC),
-                    shape = RoundedCornerShape(100.dp),
+                CustomLightGreenCard(
+                    title = "Сегодняшняя цель",
+                    buttonText = "Проверить",
                     modifier = Modifier
-                        .fillParentMaxWidth(),
-                    onClick = {
-                        navController.navigate(Route.ActivityTrackerScreen.route)
-                    }
+                        .fillParentMaxWidth()
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp)
-                    ) {
-                        Text(
-                            text = "Сегодняшняя цель",
-                            style = montserrat50014_1D1617
-                        )
-                        Spacer(Modifier.weight(1f))
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(100.dp))
-                                .background(_68C6B6, RoundedCornerShape(100.dp))
-                                .clickable {
-                                    navController.navigate(Route.ActivityTrackerScreen.route)
-                                }
-                        ) {
-                            Text(
-                                text = "Проверить",
-                                style = montserrat40011White,
-                                modifier = Modifier
-                                    .padding(10.dp)
-                            )
-                        }
-                    }
+                    navController.navigate(Route.ActivityTrackerScreen.route)
                 }
                 Spacer(Modifier.height(30.dp))
             }
@@ -280,13 +246,9 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillParentMaxWidth()
                         .background(
-                            brush = Brush.linearGradient(
-                                listOf(
-                                    _81CCBF,
-                                    _07856E
-                                )
-                            ),
-                            RoundedCornerShape(20.dp)
+                            imtBrush,
+                            RoundedCornerShape(20.dp),
+                            0.4f
                         ),
                     shape = RoundedCornerShape(20.dp)
                 ) {
@@ -300,16 +262,26 @@ fun HomeScreen(
                             style = montserrat50012_1D1617
                         )
                         Spacer(Modifier.height(5.dp))
-                        BarChart(
-                            barChartList = listOf(4, 85, 12, 46, 34, 4),
-                            lineColor = _A8E3D9,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(80.dp)
-                        )
+                        androidx.compose.animation.AnimatedVisibility(
+                            visible = state.barChartList.isNotEmpty(),
+                            enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                        ) {
+                            BarChart(
+                                barChartList = state.barChartList,
+                                lineColor = _A8E3D9,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(120.dp)
+                                    .background(imtBrush, alpha = 0.4f)
+                                    .padding(start = 20.dp),
+                                axisStepSize = 5.dp
+                            )
+                        }
                         Spacer(Modifier.height(10.dp))
                         Text(
-                            text = state.heartRate.toString() + " BPM",
+                            text = state.barChartList.average().toString()[0].toString() + ", " +
+                                    state.barChartList.average().toString()[2].toString() +
+                                    " BPM",
                             style = montserrat60014_07856E,
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)

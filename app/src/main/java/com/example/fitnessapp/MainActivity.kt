@@ -29,6 +29,7 @@ import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationScreen
 import com.example.fitnessapp.feature_app.presentation.Welcome.WelcomeScreen
+import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutTrackerScreen
 import com.example.fitnessapp.ui.theme.FitnessAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -92,6 +93,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.ActivityTrackerScreen.route) {
                         ActivityTrackerScreen(navController)
+                    }
+                    composable(Route.WorkoutTrackerScreen.route) {
+                        WorkoutTrackerScreen(navController)
                     }
                 }
             }

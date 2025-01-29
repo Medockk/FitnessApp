@@ -4,8 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserBodyMassIndexUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 class HomeViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val getUserStatisticsUseCase: GetUserStatisticsUseCase,
-    private val getUserBodyMassIndexUseCase: GetUserBodyMassIndexUseCase
+    private val getHeartRateUseCase: GetHeartRateUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(HomeState())
@@ -48,12 +48,24 @@ class HomeViewModel(
             ""
         }
 
+
         withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
                 userData = userData,
                 bodyMassIndex = bodyMassIndex,
                 bodyMassComments = bodyMassComment
             )
+        }
+
+        val heartRate = getHeartRateUseCase()
+        heartRate.heartRateList.forEach { char ->
+            if (char.toString() != " "){
+                withContext(Dispatchers.Main){
+                    _state.value = state.value.copy(
+                        barChartList = state.value.barChartList.plus(char.toString().toInt())
+                    )
+                }
+            }
         }
 
         val userStatistics = getUserStatisticsUseCase()
