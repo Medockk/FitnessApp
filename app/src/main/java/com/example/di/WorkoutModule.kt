@@ -5,6 +5,7 @@ import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.ChangeUserWorkoutStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetAllWorkoutUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetUserWorkoutUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutSprintUseCase
 import org.koin.dsl.module
 
 val moduleWorkout = module {
@@ -23,5 +24,9 @@ val moduleWorkout = module {
 
     factory<GetAllWorkoutUseCase> {
         GetAllWorkoutUseCase(get())
+    }
+
+    factory<GetWorkoutSprintUseCase> {
+        GetWorkoutSprintUseCase(get())
     }
 }

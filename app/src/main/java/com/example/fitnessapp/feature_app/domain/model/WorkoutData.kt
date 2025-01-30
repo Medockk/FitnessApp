@@ -18,4 +18,5 @@ data class WorkoutData(
     val image: String,
     val title: String,
     val workoutCount: String,
+    val itemCount: String,
 )

@@ -181,7 +181,10 @@ fun WorkoutTrackerScreen(
                         workoutData = workoutData,
                         modifier = Modifier
                             .fillParentMaxWidth()
-                    ) { }
+                    ) {
+                        Route.WorkoutDetailScreen.workoutData = workoutData
+                        navController.navigate(Route.WorkoutDetailScreen.route)
+                    }
                     Spacer(Modifier.height(15.dp))
                 }
             }

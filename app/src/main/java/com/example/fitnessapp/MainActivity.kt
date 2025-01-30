@@ -8,19 +8,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.ui.Alignment
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerScreen
+import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastScreen
 import com.example.fitnessapp.feature_app.presentation.Congratulations.CongratulationsScreen
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
 import com.example.fitnessapp.feature_app.presentation.Home.HomeScreen
+import com.example.fitnessapp.feature_app.presentation.MealDetail.MealDetailScreen
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationScreen
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardScreen
 import com.example.fitnessapp.feature_app.presentation.Profile.ProfileScreen
@@ -29,6 +35,7 @@ import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationScreen
 import com.example.fitnessapp.feature_app.presentation.Welcome.WelcomeScreen
+import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutTrackerScreen
 import com.example.fitnessapp.ui.theme.FitnessAppTheme
 
@@ -79,6 +86,7 @@ class MainActivity : ComponentActivity() {
                     composable(Route.CreateProfileScreen.route) {
                         CreateProfileScreen(navController)
                     }
+
                     composable(Route.HomeScreen.route) {
                         HomeScreen(navController)
                     }
@@ -96,6 +104,44 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.WorkoutTrackerScreen.route) {
                         WorkoutTrackerScreen(navController)
+                    }
+
+                    composable(
+                        route = Route.WorkoutDetailScreen.route,
+                        enterTransition = {
+                            expandVertically(expandFrom = Alignment.Bottom) +
+                            slideInVertically(tween(500, easing = LinearOutSlowInEasing),
+                                initialOffsetY = { it / 2})
+                        },
+                        exitTransition = {
+                            shrinkVertically(shrinkTowards = Alignment.Top) +
+                            slideOutVertically(tween(500, easing = LinearOutSlowInEasing))
+                        }
+                    ) {
+                        WorkoutDetailScreen(
+                            navController,
+                            workoutData = Route.WorkoutDetailScreen.workoutData
+                        )
+                    }
+                    composable(Route.CategoryBreakfastScreen.route){
+                        CategoryBreakfastScreen(navController)
+                    }
+                    composable(
+                        route = Route.MealDetailScreen.route,
+                        enterTransition = {
+                            expandVertically(expandFrom = Alignment.Bottom) +
+                                    slideInVertically(tween(500, easing = LinearOutSlowInEasing),
+                                        initialOffsetY = { it / 2})
+                        },
+                        exitTransition = {
+                            shrinkVertically(shrinkTowards = Alignment.Top) +
+                                    slideOutVertically(tween(500, easing = LinearOutSlowInEasing))
+                        }
+                    ) {
+                        MealDetailScreen(
+                            navController,
+                            meal = Route.MealDetailScreen.meal
+                        )
                     }
                 }
             }
