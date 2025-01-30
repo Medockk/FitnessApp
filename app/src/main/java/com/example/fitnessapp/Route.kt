@@ -1,5 +1,8 @@
 package com.example.fitnessapp
 
+import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
+import com.example.fitnessapp.feature_app.domain.model.WorkoutData
+
 sealed class Route(val route: String) {
 
     data object WelcomeScreen : Route("WelcomeScreen")
@@ -18,4 +21,13 @@ sealed class Route(val route: String) {
     data object CongratulationsScreen : Route("CongratulationsScreen")
     data object ActivityTrackerScreen : Route("ActivityTrackerScreen")
     data object WorkoutTrackerScreen : Route("WorkoutTrackerScreen")
+
+    data object WorkoutDetailScreen : Route("WorkoutDetailScreen"){
+        var workoutData = WorkoutData(0,"","","","")
+    }
+    data object CategoryBreakfastScreen : Route("CategoryBreakfastScreen")
+
+    data object MealDetailScreen : Route("MealDetailScreen"){
+        var meal = DietaryRecommendation(0,"","","", "","","","")
+    }
 }

@@ -3,6 +3,7 @@ package com.example.fitnessapp.feature_app.data.repository
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
+import com.example.fitnessapp.feature_app.domain.model.WorkoutSprint
 import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
@@ -37,6 +38,13 @@ class WorkoutRepositoryImpl : WorkoutRepository {
     override suspend fun getAllWorkout(): List<WorkoutData> {
 
         return client.postgrest["WorkoutData"].select().decodeList<WorkoutData>()
+    }
+
+    override suspend fun getWorkoutSprint(sprintNumber: Int): List<WorkoutSprint> {
+
+        return client.postgrest["WorkoutSprint"].select {
+            filter { eq("sprintNumber", sprintNumber) }
+        }.decodeList<WorkoutSprint>()
     }
 
     private fun getUserID() : String{

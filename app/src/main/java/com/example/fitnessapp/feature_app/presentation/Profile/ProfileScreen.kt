@@ -117,7 +117,8 @@ fun ProfileScreen(
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(Color.White),
         topBar = {
             CustomTopAppBar(
                 title = "Профиль",
@@ -125,6 +126,7 @@ fun ProfileScreen(
                 backgroundColor = _F7F8F8,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 30.dp)
             ) {
                 navController.popBackStack()
             }

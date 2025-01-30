@@ -1,6 +1,7 @@
 package com.example.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -95,7 +96,10 @@ fun BottomBar(
                             Box(
                                 modifier = Modifier
                                     .clip(CircleShape)
-                                    .background(brush, CircleShape),
+                                    .background(brush, CircleShape)
+                                    .clickable {
+                                        navController.navigate(Route.CategoryBreakfastScreen.route)
+                                    },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(

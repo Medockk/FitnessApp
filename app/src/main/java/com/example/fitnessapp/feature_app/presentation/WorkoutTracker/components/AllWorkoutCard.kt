@@ -43,7 +43,8 @@ fun AllWorkoutCard(
         modifier = modifier
             .background(Brush.linearGradient(listOf(_67C5B4, _67C5B4)), RoundedCornerShape(20.dp), 0.2f),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        onClick = onClick
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

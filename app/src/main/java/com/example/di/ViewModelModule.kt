@@ -1,6 +1,7 @@
 package com.example.di
 
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerViewModel
+import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastViewModel
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.Home.HomeViewModel
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationViewModel
@@ -10,6 +11,7 @@ import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPage
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationViewModel
+import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -68,6 +70,16 @@ val moduleViewModel = module {
         WorkoutViewModel(
             get(), get(), get(),
             get()
+        )
+    }
+
+    viewModel<WorkoutDetailViewModel>{
+        WorkoutDetailViewModel(get())
+    }
+
+    viewModel<CategoryBreakfastViewModel>{
+        CategoryBreakfastViewModel(
+            get(), get()
         )
     }
 }
