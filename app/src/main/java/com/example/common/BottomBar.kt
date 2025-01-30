@@ -89,6 +89,10 @@ fun BottomBar(
                             repeat == 1 && currentPage.route != Route.WorkoutTrackerScreen.route
                         ){
                             navController.navigate(Route.WorkoutTrackerScreen.route)
+                        }else if (
+                            repeat == 2
+                        ){
+                            navController.navigate(Route.CategoryBreakfastScreen.route)
                         }
                     },
                     icon = {

@@ -1,5 +1,10 @@
 package com.example.fitnessapp.feature_app.presentation.MealDetail
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -25,15 +31,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
+import com.example.fitnessapp.feature_app.presentation.MealDetail.components.CustomNutritionCard
 import com.example.fitnessapp.ui.theme._07856E
 import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._81CCBF
 import com.example.fitnessapp.ui.theme._F7F8F8
+import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat40012_C6C4D4
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
 import com.example.fitnessapp.ui.theme.montserrat70016_1D1617
@@ -42,8 +51,9 @@ import com.example.fitnessapp.ui.theme.montserrat70016_1D1617
 fun MealDetailScreen(
     navController: NavController,
     meal: DietaryRecommendation,
-
+    viewModel: MealDetailsViewModel = viewModel()
 ) {
+    val state = viewModel.state.value
 
     LazyColumn(
         modifier = Modifier
@@ -86,7 +96,23 @@ fun MealDetailScreen(
                     .background(Color.White, RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp)),
             ) {
                 item {
-                    Box(Modifier.size(50.dp, 5.dp).background(_1D1617, RoundedCornerShape(50.dp)).alpha(0.1f))
+                    Spacer(Modifier.height(10.dp))
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillParentMaxWidth()
+                    ) {
+                        Box(
+                            Modifier
+                                .size(50.dp, 5.dp)
+                                .background(
+                                    _1D1617,
+                                    RoundedCornerShape(50.dp)
+                                )
+                                .alpha(0.1f)
+                        )
+                    }
+                }
+                item {
                     Spacer(Modifier.height(15.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -100,7 +126,7 @@ fun MealDetailScreen(
                             )
                             Spacer(Modifier.height(5.dp))
                             Text(
-                                text = "Араш Банди",
+                                text = meal.author,
                                 style = montserrat40012_C6C4D4
                             )
                         }
@@ -120,13 +146,55 @@ fun MealDetailScreen(
                 }
 
                 item {
-                    LazyRow(
-                        modifier = Modifier
-                            .fillParentMaxWidth(),
+                    AnimatedVisibility(
+                        visible = state.nutrition.isNotEmpty(),
+                        enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing)) +
+                            fadeIn()
+                    ) {
+                        LazyRow(
+                            modifier = Modifier
+                                .fillParentMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            items(state.nutrition){ nutrition ->
+                                CustomNutritionCard(
+                                    title = nutrition,
+                                    icon = when (nutrition){
+                                        meal.calories -> ImageVector.vectorResource(R.drawable.calories_icon)
+                                        meal.fat -> ImageVector.vectorResource(R.drawable.fat_icon)
+                                        meal.protein -> ImageVector.vectorResource(R.drawable.proteins_icon)
+                                        else -> ImageVector.vectorResource(R.drawable.carbo_icon)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    Spacer(Modifier.height(20.dp))
+                    Text(
+                        text = "Описание",
+                        style = montserrat60016_1D1617
+                    )
+                    Spacer(Modifier.height(15.dp))
+                    Text(
+                        text = meal.details,
+                        style = montserrat40012_B6B4C2
+                    )
+                    Spacer(Modifier.height(30.dp))
+                    Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-
+                        Text(
+                            text = "Ингредиенты, которые\nвам понадобятся",
+                            style = montserrat60016_1D1617
+                        )
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = "${state.ingredients.size} продуктов",
+                            style = montserrat40012_B6B4C2
+                        )
                     }
+                    Spacer(Modifier.height(20.dp))
+
                 }
             }
         }
