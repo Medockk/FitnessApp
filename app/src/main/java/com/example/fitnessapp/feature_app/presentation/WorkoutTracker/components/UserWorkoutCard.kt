@@ -14,8 +14,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,10 +24,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.common.CustomSwitch
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
-import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._C4C4C4
-import com.example.fitnessapp.ui.theme._C6C4D4
 import com.example.fitnessapp.ui.theme.montserrat40010_A5A3B0
 import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
 
@@ -87,17 +84,9 @@ fun UserWorkoutCard(
                 )
             }
             Spacer(Modifier.weight(1f))
-            Switch(
+            CustomSwitch(
                 checked = userWorkoutData.isTurnOn,
-                onCheckedChange = onCheckedChange,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    uncheckedThumbColor = Color.White,
-                    checkedTrackColor = _228F7D,
-                    uncheckedTrackColor = _C6C4D4,
-                    checkedBorderColor = Color.Transparent,
-                    uncheckedBorderColor = Color.Transparent,
-                )
+                onCheckedChange = onCheckedChange
             )
         }
     }

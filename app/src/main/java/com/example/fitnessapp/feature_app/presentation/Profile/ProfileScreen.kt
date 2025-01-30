@@ -20,8 +20,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,6 +37,7 @@ import coil.compose.AsyncImage
 import com.example.common.BottomBar
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
+import com.example.common.CustomSwitch
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -204,7 +203,7 @@ fun ProfileScreen(
                     ) {
                         item {
                             UserDataCard(
-                                title = state.userData.height?:"",
+                                title = state.userData.height,
                                 description = "Рост",
                                 modifier = Modifier
                                     .fillParentMaxWidth(0.3f)
@@ -212,7 +211,7 @@ fun ProfileScreen(
                         }
                         item {
                             UserDataCard(
-                                title = state.userData.weight?:"",
+                                title = state.userData.weight,
                                 description = "Вес",
                                 modifier = Modifier
                                     .fillParentMaxWidth(0.3f)
@@ -220,7 +219,7 @@ fun ProfileScreen(
                         }
                         item {
                             UserDataCard(
-                                title = state.userData.birthdayData?:"",
+                                title = state.userData.birthdayData,
                                 description = "Лет",
                                 modifier = Modifier
                                     .fillParentMaxWidth(0.3f)
@@ -290,20 +289,11 @@ fun ProfileScreen(
                                     style = montserrat40012_B6B4C2
                                 )
                                 Spacer(Modifier.weight(1f))
-                                Switch(
-                                    checked = state.isNotificationTurnOn,
-                                    onCheckedChange = {
-                                        viewModel.onEvent(ProfileEvent.ChangeNotificationState(it))
-                                    },
-                                    colors = SwitchDefaults.colors(
-                                        checkedTrackColor = _228F7D,
-                                        checkedThumbColor = Color.White,
-                                        checkedBorderColor = Color.Transparent,
-                                        uncheckedThumbColor = Color.White,
-                                        uncheckedTrackColor = _228F7D,
-                                        uncheckedBorderColor = Color.Transparent
-                                    )
-                                )
+                                CustomSwitch(
+                                    checked = state.isNotificationTurnOn
+                                ) {
+                                    viewModel.onEvent(ProfileEvent.ChangeNotificationState(it))
+                                }
                             }
                         }
                     }
