@@ -2,7 +2,6 @@ package com.example.di
 
 import com.example.fitnessapp.feature_app.data.repository.UserDataRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
-import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserBodyMassIndexUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetLastActivityUseCase
@@ -28,10 +27,6 @@ val moduleUser = module {
 
     factory<GetUserStatisticsUseCase> {
         GetUserStatisticsUseCase(get())
-    }
-
-    factory<GetUserBodyMassIndexUseCase> {
-        GetUserBodyMassIndexUseCase(get())
     }
 
     factory<GetNotificationsUseCase> {

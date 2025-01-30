@@ -1,7 +1,6 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
-import com.example.fitnessapp.feature_app.domain.model.BodyMassIndexData
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData
@@ -47,15 +46,6 @@ class UserDataRepositoryImpl : UserDataRepository {
         return client.postgrest["UserStatistics"].select {
             filter { eq("userID", userID) }
         }.decodeList<UserStatistics>()
-    }
-
-    override suspend fun getUserBodyMassIndex(): BodyMassIndexData {
-
-        val userID = client.auth.currentUserOrNull()?.id?:""
-
-        return client.postgrest["BodyMassIndex"].select {
-            filter { eq("userID", userID) }
-        }.decodeSingle<BodyMassIndexData>()
     }
 
     override suspend fun getNotifications(): List<NotificationData> {

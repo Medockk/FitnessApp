@@ -299,7 +299,8 @@ fun HomeScreen(
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier
-                            .fillParentMaxSize()
+                            .fillParentMaxSize(),
+                        userScrollEnabled = false
                     ) {
                         this.items(state.userStatistics) { userStatistic ->
                             StatisticCard(
@@ -307,12 +308,12 @@ fun HomeScreen(
                                 description = userStatistic.description,
                                 modifier = Modifier
                                     .fillParentMaxWidth(0.47f)
+                                    .padding(top = 10.dp)
                             ) {
 
                             }
                             Spacer(Modifier
-                                .width(15.dp)
-                                .height(10.dp))
+                                .width(15.dp))
                         }
                     }
                 }

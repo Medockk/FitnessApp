@@ -45,13 +45,7 @@ class AuthRepositoryImpl : AuthRepository {
             )
         )
 
-        val heartRate = getRandomHeartRate()
-        client.postgrest["HeartRate"].insert(
-            mapOf(
-                "userID" to userID,
-                "heartRateList" to heartRate
-            )
-        )
+        setSomeUserData()
     }
 
     override suspend fun signUpWithGoogle(): Boolean {
@@ -109,5 +103,87 @@ class AuthRepositoryImpl : AuthRepository {
         }
 
         return heartRate
+    }
+
+    private suspend fun setSomeUserData() {
+
+        val userID = client.auth.currentUserOrNull()?.id?:""
+        val heartRate = getRandomHeartRate()
+
+        client.postgrest["HeartRate"].insert(
+            mapOf(
+                "userID" to userID,
+                "heartRateList" to heartRate
+            )
+        )
+
+        client.postgrest["Notification"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 1",
+            "image" to "https://static.mk.ru/upload/entities/2021/08/09/14/articles/facebookPicture/82/7f/7d/7b/8aeb5a415ffef24a5e5ad91cbdcc780f.jpg"
+        ))
+        client.postgrest["Notification"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 2",
+            "image" to "https://otvet.imgsmail.ru/download/192595754_616730d75f25be81a06363d434675a14.jpg"
+        ))
+        client.postgrest["Notification"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 3",
+            "image" to "https://avatars.mds.yandex.net/i?id=235372336de4205955ef50002f605c58eff716ab-10848343-images-thumbs&n=13"
+        ))
+
+        client.postgrest["LastActivity"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 1",
+            "image" to "https://avatars.mds.yandex.net/i?id=b423ba05961f480723da2984814eafa3a5f7b098-10895071-images-thumbs&n=13"
+        ))
+        client.postgrest["LastActivity"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 2",
+            "image" to "https://avatars.mds.yandex.net/i?id=f5dcdb8d72912dcd17fd2928355c34f36ab5468b-5987336-images-thumbs&n=13"
+        ))
+        client.postgrest["LastActivity"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 3",
+            "image" to "https://avatars.mds.yandex.net/i?id=afa88c37e00bdefb2e1cc8358642ae7ea6b43207-5551844-images-thumbs&n=13"
+        ))
+
+        client.postgrest["UserWorkoutData"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 1",
+            "image" to "https://avatars.mds.yandex.net/i?id=b423ba05961f480723da2984814eafa3a5f7b098-10895071-images-thumbs&n=13"
+        ))
+        client.postgrest["UserWorkoutData"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 2",
+            "image" to "https://avatars.mds.yandex.net/i?id=f5dcdb8d72912dcd17fd2928355c34f36ab5468b-5987336-images-thumbs&n=13",
+        ))
+        client.postgrest["UserWorkoutData"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 3",
+            "image" to "https://avatars.mds.yandex.net/i?id=afa88c37e00bdefb2e1cc8358642ae7ea6b43207-5551844-images-thumbs&n=13",
+        ))
+
+        client.postgrest["UserStatistics"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 1",
+            "description" to "DESCRIPTION 1"
+        ))
+        client.postgrest["UserStatistics"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 2",
+            "description" to "DESCRIPTION 2"
+        ))
+        client.postgrest["UserStatistics"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 3",
+            "description" to "DESCRIPTION 3"
+        ))
+        client.postgrest["UserStatistics"].insert(mapOf(
+            "userID" to userID,
+            "title" to "TITLE 4",
+            "description" to "DESCRIPTION 4"
+        ))
     }
 }
