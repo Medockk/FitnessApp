@@ -4,6 +4,7 @@ import com.example.fitnessapp.feature_app.data.repository.BreakfastRepositoryImp
 import com.example.fitnessapp.feature_app.domain.repository.BreakfastRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Breakfast.GetCategoriesUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Breakfast.GetDietaryRecommendationUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Breakfast.GetMealDetailsUseCase
 import org.koin.dsl.module
 
 val moduleBreakfast = module {
@@ -18,5 +19,9 @@ val moduleBreakfast = module {
 
     factory<GetDietaryRecommendationUseCase> {
         GetDietaryRecommendationUseCase(get())
+    }
+
+    factory<GetMealDetailsUseCase> {
+        GetMealDetailsUseCase(get())
     }
 }

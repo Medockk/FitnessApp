@@ -4,6 +4,7 @@ import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityT
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastViewModel
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.Home.HomeViewModel
+import com.example.fitnessapp.feature_app.presentation.MealDetail.MealDetailsViewModel
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationViewModel
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardViewModel
 import com.example.fitnessapp.feature_app.presentation.Profile.ProfileViewModel
@@ -81,5 +82,9 @@ val moduleViewModel = module {
         CategoryBreakfastViewModel(
             get(), get()
         )
+    }
+
+    viewModel<MealDetailsViewModel>{
+        MealDetailsViewModel(get())
     }
 }

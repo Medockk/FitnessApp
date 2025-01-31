@@ -15,5 +15,4 @@ data class DietaryRecommendation(
 
     val author: String,
     val details: String,
-    val ingredients: String,
 )

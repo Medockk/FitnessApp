@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -31,13 +32,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.common.CustomAlertDialog
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
+import com.example.fitnessapp.feature_app.presentation.MealDetail.components.CustomIngredientCard
 import com.example.fitnessapp.feature_app.presentation.MealDetail.components.CustomNutritionCard
+import com.example.fitnessapp.feature_app.presentation.MealDetail.components.CustomReceipt
 import com.example.fitnessapp.ui.theme._07856E
 import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._81CCBF
@@ -46,26 +49,33 @@ import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat40012_C6C4D4
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
 import com.example.fitnessapp.ui.theme.montserrat70016_1D1617
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MealDetailScreen(
     navController: NavController,
     meal: DietaryRecommendation,
-    viewModel: MealDetailsViewModel = viewModel()
+    viewModel: MealDetailsViewModel = koinViewModel()
 ) {
     val state = viewModel.state.value
+
+    if (state.exception.isNotEmpty()){
+        CustomAlertDialog(
+            description = state.exception
+        ) {
+            viewModel.onEvent(MealDetailsEvent.ResetException)
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .background(Brush.linearGradient(listOf(_81CCBF, _07856E)))
     ) {
         item {
             Column(
                 modifier = Modifier
                     .fillParentMaxWidth()
-                    .background(
-                        brush = Brush.linearGradient(listOf(_81CCBF, _07856E))
-                    )
                     .padding(horizontal = 30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -89,11 +99,13 @@ fun MealDetailScreen(
                 )
             }
         }
+
         item {
             LazyColumn(
                 modifier = Modifier
                     .fillParentMaxSize()
-                    .background(Color.White, RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp)),
+                    .background(Color.White, RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
+                    .padding(horizontal = 30.dp),
             ) {
                 item {
                     Spacer(Modifier.height(10.dp))
@@ -154,7 +166,8 @@ fun MealDetailScreen(
                         LazyRow(
                             modifier = Modifier
                                 .fillParentMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
+
                         ) {
                             items(state.nutrition){ nutrition ->
                                 CustomNutritionCard(
@@ -166,6 +179,7 @@ fun MealDetailScreen(
                                         else -> ImageVector.vectorResource(R.drawable.carbo_icon)
                                     }
                                 )
+                                Spacer(Modifier.width(15.dp))
                             }
                         }
                     }
@@ -189,12 +203,50 @@ fun MealDetailScreen(
                         )
                         Spacer(Modifier.weight(1f))
                         Text(
-                            text = "${state.ingredients.size} продуктов",
+                            text = "${state.ingredientCount} продуктов",
                             style = montserrat40012_B6B4C2
                         )
                     }
                     Spacer(Modifier.height(20.dp))
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        items(state.ingredients){ ingredient ->
+                            CustomIngredientCard(
+                                ingredient = ingredient,
+                                icon = ImageVector.vectorResource(R.drawable.carbo_icon),
+                                ingredientCount = "100g",
+                            )
+                            Spacer(Modifier.width(15.dp))
+                        }
+                    }
+                    Spacer(Modifier.height(30.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Шаги",
+                            style = montserrat60016_1D1617
+                        )
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = state.details.stepSize + " шагов",
+                            style = montserrat40012_B6B4C2
+                        )
+                    }
+                    Spacer(Modifier.height(20.dp))
+                }
 
+                items(state.receipt.size) { step ->
+                    CustomReceipt(
+                        step = step+1,
+                        text = state.receipt[step],
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                    Spacer(Modifier.height(10.dp))
                 }
             }
         }
