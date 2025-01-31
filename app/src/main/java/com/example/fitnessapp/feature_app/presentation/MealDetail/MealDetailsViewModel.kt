@@ -3,18 +3,70 @@ package com.example.fitnessapp.feature_app.presentation.MealDetail
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.Route
+import com.example.fitnessapp.feature_app.domain.usecase.Breakfast.GetMealDetailsUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MealDetailsViewModel : ViewModel() {
+class MealDetailsViewModel(
+    private val getMealDetailsUseCase: GetMealDetailsUseCase
+) : ViewModel() {
 
     private val _state = mutableStateOf(MealDetailState())
     val state: State<MealDetailState> = _state
 
     init {
-        getIngredientsList()
+        getNutrition()
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                getDetails()
+            } catch (e: Exception) {
+                _state.value = state.value.copy(
+                    exception = e.message.toString()
+                )
+            }
+        }
     }
 
-    private fun getIngredientsList() {
+    private suspend fun getDetails() {
+
+        val details = getMealDetailsUseCase(Route.MealDetailScreen.meal.id)
+        var receiptStep = ""
+        var ingredient = ""
+
+        withContext(Dispatchers.Main){
+            _state.value = state.value.copy(
+                details = details
+            )
+        }
+
+        details.ingredientsAndTheyCount.forEach {
+            if (it.toString() != ", "){
+                ingredient += it.toString()
+            }else{
+                _state.value = state.value.copy(
+                    ingredients = _state.value.ingredients.plus(ingredient),
+                    ingredientCount = _state.value.ingredientCount + 1
+                )
+                ingredient = ""
+            }
+        }
+
+        details.stepDescription.forEach {
+           if (it.toString() != ";"){
+               receiptStep += it.toString()
+           }else{
+               _state.value = state.value.copy(
+                   receipt = _state.value.receipt.plus(receiptStep)
+               )
+               receiptStep = ""
+           }
+        }
+    }
+
+    private fun getNutrition() {
 
         _state.value = state.value.copy(
             nutrition = _state.value.nutrition.plus(
@@ -27,19 +79,15 @@ class MealDetailsViewModel : ViewModel() {
                 Route.MealDetailScreen.meal.carbo
             )
         )
+    }
 
-        var word = ""
-        val ingredients = Route.MealDetailScreen.meal.ingredients
-
-        ingredients.forEach {
-            if (it.toString() != " "){
-                word += it.toString()
-            }else{
+    fun onEvent(event: MealDetailsEvent){
+        when (event){
+            MealDetailsEvent.ResetException -> {
                 _state.value = state.value.copy(
-                    ingredients = _state.value.ingredients.plus(word)
+                    exception = ""
                 )
             }
         }
-
     }
 }
