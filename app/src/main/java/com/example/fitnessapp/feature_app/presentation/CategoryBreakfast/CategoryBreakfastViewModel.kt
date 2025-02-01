@@ -4,8 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.usecase.Breakfast.GetCategoriesUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.Breakfast.GetDietaryRecommendationUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetCategoriesUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetDietaryRecommendationUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

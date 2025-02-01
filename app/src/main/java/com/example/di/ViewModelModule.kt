@@ -5,6 +5,7 @@ import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.Categor
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.Home.HomeViewModel
 import com.example.fitnessapp.feature_app.presentation.MealDetail.MealDetailsViewModel
+import com.example.fitnessapp.feature_app.presentation.MealSchedule.MealScheduleViewModel
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationViewModel
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardViewModel
 import com.example.fitnessapp.feature_app.presentation.Profile.ProfileViewModel
@@ -13,6 +14,7 @@ import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailViewModel
+import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -85,6 +87,16 @@ val moduleViewModel = module {
     }
 
     viewModel<MealDetailsViewModel>{
-        MealDetailsViewModel(get())
+        MealDetailsViewModel(get(), get())
+    }
+
+    viewModel<MealScheduleViewModel>{
+        MealScheduleViewModel(
+            get(), get()
+        )
+    }
+
+    viewModel<WorkoutScheduleViewModel>{
+        WorkoutScheduleViewModel(get(), get())
     }
 }

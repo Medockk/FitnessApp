@@ -86,12 +86,19 @@ class WorkoutViewModel(
             is WorkoutEvent.ChangeUserWorkoutState -> {
 
                 viewModelScope.launch(Dispatchers.IO) {
+                    val index = _state.value.userWorkoutList.toMutableList().indexOf(event.userWorkoutData)
+                    val newData = _state.value.userWorkoutList[index].copy(
+                        isTurnOn = !event.userWorkoutData.isTurnOn
+                    )
+                    _state.value = state.value.copy(
+                        userWorkoutList = _state.value.userWorkoutList-
+                            event.userWorkoutData + newData
+                    )
                     changeUserWorkoutStateUseCase(
                         userWorkoutData = event.userWorkoutData.copy(
                             isTurnOn = !event.userWorkoutData.isTurnOn
                         )
                     )
-                    getUserWorkout()
                 }
             }
         }

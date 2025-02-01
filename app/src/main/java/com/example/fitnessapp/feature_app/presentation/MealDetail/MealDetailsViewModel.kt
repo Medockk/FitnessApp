@@ -5,13 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.Route
-import com.example.fitnessapp.feature_app.domain.usecase.Breakfast.GetMealDetailsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Meal.AddMealToUserMealScheduleUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetMealDetailsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MealDetailsViewModel(
-    private val getMealDetailsUseCase: GetMealDetailsUseCase
+    private val getMealDetailsUseCase: GetMealDetailsUseCase,
+    private val addMealToUserMealScheduleUseCase: AddMealToUserMealScheduleUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(MealDetailState())
@@ -87,6 +89,12 @@ class MealDetailsViewModel(
                 _state.value = state.value.copy(
                     exception = ""
                 )
+            }
+
+            is MealDetailsEvent.AddToBreakfast -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    addMealToUserMealScheduleUseCase(event.meal)
+                }
             }
         }
     }

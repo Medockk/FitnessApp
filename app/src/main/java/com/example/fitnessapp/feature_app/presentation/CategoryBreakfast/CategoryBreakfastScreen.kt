@@ -72,7 +72,9 @@ fun CategoryBreakfastScreen(
         item{
             CustomTopAppBar(
                 title = "Завтрак",
-                moreInformationClick = {},
+                moreInformationClick = {
+                    navController.navigate(Route.MealScheduleScreen.route)
+                },
                 backgroundColor = _F7F8F8
             ) {
                 navController.popBackStack()
