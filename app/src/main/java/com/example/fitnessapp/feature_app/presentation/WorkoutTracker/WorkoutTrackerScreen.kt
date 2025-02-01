@@ -1,9 +1,14 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.example.fitnessapp.feature_app.presentation.WorkoutTracker
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -156,11 +161,19 @@ fun WorkoutTrackerScreen(
                     Spacer(Modifier.height(15.dp))
                 }
 
-                items(state.userWorkoutList) { userWorkoutData ->
+                items(state.userWorkoutList.sortedBy { it.isTurnOn }) { userWorkoutData ->
+                    Modifier
+                        .fillParentMaxWidth()
                     UserWorkoutCard(
                         userWorkoutData = userWorkoutData,
-                        modifier = Modifier
-                            .fillParentMaxWidth(),
+                        modifier = Modifier.animateItem(
+                            fadeInSpec = spring(Spring.DampingRatioMediumBouncy),
+                            fadeOutSpec = spring(Spring.DampingRatioMediumBouncy),
+                            placementSpec = spring(
+                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                stiffness = Spring.StiffnessLow
+                            )
+                        ),
                     ) {
                         viewModel.onEvent(WorkoutEvent.ChangeUserWorkoutState(userWorkoutData))
                     }
@@ -176,7 +189,7 @@ fun WorkoutTrackerScreen(
                     Spacer(Modifier.height(15.dp))
                 }
 
-                items(state.workoutList){workoutData ->
+                items(state.workoutList) { workoutData ->
                     AllWorkoutCard(
                         workoutData = workoutData,
                         modifier = Modifier

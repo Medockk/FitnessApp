@@ -30,4 +30,5 @@ sealed class Route(val route: String) {
     data object MealDetailScreen : Route("MealDetailScreen"){
         var meal = DietaryRecommendation(0,"","","","","","", "","","")
     }
+    data object MealScheduleScreen : Route("MealScheduleScreen")
 }

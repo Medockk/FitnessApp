@@ -1,11 +1,9 @@
 package com.example.fitnessapp.feature_app.presentation.MealDetail.components
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -18,10 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.ui.theme._C150F6
 import com.example.fitnessapp.ui.theme._EEA4CE
@@ -41,14 +36,15 @@ fun CustomReceipt(
 
     Row(
         modifier = modifier
-            .height(IntrinsicSize.Max)
     ) {
         Text(
             text = "0$step",
             style = montserrat40014_C150F6
         )
         Spacer(Modifier.width(12.dp))
-        Column {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Box(
                 modifier = Modifier
                     .size(20.dp)
@@ -65,16 +61,13 @@ fun CustomReceipt(
                 )
             }
             Spacer(Modifier.height(5.dp))
-            Canvas(Modifier.height(45.dp)) {
-                drawLine(
-                    color = Color.Blue
-
-
-                    ,
-                    start = Offset(0f, 0f),
-                    end = Offset(size.center.x, size.height),
-                    strokeWidth = 100f,
+            repeat(5){
+                Box(
+                    modifier = Modifier
+                        .size(1.dp, 10.dp)
+                        .background(stepBoxBackground)
                 )
+                Spacer(Modifier.height(3.dp))
             }
             Spacer(Modifier.height(5.dp))
         }

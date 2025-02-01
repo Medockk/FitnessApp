@@ -79,6 +79,12 @@ val montserrat40014_B6B4C2 = TextStyle (
     fontSize = 14.sp,
     color = _B6B4C2
 )
+val montserrat40014_A5A3B0 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(400),
+    fontSize = 14.sp,
+    color = _A5A3B0
+)
 
 val montserrat40012_ADA4A5 = TextStyle (
     fontFamily = FontFamilyMontserrat,
@@ -206,6 +212,12 @@ val montserrat50012White = TextStyle (
     fontSize = 12.sp,
     color = Color.White
 )
+val montserrat50012Black = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(500),
+    fontSize = 12.sp,
+    color = Color.Black
+)
 val montserrat50014_ADA4A5 = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(500),
@@ -217,6 +229,18 @@ val montserrat50014_1D1617 = TextStyle (
     fontWeight = FontWeight(500),
     fontSize = 14.sp,
     color = _1D1617
+)
+val montserrat50014White = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(500),
+    fontSize = 14.sp,
+    color = Color.White
+)
+val montserrat50014_7B6F72 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(500),
+    fontSize = 14.sp,
+    color = _7B6F72
 )
 val montserrat60016_1D1617 = TextStyle (
     fontFamily = FontFamilyMontserrat,

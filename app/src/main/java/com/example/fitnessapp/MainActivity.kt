@@ -27,6 +27,7 @@ import com.example.fitnessapp.feature_app.presentation.Congratulations.Congratul
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
 import com.example.fitnessapp.feature_app.presentation.Home.HomeScreen
 import com.example.fitnessapp.feature_app.presentation.MealDetail.MealDetailScreen
+import com.example.fitnessapp.feature_app.presentation.MealSchedule.MealScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationScreen
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardScreen
 import com.example.fitnessapp.feature_app.presentation.Profile.ProfileScreen
@@ -142,6 +143,9 @@ class MainActivity : ComponentActivity() {
                             navController,
                             meal = Route.MealDetailScreen.meal
                         )
+                    }
+                    composable(Route.MealScheduleScreen.route){
+                        MealScheduleScreen(navController)
                     }
                 }
             }

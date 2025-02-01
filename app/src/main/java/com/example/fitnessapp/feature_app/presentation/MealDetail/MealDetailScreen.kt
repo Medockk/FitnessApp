@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomGreenButton
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
@@ -247,6 +248,15 @@ fun MealDetailScreen(
                             .fillMaxWidth()
                     )
                     Spacer(Modifier.height(10.dp))
+                }
+
+                item {
+                    CustomGreenButton(
+                        text = "Добавить к завтраку",
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        viewModel.onEvent(MealDetailsEvent.AddToBreakfast(meal))
+                    }
                 }
             }
         }
