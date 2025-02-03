@@ -84,7 +84,7 @@ fun CustomProductMassCard(
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(value.toFloat()/100)
+                        .fillMaxWidth(1f / value.toFloat() + value.toFloat() / 100f)
                         .height(10.dp)
                         .background(background, RoundedCornerShape(100.dp))
                 )

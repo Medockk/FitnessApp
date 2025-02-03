@@ -1,6 +1,10 @@
 package com.example.fitnessapp.feature_app.presentation.WorkoutSchedule
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -26,10 +31,12 @@ import androidx.navigation.NavController
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomDateCard
 import com.example.common.CustomTopAppBar
+import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.components.CustomWorkoutTextCard
 import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
+import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -52,7 +59,8 @@ fun WorkoutScheduleScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 30.dp)
+            .padding(horizontal = 30.dp),
+        verticalArrangement = Arrangement.Center
     ) {
         item {
             CustomTopAppBar(
@@ -70,7 +78,8 @@ fun WorkoutScheduleScreen(
         items(24){
             LazyRow(
                 modifier = Modifier
-                    .fillParentMaxWidth()
+                    .fillParentMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 item {
                     Text(
@@ -82,9 +91,16 @@ fun WorkoutScheduleScreen(
                         style = montserrat40012_B6B4C2
                     )
                     Spacer(Modifier.width(40.dp))
-                    CustomWorkoutTextCard(
-                        text = ""
-                    )
+                }
+                items(state.workoutSchedule){work ->
+                    AnimatedVisibility(
+                        visible = (it+1) == LocalDateTime.parse(work.time).hour,
+                        enter = fadeIn(tween(1000))
+                    ) {
+                        CustomWorkoutTextCard(
+                            text = work.title
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(24.dp))
@@ -104,7 +120,13 @@ fun WorkoutScheduleScreen(
         contentAlignment = Alignment.BottomEnd
     ){
         FloatingActionButton(
-            {},
+            onClick = {
+                navController.navigate(Route.AddWorkoutScheduleScreen.route){
+                    popUpTo(Route.WorkoutScheduleScreen.route){
+                        inclusive = true
+                    }
+                }
+            },
             shape = CircleShape,
             containerColor = _228F7D,
             elevation = FloatingActionButtonDefaults.elevation(0.dp)

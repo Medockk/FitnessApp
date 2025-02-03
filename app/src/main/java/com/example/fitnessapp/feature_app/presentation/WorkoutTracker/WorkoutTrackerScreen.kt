@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.example.fitnessapp.feature_app.presentation.WorkoutTracker
 
 import androidx.compose.animation.AnimatedVisibility
@@ -8,7 +6,6 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -86,7 +83,9 @@ fun WorkoutTrackerScreen(
         item {
             CustomTopAppBar(
                 title = "Трекер тренировок",
-                moreInformationClick = {},
+                moreInformationClick = {
+                    navController.navigate(Route.WorkoutScheduleScreen.route)
+                },
                 backgroundColor = _F7F8F8,
                 modifier = Modifier
                     .fillParentMaxWidth()

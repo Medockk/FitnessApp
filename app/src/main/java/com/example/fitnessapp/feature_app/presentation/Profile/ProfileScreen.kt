@@ -1,5 +1,9 @@
 package com.example.fitnessapp.feature_app.presentation.Profile
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,7 +46,6 @@ import com.example.common.CustomSwitch
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
-import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.presentation.Profile.components.UserAccountCard
 import com.example.fitnessapp.feature_app.presentation.Profile.components.UserDataCard
 import com.example.fitnessapp.ui.theme._228F7D
@@ -66,6 +70,16 @@ fun ProfileScreen(
 ) {
 
     val state = viewModel.state.value
+
+    val context = LocalContext.current
+    val selectImage = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()){
+        if (it != null){
+            viewModel.onEvent(ProfileEvent.ChangeImageView(it))
+            val item = context.contentResolver.openInputStream(it)
+            viewModel.onEvent(ProfileEvent.ChangeImage(item?.readBytes()))
+            item?.close()
+        }
+    }
 
     val accountCategoryList = listOf(
         listOf(
@@ -163,18 +177,19 @@ fun ProfileScreen(
                                 .background(_C4C4C4, CircleShape),
                             contentAlignment = Alignment.Center,
                         ){
-                            AsyncImage(
-                                model = if (state.userData.gender==UserData.female){
-                                    "https://avatars.mds.yandex.net/i?id=897113eed31435614b7bd5aa7b85fbbdb49c4efb-13071285-images-thumbs&n=13"
-                                }else{
-                                    "https://avatars.mds.yandex.net/i?id=d220f7ba1825ae3131662553c80bd138bcb0d782-5492023-images-thumbs&n=13"
-                                },
-                                contentDescription = "your image",
-                                modifier = Modifier
-                                    .size(35.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
-                            )
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = state.image.isNotEmpty(),
+                                enter = fadeIn(tween(1000))
+                            ) {
+                                AsyncImage(
+                                    model = state.image,
+                                    contentDescription = "your image",
+                                    modifier = Modifier
+                                        .size(35.dp)
+                                        .clip(CircleShape),
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
                         }
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -191,7 +206,11 @@ fun ProfileScreen(
                         }
                         CustomGreenButton(
                             text =  "Изменить",
-                        ) { }
+                        ) {
+                            selectImage.launch(
+                                "image/*"
+                            )
+                        }
                     }
 
                     Spacer(Modifier.height(15.dp))

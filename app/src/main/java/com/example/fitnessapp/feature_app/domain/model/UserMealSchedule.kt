@@ -13,7 +13,7 @@ data class UserMealSchedule(
     companion object{
         const val categoryBreakfast = "breakfast"
         const val categoryLunch = "lunch"
-        const val categoryAfternoonSnack = "afternoon snack"
+        const val categoryAfternoonSnack = "afternoon"
         const val categoryDinner = "dinner"
     }
 }

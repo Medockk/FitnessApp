@@ -43,6 +43,7 @@ import coil.compose.AsyncImage
 import com.example.common.CustomGreenButton
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
+import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomSprintCard
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomWorkoutInfo
@@ -288,7 +289,10 @@ fun WorkoutDetailScreen(
                     modifier = Modifier
                         .fillParentMaxWidth()
                         .padding(horizontal = 30.dp)
-                ) { }
+                ) {
+                    Route.StartWorkoutScreen.workout = sprint.title
+                    navController.navigate(Route.StartWorkoutScreen.route)
+                }
             }
             Spacer(Modifier.height(15.dp).fillParentMaxWidth().background(Color.White))
         }
@@ -318,7 +322,10 @@ fun WorkoutDetailScreen(
                     modifier = Modifier
                         .fillParentMaxWidth()
                         .padding(horizontal = 30.dp)
-                ) { }
+                ) {
+                    Route.StartWorkoutScreen.workout = workoutSprint.title
+                    navController.navigate(Route.StartWorkoutScreen.route)
+                }
             }
             Spacer(Modifier.height(15.dp).fillParentMaxWidth().background(Color.White))
         }

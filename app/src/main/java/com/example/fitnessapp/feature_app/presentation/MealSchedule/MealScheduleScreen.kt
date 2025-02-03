@@ -71,7 +71,10 @@ fun MealScheduleScreen(
             CustomDateCard({}) { }
             Spacer(Modifier.height(30.dp))
 
-            if (state.breakfastMeal.isNotEmpty()){
+            AnimatedVisibility(
+                visible = state.breakfastMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
@@ -91,16 +94,24 @@ fun MealScheduleScreen(
         }
 
         items(state.breakfastMeal){meal ->
-            MealCard(
-                mealScheduleItem = meal,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) { }
+            AnimatedVisibility(
+                visible = state.breakfastMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
+                MealCard(
+                    mealScheduleItem = meal,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) { }
+            }
             Spacer(Modifier.height(10.dp))
         }
 
         item {
-            if (state.launchMeal.isNotEmpty()){
+            AnimatedVisibility(
+                visible = state.launchMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
                 ){
@@ -117,15 +128,23 @@ fun MealScheduleScreen(
         }
 
         items(state.launchMeal){meal ->
-            MealCard(
-                mealScheduleItem = meal,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) { }
+            AnimatedVisibility(
+                visible = state.launchMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
+                MealCard(
+                    mealScheduleItem = meal,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) { }
+            }
             Spacer(Modifier.height(10.dp))
         }
         item {
-            if (state.afternoonMeal.isNotEmpty()){
+            AnimatedVisibility(
+                visible = state.afternoonMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
                 ){
@@ -142,15 +161,23 @@ fun MealScheduleScreen(
         }
 
         items(state.afternoonMeal){meal ->
-            MealCard(
-                mealScheduleItem = meal,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) { }
+            AnimatedVisibility(
+                visible = state.afternoonMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
+                MealCard(
+                    mealScheduleItem = meal,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) { }
+            }
             Spacer(Modifier.height(10.dp))
         }
         item {
-            if (state.dinnerMeal.isNotEmpty()){
+            AnimatedVisibility(
+                visible = state.dinnerMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
                 ){
@@ -167,11 +194,16 @@ fun MealScheduleScreen(
         }
 
         items(state.dinnerMeal){meal ->
-            MealCard(
-                mealScheduleItem = meal,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) { }
+            AnimatedVisibility(
+                visible = state.dinnerMeal.isNotEmpty(),
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
+                MealCard(
+                    mealScheduleItem = meal,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) { }
+            }
             Spacer(Modifier.height(10.dp))
         }
 

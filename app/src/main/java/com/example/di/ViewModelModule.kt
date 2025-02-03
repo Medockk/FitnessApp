@@ -1,6 +1,7 @@
 package com.example.di
 
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerViewModel
+import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.AddWorkoutScheduleViewModel
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastViewModel
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.Home.HomeViewModel
@@ -12,6 +13,7 @@ import com.example.fitnessapp.feature_app.presentation.Profile.ProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageViewModel
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
+import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutViewModel
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleViewModel
@@ -59,6 +61,7 @@ val moduleViewModel = module {
 
     viewModel<ProfileViewModel>{
         ProfileViewModel(
+            get(), get(),
             get(), get()
         )
     }
@@ -97,6 +100,14 @@ val moduleViewModel = module {
     }
 
     viewModel<WorkoutScheduleViewModel>{
-        WorkoutScheduleViewModel(get(), get())
+        WorkoutScheduleViewModel(get())
+    }
+
+    viewModel<AddWorkoutScheduleViewModel>{
+        AddWorkoutScheduleViewModel(get())
+    }
+
+    viewModel<StartWorkoutViewModel>{
+        StartWorkoutViewModel()
     }
 }

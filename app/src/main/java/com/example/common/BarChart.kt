@@ -23,7 +23,6 @@ private fun Preview() {
         barChartList = list,
         _228F7D,
         axisStepSize = 10.dp,
-        showLabel = true,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.5f)
@@ -36,7 +35,6 @@ fun BarChart(
     lineColor: Color,
     colorList: List<Color> = listOf(),
     axisStepSize: Dp = 20.dp,
-    showLabel: Boolean = false,
     modifier: Modifier = Modifier
 ) {
 
@@ -47,9 +45,8 @@ fun BarChart(
     val barChart = BarChartData(
         chartData = barDataList,
         backgroundColor = Color.Unspecified,
-        horizontalExtraSpace = 20.dp,
-        showYAxis = showLabel,
-        showXAxis = showLabel,
+        showYAxis = false,
+        showXAxis = false,
         barStyle = BarStyle(
             cornerRadius = 10.dp,
             paddingBetweenBars = axisStepSize

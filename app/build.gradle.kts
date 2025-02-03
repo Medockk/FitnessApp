@@ -45,6 +45,7 @@ dependencies {
     //supabase
     implementation(libs.supabase.auth)
     implementation(libs.supabase.postgrest)
+    implementation(libs.supabase.storage)
     implementation(libs.supabase.serialization)
 
     //ktor
@@ -67,6 +68,11 @@ dependencies {
 
     //yCharts
     implementation(libs.ycharts)
+
+    //videoPlayer
+    implementation(libs.video.player)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -53,7 +53,7 @@ fun DietaryCard(
                 modifier = Modifier
                     .padding(1.dp)
                     .size(135.dp, 90.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Fit
             )
             Spacer(Modifier.height(15.dp))
             Text(

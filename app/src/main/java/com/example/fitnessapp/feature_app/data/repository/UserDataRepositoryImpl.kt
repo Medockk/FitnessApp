@@ -10,6 +10,8 @@ import com.example.fitnessapp.feature_app.domain.model.UserStatistics
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.storage.storage
+import kotlin.time.Duration
 
 class UserDataRepositoryImpl : UserDataRepository {
 
@@ -73,6 +75,30 @@ class UserDataRepositoryImpl : UserDataRepository {
         return client.postgrest["LastActivity"].select {
             filter { eq("userID", userID) }
         }.decodeList<LastActivityData>()
+    }
+
+    override suspend fun getUserImage(): String {
+
+        val userID = client.auth.currentUserOrNull()?.id?:""
+        val bucket = client.storage.from("avatars")
+        val url = bucket.createSignedUrl("$userID.png", Duration.INFINITE)
+
+        return url
+    }
+
+    override suspend fun setUserImage(byteArray: ByteArray) {
+
+        val userID = client.auth.currentUserOrNull()?.id?:""
+
+        val signedUploadUrl = client.storage.from("avatars").createSignedUploadUrl("$userID.png", upsert = true)
+
+        client.storage.from("avatars").uploadToSignedUrl(
+            path = "$userID.png",
+            token = signedUploadUrl.token,
+            data = byteArray
+        ){
+            upsert = true
+        }
     }
 
     override suspend fun getHeartRate(): HeartRate {

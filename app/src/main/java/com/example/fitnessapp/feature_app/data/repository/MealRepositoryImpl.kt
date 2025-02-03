@@ -8,7 +8,6 @@ import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
-import kotlin.random.Random
 
 class MealRepositoryImpl : MealRepository {
 
@@ -46,20 +45,11 @@ class MealRepositoryImpl : MealRepository {
     override suspend fun addMealToUserMealSchedule(meal: DietaryRecommendation) {
 
         val userID = client.auth.currentUserOrNull()?.id?:""
-        val hour = Random.nextInt(0,24).toString()
-        val minute = Random.nextInt(0, 60).toString()
 
-        val userMealSchedule =
-            UserMealSchedule(0, userID, UserMealSchedule.categoryBreakfast,
-                meal.id,
-                time = if (hour.length == 1 && minute.length == 1){
-                    "0$hour:0$minute"
-                }else if (hour.length == 1){
-                    "0$hour:$minute"
-                }else{
-                    "$hour:$minute"
-                }
-            )
-        client.postgrest["UserMealSchedule"].insert(userMealSchedule)
+        client.postgrest["UserMealSchedule"].insert(mapOf(
+            "userID" to userID,
+            "category" to meal.category,
+            "mealID" to meal.id.toString()
+        ))
     }
 }
