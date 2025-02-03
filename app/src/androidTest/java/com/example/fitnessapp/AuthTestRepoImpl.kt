@@ -11,7 +11,7 @@ class AuthTestRepoImpl : AuthRepository {
 
     }
 
-    override suspend fun signInWithGoogle() {
+    override suspend fun signInWithGoogle(): Boolean {
         TODO("Not yet implemented")
     }
 
@@ -22,7 +22,7 @@ class AuthTestRepoImpl : AuthRepository {
         }
     }
 
-    override suspend fun signUpWithGoogle() {
+    override suspend fun signUpWithGoogle(): Boolean {
         TODO("Not yet implemented")
     }
 
