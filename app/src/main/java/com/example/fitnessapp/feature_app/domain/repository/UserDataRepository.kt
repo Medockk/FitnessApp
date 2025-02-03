@@ -20,4 +20,7 @@ interface UserDataRepository {
     suspend fun getPurpose() : Purpose
 
     suspend fun getLastActivity() : List<LastActivityData>
+
+    suspend fun getUserImage() : String
+    suspend fun setUserImage(byteArray: ByteArray)
 }

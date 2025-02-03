@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerScreen
+import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.AddWorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastScreen
 import com.example.fitnessapp.feature_app.presentation.Congratulations.CongratulationsScreen
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
@@ -34,9 +35,11 @@ import com.example.fitnessapp.feature_app.presentation.Profile.ProfileScreen
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageScreen
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
+import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutScreen
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationScreen
 import com.example.fitnessapp.feature_app.presentation.Welcome.WelcomeScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailScreen
+import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutTrackerScreen
 import com.example.fitnessapp.ui.theme.FitnessAppTheme
 
@@ -146,6 +149,15 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.MealScheduleScreen.route){
                         MealScheduleScreen(navController)
+                    }
+                    composable(Route.WorkoutScheduleScreen.route){
+                        WorkoutScheduleScreen(navController)
+                    }
+                    composable(Route.AddWorkoutScheduleScreen.route){
+                        AddWorkoutScheduleScreen(navController)
+                    }
+                    composable(Route.StartWorkoutScreen.route){
+                        StartWorkoutScreen(navController)
                     }
                 }
             }

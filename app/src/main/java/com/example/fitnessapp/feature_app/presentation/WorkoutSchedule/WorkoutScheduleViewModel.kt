@@ -5,14 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.Workout.SetWorkoutScheduleUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WorkoutScheduleViewModel(
-    private val getWorkoutScheduleUseCase: GetWorkoutScheduleUseCase,
-    private val setWorkoutScheduleUseCase: SetWorkoutScheduleUseCase
+    private val getWorkoutScheduleUseCase: GetWorkoutScheduleUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(WorkoutScheduleState())

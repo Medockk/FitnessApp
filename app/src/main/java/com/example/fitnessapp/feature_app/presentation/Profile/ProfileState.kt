@@ -7,6 +7,7 @@ data class ProfileState(
 
     val userData: UserData = UserData(0,"","","","","","",""),
     val purpose: Purpose = Purpose(0,"",""),
+    val image: String = "",
 
     val isNotificationTurnOn: Boolean = false,
 

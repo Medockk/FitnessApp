@@ -72,19 +72,25 @@ class SignUpViewModel(
                     _state.value.password.isNotBlank() &&
                     _state.value.checkBoxState
                 ){
-                    viewModelScope.launch(Dispatchers.IO) {
-                            signUpUseCase(
-                                mail = _state.value.email,
-                                pass = _state.value.password,
-                                userData = UserData(
-                                    0,"",
-                                    fio = _state.value.fio,
-                                    phone = _state.value.phone
+                    try {
+                        viewModelScope.launch(Dispatchers.IO) {
+                                signUpUseCase(
+                                    mail = _state.value.email,
+                                    pass = _state.value.password,
+                                    userData = UserData(
+                                        0,"",
+                                        fio = _state.value.fio,
+                                        phone = _state.value.phone
+                                    )
                                 )
-                            )
-                            _state.value = state.value.copy(
-                                isFirstRegistration = true
-                            )
+                                _state.value = state.value.copy(
+                                    isFirstRegistration = true
+                                )
+                        }
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(
+                            exception = e.message.toString()
+                        )
                     }
                 }else if (_state.value.fio.isBlank()){
                     _state.value = state.value.copy(

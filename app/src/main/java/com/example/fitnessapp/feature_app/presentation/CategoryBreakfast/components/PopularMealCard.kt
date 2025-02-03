@@ -52,7 +52,7 @@ fun PopularMealCard(
                 modifier = Modifier
                     .padding(1.dp)
                     .size(45.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Fit
             )
             Column {
                 Text(
