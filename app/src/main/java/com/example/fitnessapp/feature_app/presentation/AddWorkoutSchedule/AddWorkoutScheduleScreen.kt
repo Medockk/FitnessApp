@@ -1,8 +1,8 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,12 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimePicker
-import androidx.compose.material3.TimePickerLayoutType
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +22,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.common.CustomAlertCard
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomGreenButton
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -42,10 +41,32 @@ fun AddWorkoutScheduleScreen(
 ) {
 
     val state = viewModel.state.value
-    val timeInputState = rememberTimePickerState(
-        is24Hour = true,
-        initialHour = state.hour.toInt(),
-        initialMinute = state.minute.toInt()
+
+    val workoutDetailList = listOf(
+        listOf(
+            ImageVector.vectorResource(R.drawable.dumbbells_icon),
+            "Трениовка",
+            "Вверхняя часть",
+            {}
+        ),
+        listOf(
+            ImageVector.vectorResource(R.drawable.height_icon),
+            "Сложность",
+            "Начинающй",
+            {}
+        ),
+        listOf(
+            ImageVector.vectorResource(R.drawable.custom_repeats_icon),
+            "Пользовательские повторы",
+            "",
+            {}
+        ),
+        listOf(
+            ImageVector.vectorResource(R.drawable.custom_repeats_icon),
+            "Пользовательские веса",
+            "",
+            {}
+        ),
     )
 
     if (state.exception.isNotEmpty()){
@@ -100,12 +121,51 @@ fun AddWorkoutScheduleScreen(
                     text = "Время",
                     style = montserrat50014_1D1617
                 )
-                TimePicker(
-                    state = timeInputState,
-                    layoutType = TimePickerLayoutType.Vertical
-                )
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                     modifier = Modifier
+                         .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "3",
+                    )
+                    Text(
+                        text = "00",
+                    )
+                }
 
             }
+            Spacer(Modifier.height(30.dp))
+            Text(
+                text = "Детали тренировки",
+                style = montserrat50014_1D1617
+            )
+            Spacer(Modifier.height(10.dp))
+        }
+
+        items(workoutDetailList) { list ->
+            CustomAlertCard(
+                icon = list[0] as ImageVector,
+                title = list[1] as String,
+                description = list[2] as String,
+                onClick = list[3] as () -> Unit
+            )
+            Spacer(Modifier.height(10.dp))
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 30.dp),
+        contentAlignment = Alignment.BottomCenter
+    ){
+        CustomGreenButton(
+            text = "Сохранить"
+        ) {
+            viewModel.onEvent(AddWorkoutScheduleEvent.AddWorkout)
         }
     }
 }
