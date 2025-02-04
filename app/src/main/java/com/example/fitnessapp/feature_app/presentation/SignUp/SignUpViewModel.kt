@@ -70,6 +70,7 @@ class SignUpViewModel(
                     _state.value.phone.isNotBlank() &&
                     _state.value.email.isNotBlank() &&
                     _state.value.password.isNotBlank() &&
+                    _state.value.password.length >= 6 &&
                     _state.value.checkBoxState
                 ){
                     try {
@@ -111,6 +112,10 @@ class SignUpViewModel(
                 }else if (!_state.value.checkBoxState){
                     _state.value = state.value.copy(
                         exception = "Примите Политику Конфеденциальности!"
+                    )
+                }else if (_state.value.password.length < 6){
+                    _state.value = state.value.copy(
+                        exception = "Пароль не может быть моньше 6 символов!"
                     )
                 }
             }

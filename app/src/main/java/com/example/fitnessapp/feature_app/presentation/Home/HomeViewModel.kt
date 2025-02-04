@@ -62,7 +62,7 @@ class HomeViewModel(
             if (char.toString() != " "){
                 withContext(Dispatchers.Main){
                     _state.value = state.value.copy(
-                        barChartList = state.value.barChartList.plus(char.toString().toInt())
+                        barChartList = state.value.barChartList.plus(char.toString().toFloat())
                     )
                 }
             }

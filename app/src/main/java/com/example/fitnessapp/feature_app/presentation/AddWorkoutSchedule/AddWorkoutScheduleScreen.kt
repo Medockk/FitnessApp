@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -159,11 +160,13 @@ fun AddWorkoutScheduleScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 30.dp),
+            .padding(start = 30.dp, end = 30.dp, bottom = (LocalConfiguration.current.screenHeightDp / 20).dp),
         contentAlignment = Alignment.BottomCenter
     ){
         CustomGreenButton(
-            text = "Сохранить"
+            text = "Сохранить",
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             viewModel.onEvent(AddWorkoutScheduleEvent.AddWorkout)
         }

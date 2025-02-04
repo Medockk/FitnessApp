@@ -68,6 +68,7 @@ dependencies {
 
     //yCharts
     implementation(libs.ycharts)
+    implementation(libs.some.charts)
 
     //videoPlayer
     implementation(libs.video.player)

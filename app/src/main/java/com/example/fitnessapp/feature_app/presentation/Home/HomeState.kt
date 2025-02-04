@@ -10,7 +10,7 @@ data class HomeState(
     val bodyMassComments: String = "",
 
     val heartRate: Int = 78,
-    val barChartList: List<Int> = emptyList(),
+    val barChartList: List<Float> = emptyList(),
 
     val userStatistics: List<UserStatistics> = emptyList(),
 

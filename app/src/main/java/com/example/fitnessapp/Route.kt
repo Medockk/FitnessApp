@@ -36,4 +36,5 @@ sealed class Route(val route: String) {
     data object StartWorkoutScreen : Route("StartWorkoutScreen"){
         var workout = ""
     }
+    data object SleepTrackerScreen : Route("SleepTrackerScreen")
 }

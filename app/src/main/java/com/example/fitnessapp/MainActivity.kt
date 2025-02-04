@@ -17,7 +17,14 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -35,6 +42,7 @@ import com.example.fitnessapp.feature_app.presentation.Profile.ProfileScreen
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageScreen
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
+import com.example.fitnessapp.feature_app.presentation.SleepTracker.SleepTrackerScreen
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutScreen
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationScreen
 import com.example.fitnessapp.feature_app.presentation.Welcome.WelcomeScreen
@@ -42,6 +50,8 @@ import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDeta
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutTrackerScreen
 import com.example.fitnessapp.ui.theme.FitnessAppTheme
+import com.mahmoud.composecharts.barchart.BarChart
+import com.mahmoud.composecharts.barchart.BarChartEntity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +79,9 @@ class MainActivity : ComponentActivity() {
                                 shrinkHorizontally()
                     }
                 ) {
+                    composable("Test"){
+                        Test()
+                    }
                     composable(Route.WelcomeScreen.route) {
                         WelcomeScreen(navController)
                     }
@@ -159,8 +172,43 @@ class MainActivity : ComponentActivity() {
                     composable(Route.StartWorkoutScreen.route){
                         StartWorkoutScreen(navController)
                     }
+                    composable(Route.SleepTrackerScreen.route){
+                        SleepTrackerScreen(navController)
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+fun Test() {
+
+    val barChartData = listOf(
+        BarChartEntity(10f, Color.Blue),
+        BarChartEntity(58f, Color.Red),
+        BarChartEntity(75f, Color.Green),
+        BarChartEntity(23f, Color.DarkGray),
+        BarChartEntity(75f, Color.Black),
+        BarChartEntity(13f, Color.Yellow),
+        BarChartEntity(85f, Color.Magenta),
+        BarChartEntity(10f, Color.Blue),
+        BarChartEntity(58f, Color.Red),
+        BarChartEntity(75f, Color.Green),
+        BarChartEntity(23f, Color.DarkGray),
+        BarChartEntity(75f, Color.Black),
+        BarChartEntity(13f, Color.Yellow),
+        BarChartEntity(85f, Color.Magenta),
+    )
+
+    BarChart(
+        barChartData = barChartData,
+        verticalAxisValues = listOf(0f, 20f, 40f, 60f, 80f, 100f),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp)
+            .padding(
+                vertical = 50.dp, horizontal = 30.dp
+            )
+    )
 }
