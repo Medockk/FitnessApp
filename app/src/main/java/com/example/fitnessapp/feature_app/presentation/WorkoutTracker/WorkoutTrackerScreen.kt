@@ -36,9 +36,9 @@ import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.AllWorkoutCard
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.UserWorkoutCard
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.WorkoutBar
+import com.example.fitnessapp.ui.theme._03AE8C
 import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._3FF9BE
 import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme._B0F8E1
 import com.example.fitnessapp.ui.theme._F7F8F8
@@ -77,7 +77,7 @@ fun WorkoutTrackerScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundBrush),
+            .background(_03AE8C),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -105,9 +105,8 @@ fun WorkoutTrackerScreen(
             ) {
                 WorkoutBar(
                     list = state.workoutBar,
-                    lineColor = listOf(_B0F8E1, _3FF9BE),
+                    lineColor = _B0F8E1,
                     modifier = Modifier
-                        .background(Color.Transparent)
                         .fillMaxWidth()
                         .height(200.dp)
                         .background(Color.Transparent)

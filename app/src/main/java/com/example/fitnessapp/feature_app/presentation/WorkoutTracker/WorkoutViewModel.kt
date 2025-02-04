@@ -45,7 +45,7 @@ class WorkoutViewModel(
                 if (char.isDigit()){
                     withContext(Dispatchers.Main){
                         _state.value = state.value.copy(
-                            workoutBar = _state.value.workoutBar.plus(workoutBar.heartRateList.map { char.toString().toInt() })
+                            workoutBar = _state.value.workoutBar.plus(char.toString().toFloat())
                         )
                     }
                 }
