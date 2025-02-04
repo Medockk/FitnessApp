@@ -8,7 +8,7 @@ data class WorkoutTrackerState(
     val allBodyWorkout: Boolean = false,
     val upperPartWorkout: Boolean = false,
 
-    val workoutBar: List<Int> = emptyList(),
+    val workoutBar: List<Float> = emptyList(),
     val userWorkoutList: List<UserWorkoutData> = emptyList(),
     val workoutList: List<WorkoutData> = emptyList(),
 
