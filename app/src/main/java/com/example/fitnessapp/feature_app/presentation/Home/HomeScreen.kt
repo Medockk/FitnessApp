@@ -55,7 +55,6 @@ import com.example.fitnessapp.feature_app.presentation.Home.components.Statistic
 import com.example.fitnessapp.ui.theme._07856E
 import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._81CCBF
-import com.example.fitnessapp.ui.theme._A8E3D9
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme.montserrat40012White
 import com.example.fitnessapp.ui.theme.montserrat40012_A5A3B0
@@ -248,7 +247,7 @@ fun HomeScreen(
                         .background(
                             imtBrush,
                             RoundedCornerShape(20.dp),
-                            0.4f
+                            0.8f
                         ),
                     shape = RoundedCornerShape(20.dp)
                 ) {
@@ -268,13 +267,10 @@ fun HomeScreen(
                         ) {
                             BarChart(
                                 barChartList = state.barChartList,
-                                lineColor = _A8E3D9,
                                 modifier = Modifier
-                                    .fillMaxWidth()
+                                    .fillParentMaxWidth()
                                     .height(120.dp)
-                                    .background(imtBrush, alpha = 0.4f)
-                                    .padding(start = 20.dp),
-                                axisStepSize = 5.dp
+                                    .padding(end = 50.dp),
                             )
                         }
                         Spacer(Modifier.height(10.dp))
