@@ -34,6 +34,7 @@ import com.example.common.CustomAlertDialog
 import com.example.common.CustomAssistChip
 import com.example.common.CustomGreenButton
 import com.example.common.CustomHorizontalDivider
+import com.example.common.CustomIndicator
 import com.example.common.CustomTextField
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -67,16 +68,19 @@ fun SignInScreen(
     val paddingTop = LocalConfiguration.current.screenHeightDp / 15
 
     val authState = client.composeAuth.rememberSignInWithGoogle({
-        when (it){
+        when (it) {
             NativeSignInResult.ClosedByUser -> {
                 Log.e("in", "closed")
             }
+
             is NativeSignInResult.Error -> {
                 viewModel.onEvent(SignInEvent.SetException(it.exception.toString()))
             }
+
             is NativeSignInResult.NetworkError -> {
                 viewModel.onEvent(SignInEvent.SetException(it.message))
             }
+
             NativeSignInResult.Success -> {
                 Log.i("in", "successful")
                 viewModel.onEvent(SignInEvent.SignInWithGoogle)
@@ -85,16 +89,16 @@ fun SignInScreen(
     })
 
     LaunchedEffect(key1 = !state.isRegistered) {
-        if (state.isRegistered){
-            navController.navigate(Route.SuccessRegistrationScreen.route){
-                popUpTo(Route.SignInScreen.route){
+        if (state.isRegistered) {
+            navController.navigate(Route.SuccessRegistrationScreen.route) {
+                popUpTo(Route.SignInScreen.route) {
                     inclusive = true
                 }
             }
         }
     }
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
@@ -102,7 +106,9 @@ fun SignInScreen(
         }
     }
 
-    Box(Modifier.fillMaxSize().background(Color.White))
+    Box(Modifier
+        .fillMaxSize()
+        .background(Color.White))
 
     LazyColumn(
         modifier = Modifier
@@ -142,7 +148,8 @@ fun SignInScreen(
                 icon = ImageVector.vectorResource(R.drawable.email_icon),
                 hint = "Почта",
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                enabled = !state.showIndicator
             )
             Spacer(Modifier.height(15.dp))
 
@@ -156,6 +163,7 @@ fun SignInScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 isPassword = true,
+                enabled = !state.showIndicator,
                 showHidePasswordState = state.showHidePasswordState,
                 showHidePasswordClick = {
                     viewModel.onEvent(SignInEvent.ShowHidePassword)
@@ -170,7 +178,8 @@ fun SignInScreen(
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent
-                )
+                ),
+                enabled = !state.showIndicator
             ) {
                 Text(
                     text = "Забыл пароль?",
@@ -189,7 +198,8 @@ fun SignInScreen(
                     text = "Войти",
                     isSignInScreen = true,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    enabled = !state.showIndicator
                 ) {
                     viewModel.onEvent(SignInEvent.SignInClick)
                 }
@@ -208,7 +218,8 @@ fun SignInScreen(
                     CustomAssistChip(
                         icon = ImageVector.vectorResource(R.drawable.google_icon),
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(50.dp),
+                        enabled = !state.showIndicator
                     ) {
                         coroutineScope.launch {
                             authState.startFlow()
@@ -218,25 +229,28 @@ fun SignInScreen(
                     CustomAssistChip(
                         icon = ImageVector.vectorResource(R.drawable.facebook_icon),
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(50.dp),
+                        enabled = !state.showIndicator
                     ) { }
                 }
                 Spacer(Modifier.height(25.dp))
                 TextButton(
                     onClick = {
-                        navController.navigate(Route.SignUpScreen.route){
-                            popUpTo(Route.SignInScreen.route){
+                        navController.navigate(Route.SignUpScreen.route) {
+                            popUpTo(Route.SignInScreen.route) {
                                 inclusive = true
                             }
                         }
                     },
                     colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.Transparent
-                    )
+                        containerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent
+                    ),
+                    enabled = !state.showIndicator
                 ) {
-                    Row (
+                    Row(
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Text(
                             text = "Нет аккаунта? ",
                             style = montserrat40014_1D1617
@@ -250,4 +264,6 @@ fun SignInScreen(
             }
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

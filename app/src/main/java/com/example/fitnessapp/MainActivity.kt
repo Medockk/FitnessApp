@@ -29,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerScreen
+import com.example.fitnessapp.feature_app.presentation.AddAlarm.AddAlarmScreen
 import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.AddWorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastScreen
 import com.example.fitnessapp.feature_app.presentation.Congratulations.CongratulationsScreen
@@ -42,6 +43,7 @@ import com.example.fitnessapp.feature_app.presentation.Profile.ProfileScreen
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageScreen
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
+import com.example.fitnessapp.feature_app.presentation.SleepSchedule.SleepScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.SleepTracker.SleepTrackerScreen
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutScreen
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationScreen
@@ -174,6 +176,12 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.SleepTrackerScreen.route){
                         SleepTrackerScreen(navController)
+                    }
+                    composable(Route.SleepScheduleScreen.route){
+                        SleepScheduleScreen(navController)
+                    }
+                    composable(Route.AddAlarmScreen.route){
+                        AddAlarmScreen(navController)
                     }
                 }
             }

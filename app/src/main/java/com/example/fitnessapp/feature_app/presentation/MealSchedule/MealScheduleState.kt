@@ -21,4 +21,6 @@ data class MealScheduleState(
     val afternoonCalories: String = "",
     val dinnerMeal: List<MealScheduleItem> = emptyList(),
     val dinnerCalories: String = "",
+
+    val showIndicator: Boolean = false,
 )

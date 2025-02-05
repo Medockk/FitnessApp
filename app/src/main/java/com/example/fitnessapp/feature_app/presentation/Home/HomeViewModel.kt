@@ -22,13 +22,16 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.value = state.value.copy(showIndicator = true)
             try {
                 getUserData()
             } catch (e: Exception) {
                 _state.value = state.value.copy(
-                    exception = e.message.toString()
+                    exception = e.message.toString(),
+                    showIndicator = false
                 )
             }
+            _state.value = state.value.copy(showIndicator = false)
         }
     }
 

@@ -26,26 +26,31 @@ class SignUpViewModel(
                     email = event.value
                 )
             }
+
             is SignUpEvent.EnterFIO -> {
                 _state.value = state.value.copy(
                     fio = event.value
                 )
             }
+
             is SignUpEvent.EnterPassword -> {
                 _state.value = state.value.copy(
                     password = event.value
                 )
             }
+
             is SignUpEvent.EnterPhone -> {
                 _state.value = state.value.copy(
                     phone = event.value
                 )
             }
+
             is SignUpEvent.ChangeCheckBoxState -> {
                 _state.value = state.value.copy(
                     checkBoxState = event.value
                 )
             }
+
             SignUpEvent.ChangeShowHidePasswordState -> {
                 _state.value = state.value.copy(
                     showHidePasswordState = !state.value.showHidePasswordState
@@ -58,6 +63,7 @@ class SignUpViewModel(
                     exception = ""
                 )
             }
+
             is SignUpEvent.SetException -> {
                 _state.value = state.value.copy(
                     exception = event.value
@@ -72,63 +78,76 @@ class SignUpViewModel(
                     _state.value.password.isNotBlank() &&
                     _state.value.password.length >= 6 &&
                     _state.value.checkBoxState
-                ){
-                    try {
-                        viewModelScope.launch(Dispatchers.IO) {
-                                signUpUseCase(
-                                    mail = _state.value.email,
-                                    pass = _state.value.password,
-                                    userData = UserData(
-                                        0,"",
-                                        fio = _state.value.fio,
-                                        phone = _state.value.phone
-                                    )
-                                )
-                                _state.value = state.value.copy(
-                                    isFirstRegistration = true
-                                )
-                        }
-                    } catch (e: Exception) {
+                ) {
+                    viewModelScope.launch(Dispatchers.IO) {
                         _state.value = state.value.copy(
-                            exception = e.message.toString()
+                            showIndicator = true
                         )
+                        try {
+                            signUpUseCase(
+                                mail = _state.value.email,
+                                pass = _state.value.password,
+                                userData = UserData(
+                                    0, "",
+                                    fio = _state.value.fio,
+                                    phone = _state.value.phone
+                                )
+                            )
+                            _state.value = state.value.copy(
+                                showIndicator = false,
+                                isFirstRegistration = true
+                            )
+                        } catch (e: Exception) {
+                            _state.value = state.value.copy(
+                                exception = e.message.toString(),
+                                showIndicator = false
+                            )
+                        }
                     }
-                }else if (_state.value.fio.isBlank()){
+
+                } else if (_state.value.fio.isBlank()) {
                     _state.value = state.value.copy(
-                        exception = "Поле ФИО не может быть пустым!"
+                        exception = "Поле ФИО не может быть пустым!",
+                        showIndicator = false
                     )
-                }else if (_state.value.phone.isBlank()){
+                } else if (_state.value.phone.isBlank()) {
                     _state.value = state.value.copy(
-                        exception = "Поле Номер Телефона не может быть пустым!"
+                        exception = "Поле Номер Телефона не может быть пустым!",
+                        showIndicator = false
                     )
-                }else if (_state.value.email.isBlank()){
+                } else if (_state.value.email.isBlank()) {
                     _state.value = state.value.copy(
-                        exception = "Поле Почта не может быть пустым!"
+                        exception = "Поле Почта не может быть пустым!",
+                        showIndicator = false
                     )
-                }else if (_state.value.password.isBlank()){
+                } else if (_state.value.password.isBlank()) {
                     _state.value = state.value.copy(
-                        exception = "Поле Пароль не может быть пустым!"
+                        exception = "Поле Пароль не может быть пустым!",
+                        showIndicator = false
                     )
-                }else if (!_state.value.checkBoxState){
+                } else if (!_state.value.checkBoxState) {
                     _state.value = state.value.copy(
-                        exception = "Примите Политику Конфеденциальности!"
+                        exception = "Примите Политику Конфеденциальности!",
+                        showIndicator = false
                     )
-                }else if (_state.value.password.length < 6){
+                } else if (_state.value.password.length < 6) {
                     _state.value = state.value.copy(
-                        exception = "Пароль не может быть моньше 6 символов!"
+                        exception = "Пароль не может быть моньше 6 символов!",
+                        showIndicator = false
                     )
                 }
             }
+
             is SignUpEvent.SignUpWithGoogle -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
                         val signUpState = signUpWithGoogleUseCase()
 
-                        if (signUpState){
+                        if (signUpState) {
                             _state.value = state.value.copy(
                                 exception = "Ошибка!"
                             )
-                        }else{
+                        } else {
                             _state.value = state.value.copy(
                                 isFirstRegistration = true
                             )

@@ -34,6 +34,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -208,4 +209,6 @@ fun CategoryBreakfastScreen(
             Spacer(Modifier.height(15.dp))
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import com.example.common.CustomAlertCard
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
+import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -171,4 +172,6 @@ fun AddWorkoutScheduleScreen(
             viewModel.onEvent(AddWorkoutScheduleEvent.AddWorkout)
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

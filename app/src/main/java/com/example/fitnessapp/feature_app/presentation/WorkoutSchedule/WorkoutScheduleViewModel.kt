@@ -18,7 +18,14 @@ class WorkoutScheduleViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getSchedule()
+            _state.value = state.value.copy(showIndicator = true)
+            try {
+                getSchedule()
+            } catch (e: Exception) {
+                _state.value =
+                    state.value.copy(exception = e.message.toString(), showIndicator = false)
+            }
+            _state.value = state.value.copy(showIndicator = false)
         }
     }
 
@@ -26,15 +33,15 @@ class WorkoutScheduleViewModel(
 
         val schedule = getWorkoutScheduleUseCase()
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
                 workoutSchedule = schedule
             )
         }
     }
 
-    fun onEvent(event: WorkoutScheduleEvent){
-        when (event){
+    fun onEvent(event: WorkoutScheduleEvent) {
+        when (event) {
             WorkoutScheduleEvent.ResetException -> {
                 _state.value = state.value.copy(
                     exception = ""

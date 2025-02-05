@@ -7,5 +7,6 @@ data class SignInState(
 
     val isRegistered: Boolean = false,
 
+    val showIndicator: Boolean = false,
     val exception: String = "",
 )

@@ -46,6 +46,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
+import com.example.common.CustomIndicator
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.domain.model.UserData
@@ -299,4 +300,6 @@ fun CreateProfileScreen(
             }
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

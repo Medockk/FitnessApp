@@ -216,8 +216,14 @@ fun MealDetailScreen(
                         items(state.ingredients){ ingredient ->
                             CustomIngredientCard(
                                 ingredient = ingredient,
-                                icon = ImageVector.vectorResource(R.drawable.carbo_icon),
-                                ingredientCount = "100g",
+                                icon = when (ingredient.trim()[0].toString() + ingredient.trim()[1].toString() + ingredient.trim()[2].toString()){
+                                    "Мук" -> ImageVector.vectorResource(R.drawable.flour_icon)
+                                    "Сах" -> ImageVector.vectorResource(R.drawable.sugar_icon)
+                                    "Сод" -> ImageVector.vectorResource(R.drawable.baking_soda_icon)
+                                    "Яйц" -> ImageVector.vectorResource(R.drawable.eggs_icon)
+                                    else ->ImageVector.vectorResource(R.drawable.carbo_icon)
+                                },
+                                ingredientCount = ingredient.dropWhile { it.toString() != "(" },
                             )
                             Spacer(Modifier.width(15.dp))
                         }

@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.di.moduleAuth
 import com.example.di.moduleMeal
 import com.example.di.moduleQueue
+import com.example.di.moduleSleep
 import com.example.di.moduleUser
 import com.example.di.moduleViewModel
 import com.example.di.moduleWorkout
@@ -23,7 +24,8 @@ class App : Application() {
             modules(
                 listOf(
                     moduleQueue, moduleViewModel, moduleAuth,
-                    moduleUser, moduleWorkout, moduleMeal
+                    moduleUser, moduleWorkout, moduleMeal,
+                    moduleSleep
                 )
             )
         }

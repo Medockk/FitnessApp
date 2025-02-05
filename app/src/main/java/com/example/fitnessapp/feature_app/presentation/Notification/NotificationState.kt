@@ -7,4 +7,5 @@ data class NotificationState(
     val notifications: List<NotificationData> = emptyList(),
 
     val exception: String = "",
+    val showIndicator: Boolean = false,
 )

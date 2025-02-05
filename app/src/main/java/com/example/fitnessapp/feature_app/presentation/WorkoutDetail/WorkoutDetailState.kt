@@ -7,4 +7,6 @@ data class WorkoutDetailState(
 
     val sprint1: List<WorkoutSprint> = emptyList(),
     val sprint2: List<WorkoutSprint> = emptyList(),
+
+    val showIndicator: Boolean = false,
 )

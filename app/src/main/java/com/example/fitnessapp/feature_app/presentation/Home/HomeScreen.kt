@@ -47,6 +47,7 @@ import com.example.common.BarChart
 import com.example.common.BottomBar
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
+import com.example.common.CustomIndicator
 import com.example.common.CustomLightGreenCard
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -316,4 +317,6 @@ fun HomeScreen(
             }
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

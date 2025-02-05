@@ -44,6 +44,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.components.ActivityBarChart
 import com.example.fitnessapp.ui.theme._07856E
@@ -360,4 +361,5 @@ fun ActivityTrackerScreen(
             }
         }
     }
+    CustomIndicator(state.showIndicator)
 }

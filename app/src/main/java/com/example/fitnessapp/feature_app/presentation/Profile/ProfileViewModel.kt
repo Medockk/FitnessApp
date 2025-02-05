@@ -25,6 +25,7 @@ class ProfileViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.value = state.value.copy(showIndicator = true)
             try {
                 getUserData()
             } catch (e: Exception) {
@@ -38,10 +39,12 @@ class ProfileViewModel(
                     )
                 }else{
                     _state.value = state.value.copy(
-                        exception = e.message.toString()
+                        exception = e.message.toString(),
+                        showIndicator = false
                     )
                 }
             }
+            _state.value = state.value.copy(showIndicator = false)
         }
     }
 
@@ -81,11 +84,13 @@ class ProfileViewModel(
 
             is ProfileEvent.ChangeImage -> {
                 viewModelScope.launch(Dispatchers.IO) {
+                    _state.value = state.value.copy(showIndicator = true)
                     try {
                         setUserImageUseCase(event.byteArray!!)
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
-                            exception = e.message.toString()
+                            exception = e.message.toString(),
+                            showIndicator = false
                         )
                     }
                 }

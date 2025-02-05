@@ -41,6 +41,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.common.CustomGreenButton
+import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -343,4 +344,6 @@ fun WorkoutDetailScreen(
                 .padding(horizontal = 30.dp)
         ) { }
     }
+
+    CustomIndicator(state.showIndicator)
 }

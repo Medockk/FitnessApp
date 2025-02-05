@@ -11,4 +11,5 @@ data class MealDetailState(
     val ingredients: List<String> = emptyList(),
 
     val nutrition : List<String> = emptyList(),
+    val showIndicator: Boolean = false,
 )

@@ -23,25 +23,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomCanvasBarChart
+import com.example.common.CustomIndicator
 import com.example.common.CustomLightGreenCard
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.AllWorkoutCard
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.UserWorkoutCard
-import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.WorkoutBar
 import com.example.fitnessapp.ui.theme._03AE8C
 import com.example.fitnessapp.ui.theme._1D1617
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme._B0F8E1
 import com.example.fitnessapp.ui.theme._F7F8F8
+import com.example.fitnessapp.ui.theme.montserrat40010White
 import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
 import org.koin.androidx.compose.koinViewModel
@@ -59,12 +58,6 @@ fun WorkoutTrackerScreen(
 ) {
 
     val state = viewModel.state.value
-    val backgroundBrush = Brush.linearGradient(
-        listOf(
-            _228F7D,
-            _9CEEDF
-        )
-    )
 
     if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
@@ -103,9 +96,12 @@ fun WorkoutTrackerScreen(
                 visible = state.workoutBar.isNotEmpty(),
                 enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
             ) {
-                WorkoutBar(
+                CustomCanvasBarChart(
                     list = state.workoutBar,
                     lineColor = _B0F8E1,
+                    xAxisLineColor = Color.White,
+                    height = 200.dp,
+                    textStyle = montserrat40010White,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
@@ -138,7 +134,7 @@ fun WorkoutTrackerScreen(
                         modifier = Modifier
                             .fillParentMaxWidth()
                     ) {
-                        navController.navigate(Route.ActivityTrackerScreen.route)
+                        navController.navigate(Route.WorkoutScheduleScreen.route)
                     }
                     Spacer(Modifier.height(30.dp))
                     Row(
@@ -201,4 +197,6 @@ fun WorkoutTrackerScreen(
             }
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

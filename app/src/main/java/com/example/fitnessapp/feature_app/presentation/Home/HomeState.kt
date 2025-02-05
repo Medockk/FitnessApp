@@ -15,4 +15,5 @@ data class HomeState(
     val userStatistics: List<UserStatistics> = emptyList(),
 
     val exception: String = "",
+    val showIndicator: Boolean = false,
 )
