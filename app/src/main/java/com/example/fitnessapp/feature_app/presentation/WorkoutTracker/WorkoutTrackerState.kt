@@ -13,4 +13,6 @@ data class WorkoutTrackerState(
     val workoutList: List<WorkoutData> = emptyList(),
 
     val exception: String = "",
+
+    val showIndicator: Boolean = false,
 )

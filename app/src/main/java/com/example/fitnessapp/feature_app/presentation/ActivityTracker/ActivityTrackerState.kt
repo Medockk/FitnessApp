@@ -19,5 +19,7 @@ data class ActivityTrackerState(
             0, "", "2400", "Шагов",
             "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//boots.png"
         ),
-    )
+    ),
+
+    val showIndicator: Boolean = false,
 )

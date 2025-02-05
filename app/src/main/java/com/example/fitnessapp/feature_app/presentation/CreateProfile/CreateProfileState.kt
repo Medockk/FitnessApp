@@ -8,5 +8,7 @@ data class CreateProfileState(
 
     val exception: String = "",
     val isComplete: Boolean = false,
-    val isDropDownMenuOpen: Boolean = false
+    val isDropDownMenuOpen: Boolean = false,
+
+    val showIndicator: Boolean = false,
 )

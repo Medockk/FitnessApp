@@ -14,4 +14,5 @@ data class CategoryBreakfastState(
     val showMoreInformationAboutMeal: Boolean = false,
 
     val exception: String = "",
+    val showIndicator: Boolean = false,
 )

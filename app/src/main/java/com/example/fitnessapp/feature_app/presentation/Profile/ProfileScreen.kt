@@ -42,6 +42,7 @@ import coil.compose.AsyncImage
 import com.example.common.BottomBar
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
+import com.example.common.CustomIndicator
 import com.example.common.CustomSwitch
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
@@ -136,7 +137,9 @@ fun ProfileScreen(
         topBar = {
             CustomTopAppBar(
                 title = "Профиль",
-                moreInformationClick = {},
+                moreInformationClick = {
+                    navController.navigate(Route.SleepTrackerScreen.route)
+                },
                 backgroundColor = _F7F8F8,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -351,4 +354,6 @@ fun ProfileScreen(
             }
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

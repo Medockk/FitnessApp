@@ -6,4 +6,6 @@ data class WorkoutScheduleState(
     val exception: String = "",
 
     val workoutSchedule: List<WorkoutSchedule> = emptyList(),
+
+    val showIndicator: Boolean = false,
 )

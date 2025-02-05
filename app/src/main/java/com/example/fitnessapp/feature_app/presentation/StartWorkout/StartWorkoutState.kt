@@ -4,4 +4,6 @@ data class StartWorkoutState(
     val exception: String = "",
 
     val workoutDescription: String = "",
+
+    val showIndicator: Boolean = false,
 )

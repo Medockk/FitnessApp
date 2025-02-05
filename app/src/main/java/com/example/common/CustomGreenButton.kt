@@ -33,6 +33,7 @@ fun CustomGreenButton(
     text: String,
     isSignInScreen: Boolean = false,
     isNextButton: Boolean = false,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -50,6 +51,7 @@ fun CustomGreenButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         ),
+        enabled = enabled,
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 10.dp
         ),

@@ -1,11 +1,204 @@
 package com.example.fitnessapp.feature_app.presentation.SleepTracker
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.example.common.CustomAlertDialog
+import com.example.common.CustomCanvasBarChart
+import com.example.common.CustomIndicator
+import com.example.common.CustomLightGreenCard
+import com.example.common.CustomSleepCard
+import com.example.common.CustomTopAppBar
+import com.example.fitnessapp.Route
+import com.example.fitnessapp.ui.theme._07856E
+import com.example.fitnessapp.ui.theme._81CCBF
+import com.example.fitnessapp.ui.theme._A5A3B0
+import com.example.fitnessapp.ui.theme._A8E3D9
+import com.example.fitnessapp.ui.theme._F7F8F8
+import com.example.fitnessapp.ui.theme.montserrat40010_42D742
+import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.ui.theme.montserrat50014White
+import com.example.fitnessapp.ui.theme.montserrat50016White
+import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import kotlinx.datetime.LocalTime
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SleepTrackerScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: SleepTrackerViewModel = koinViewModel()
 ) {
 
+    val state = viewModel.state.value
+    val brush = Brush.linearGradient(listOf(_81CCBF, _07856E))
+
+    if (state.exception.isNotEmpty()) {
+        CustomAlertDialog(
+            description = state.exception
+        ) {
+            viewModel.onEvent(SleepTrackerEvent.ResetException)
+        }
+    }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(horizontal = 30.dp)
+    ) {
+        item {
+            CustomTopAppBar(
+                title = "Трекер сна",
+                moreInformationClick = {},
+                backgroundColor = _F7F8F8
+            ) {
+                navController.popBackStack()
+            }
+            Spacer(Modifier.height(35.dp))
+            CustomCanvasBarChart(
+                list = state.barList,
+                lineColor = _A8E3D9,
+                xAxisLineColor = _A5A3B0,
+                height = 140.dp,
+                textStyle = montserrat40012_B6B4C2,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp)
+                    .background(Color.Transparent)
+            )
+            Spacer(Modifier.height(15.dp))
+        }
+
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Card(
+                    elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        text = "Увеличено на 43% ",
+                        style = montserrat40010_42D742,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                }
+            }
+            Spacer(Modifier.height(15.dp))
+            Card(
+                modifier = Modifier
+                    .fillParentMaxWidth()
+                    .background(
+                        brush,
+                        RoundedCornerShape(22.dp),
+                        0.8f
+                    ),
+                shape = RoundedCornerShape(22.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+                elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(20.dp)
+                        .background(Color.Unspecified)
+                ) {
+                    Text(
+                        text = "Последний сон",
+                        style = montserrat50014White
+                    )
+                    Spacer(Modifier.height(5.dp))
+                    Text(
+                        text = state.lastSleep,
+                        style = montserrat50016White
+                    )
+                    Spacer(Modifier.height(5.dp))
+                }
+                AsyncImage(
+                    model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Sleep-Graph.png",
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Transparent),
+                    contentScale = ContentScale.Crop
+                )
+            }
+            Spacer(Modifier.height(30.dp))
+            CustomLightGreenCard(
+                title = "Трафик сна",
+                buttonText = "Проверить",
+                modifier = Modifier.alpha(0.2f)
+            ) {
+                navController.navigate(Route.SleepScheduleScreen.route)
+            }
+            Spacer(Modifier.height(30.dp))
+            Text(
+                text = "Расписание на сегодня",
+                style = montserrat60016_1D1617
+            )
+            Spacer(Modifier.height(15.dp))
+        }
+
+        items(state.sleepData) { sleep ->
+            CustomSleepCard(
+                sleep = sleep,
+                sleepEnd = "через ${
+                    if (LocalTime.parse(sleep.time).hour - state.currentTime.hour > 0) {
+                        LocalTime.parse(sleep.time).hour - state.currentTime.hour
+                    } else {
+                        -(LocalTime.parse(sleep.time).hour - state.currentTime.hour)
+                    }
+                } часов " +
+                        "${
+                            if (LocalTime.parse(sleep.time).minute - state.currentTime.minute > 0) {
+                                LocalTime.parse(sleep.time).minute - state.currentTime.minute
+                            } else {
+                                -(LocalTime.parse(sleep.time).minute - state.currentTime.minute)
+                            }
+                        } минуты",
+                modifier = Modifier
+                    .fillParentMaxWidth()
+                    .animateItem(
+                        placementSpec = spring(
+                            dampingRatio = Spring.DampingRatioMediumBouncy,
+                            visibilityThreshold = IntOffset.VisibilityThreshold
+                        ),
+                        fadeInSpec = spring(Spring.DampingRatioMediumBouncy),
+                        fadeOutSpec = spring(Spring.DampingRatioMediumBouncy),
+                    )
+            ) {
+                viewModel.onEvent(SleepTrackerEvent.ChangeSleepWorkout(sleep))
+            }
+            Spacer(Modifier.height(15.dp))
+        }
+    }
+
+    CustomIndicator(state.showIndicator)
 }

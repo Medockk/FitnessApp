@@ -48,25 +48,32 @@ class SignInViewModel(
                             _state.value.email.isNotBlank() &&
                             _state.value.password.isNotBlank()
                         ){
+                            _state.value = state.value.copy(
+                                showIndicator = true
+                            )
                             signInUseCase(
                                 _state.value.email,
                                 state.value.password
                             )
                             _state.value = state.value.copy(
+                                showIndicator = false,
                                 isRegistered = true
                             )
                         }else if (_state.value.email.isBlank()){
                             _state.value = state.value.copy(
-                                exception = "Поле Почта не может быть пустым!"
+                                exception = "Поле Почта не может быть пустым!",
+                                showIndicator = false
                             )
                         }else if (_state.value.password.isBlank()){
                             _state.value = state.value.copy(
-                                exception = "Поле Пароль не может быть пустым!"
+                                exception = "Поле Пароль не может быть пустым!",
+                                showIndicator = false
                             )
                         }
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
-                            exception = e.message.toString()
+                            exception = e.message.toString(),
+                            showIndicator = false
                         )
                     }
                 }

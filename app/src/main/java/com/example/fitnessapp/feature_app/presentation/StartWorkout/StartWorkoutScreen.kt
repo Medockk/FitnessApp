@@ -36,6 +36,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomIndicator
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomPerformingWorkout
 import com.example.fitnessapp.ui.theme._1D1617
@@ -185,4 +186,6 @@ fun StartWorkoutScreen(
             )
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

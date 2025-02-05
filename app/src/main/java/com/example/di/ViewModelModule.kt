@@ -1,6 +1,7 @@
 package com.example.di
 
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityTrackerViewModel
+import com.example.fitnessapp.feature_app.presentation.AddAlarm.AddAlarmViewModel
 import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.AddWorkoutScheduleViewModel
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastViewModel
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
@@ -13,6 +14,8 @@ import com.example.fitnessapp.feature_app.presentation.Profile.ProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageViewModel
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
+import com.example.fitnessapp.feature_app.presentation.SleepSchedule.SleepScheduleViewModel
+import com.example.fitnessapp.feature_app.presentation.SleepTracker.SleepTrackerViewModel
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutViewModel
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailViewModel
@@ -109,5 +112,19 @@ val moduleViewModel = module {
 
     viewModel<StartWorkoutViewModel>{
         StartWorkoutViewModel()
+    }
+
+    viewModel<SleepTrackerViewModel>{
+        SleepTrackerViewModel(
+            get(), get(), get()
+        )
+    }
+
+    viewModel<SleepScheduleViewModel>{
+        SleepScheduleViewModel(get(), get())
+    }
+
+    viewModel<AddAlarmViewModel>{
+        AddAlarmViewModel(get())
     }
 }

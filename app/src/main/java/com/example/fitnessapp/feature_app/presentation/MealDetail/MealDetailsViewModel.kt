@@ -22,13 +22,16 @@ class MealDetailsViewModel(
     init {
         getNutrition()
         viewModelScope.launch(Dispatchers.IO) {
+            _state.value = state.value.copy(showIndicator = true)
             try {
                 getDetails()
             } catch (e: Exception) {
                 _state.value = state.value.copy(
-                    exception = e.message.toString()
+                    exception = e.message.toString(),
+                    showIndicator = false
                 )
             }
+            _state.value = state.value.copy(showIndicator = false)
         }
     }
 
@@ -45,7 +48,7 @@ class MealDetailsViewModel(
         }
 
         details.ingredientsAndTheyCount.forEach {
-            if (it.toString() != ", "){
+            if (it.toString() != ","){
                 ingredient += it.toString()
             }else{
                 _state.value = state.value.copy(
@@ -93,7 +96,9 @@ class MealDetailsViewModel(
 
             is MealDetailsEvent.AddToBreakfast -> {
                 viewModelScope.launch(Dispatchers.IO) {
+                    _state.value = state.value.copy(showIndicator = true)
                     addMealToUserMealScheduleUseCase(event.meal)
+                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
         }

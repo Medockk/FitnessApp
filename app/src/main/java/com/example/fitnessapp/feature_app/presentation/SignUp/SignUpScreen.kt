@@ -40,6 +40,7 @@ import com.example.common.CustomAlertDialog
 import com.example.common.CustomAssistChip
 import com.example.common.CustomGreenButton
 import com.example.common.CustomHorizontalDivider
+import com.example.common.CustomIndicator
 import com.example.common.CustomTextField
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
@@ -188,6 +189,7 @@ fun SignUpScreen(
                         onValueChange = it[1] as (String) -> Unit,
                         icon = it[2] as ImageVector,
                         hint = it[3] as String,
+                        enabled = !state.showIndicator,
                         modifier = Modifier
                             .fillMaxWidth(),
                         isPassword = signUpList[3] == it,
@@ -216,8 +218,11 @@ fun SignUpScreen(
                         colors = CheckboxDefaults.colors(
                             checkedColor = _228F7D,
                             uncheckedColor = _ADA4A5,
-                            checkmarkColor = Color.White
+                            checkmarkColor = Color.White,
+                            disabledCheckedColor = _228F7D,
+                            disabledUncheckedColor = _ADA4A5
                         ),
+                        enabled = !state.showIndicator,
                         modifier = Modifier.clip(RoundedCornerShape(3.dp))
                     )
                     TextButton(
@@ -226,7 +231,8 @@ fun SignUpScreen(
                         },
                         colors = ButtonDefaults.textButtonColors(
                             containerColor = Color.Transparent
-                        )
+                        ),
+                        enabled = !state.showIndicator
                     ) {
                         Text(
                             text = "Продолжая, вы принимаете нашу Политику конфиденциальности и Условия использования.",
@@ -246,7 +252,8 @@ fun SignUpScreen(
                 CustomGreenButton(
                     text = "Зарегистрироваться",
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    enabled = !state.showIndicator
                 ) {
                     viewModel.onEvent(SignUpEvent.SignUp)
                 }
@@ -264,7 +271,8 @@ fun SignUpScreen(
                         icon =
                             ImageVector.vectorResource(R.drawable.google_icon),
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(50.dp),
+                        enabled = !state.showIndicator
                     ) {
                         authState.startFlow()
                     }
@@ -273,7 +281,8 @@ fun SignUpScreen(
                         icon =
                             ImageVector.vectorResource(R.drawable.facebook_icon),
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(50.dp),
+                        enabled = !state.showIndicator
                     ) { }
                 }
                 Spacer(Modifier.height(20.dp))
@@ -287,7 +296,8 @@ fun SignUpScreen(
                     },
                     colors = ButtonDefaults.textButtonColors(
                         containerColor = Color.Transparent
-                    )
+                    ),
+                    enabled = !state.showIndicator
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
@@ -305,4 +315,6 @@ fun SignUpScreen(
             }
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

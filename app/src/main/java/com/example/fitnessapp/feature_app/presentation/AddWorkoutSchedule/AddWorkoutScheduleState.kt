@@ -11,4 +11,5 @@ data class AddWorkoutScheduleState(
     val currentDayName: String = "",
 
     val title: String = "",
+    val showIndicator: Boolean = false,
 )

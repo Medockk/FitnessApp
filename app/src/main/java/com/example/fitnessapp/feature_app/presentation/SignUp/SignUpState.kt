@@ -13,5 +13,6 @@ data class SignUpState(
     val isFirstRegistration: Boolean = false,
     val isNotFirstRegistration: Boolean = false,
 
+    val showIndicator: Boolean = false,
     val exception: String = "",
 )

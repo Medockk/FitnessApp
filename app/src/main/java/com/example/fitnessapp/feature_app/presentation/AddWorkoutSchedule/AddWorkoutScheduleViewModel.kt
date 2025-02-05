@@ -37,11 +37,13 @@ class AddWorkoutScheduleViewModel(
         when (event) {
             AddWorkoutScheduleEvent.AddWorkout -> {
                 viewModelScope.launch(Dispatchers.IO) {
+                    _state.value = state.value.copy(showIndicator = true)
                     setWorkoutScheduleUseCase(
                         WorkoutSchedule(
                             0, "", _state.value.title, ""
                         )
                     )
+                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
 

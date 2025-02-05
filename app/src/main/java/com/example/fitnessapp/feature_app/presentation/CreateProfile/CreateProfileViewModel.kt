@@ -53,6 +53,9 @@ class CreateProfileViewModel(
                     _state.value.height.isNotBlank()
                 ){
                     viewModelScope.launch(Dispatchers.IO) {
+                        _state.value = state.value.copy(
+                            showIndicator = true
+                        )
                         try {
                             createProfileUseCase(
                                 gender = _state.value.gender,
@@ -61,37 +64,45 @@ class CreateProfileViewModel(
                                 height = _state.value.height
                             )
                             _state.value = state.value.copy(
+                                showIndicator = false,
                                 isComplete = true
                             )
                         } catch (e: Exception) {
                             _state.value = state.value.copy(
-                                exception = e.message.toString()
+                                exception = e.message.toString(),
+                                showIndicator = false
                             )
                         }
                     }
                 }else if (_state.value.gender.isBlank()){
                     _state.value = state.value.copy(
-                        exception = "Поле Ваш Пол не может быть пустым!"
+                        exception = "Поле Ваш Пол не может быть пустым!",
+                        showIndicator = false
                     )
                 }else if (_state.value.gender!=UserData.male||_state.value.gender!=UserData.female){
                     _state.value = state.value.copy(
-                        exception = "Поле Ваш Пол не может принимать других значений:("
+                        exception = "Поле Ваш Пол не может принимать других значений:(",
+                        showIndicator = false
                     )
                 }else if (_state.value.birthdayData.isBlank()){
                     _state.value = state.value.copy(
-                        exception = "Поле Дата Рождения не может быть пустым!"
+                        exception = "Поле Дата Рождения не может быть пустым!",
+                        showIndicator = false
                     )
                 }else if (_state.value.weight.isBlank()){
                     _state.value = state.value.copy(
-                        exception = "Поле Ваш Вес не может быть пустым!"
+                        exception = "Поле Ваш Вес не может быть пустым!",
+                        showIndicator = false
                     )
                 }else if (_state.value.height.isBlank()){
                     _state.value = state.value.copy(
-                        exception = "Поле Ваш Рост не может быть пустым!"
+                        exception = "Поле Ваш Рост не может быть пустым!",
+                        showIndicator = false
                     )
                 }else{
                     _state.value = state.value.copy(
-                        exception = "Непредвиденная ошибка!"
+                        exception = "Непредвиденная ошибка!",
+                        showIndicator = false
                     )
                 }
             }

@@ -25,11 +25,13 @@ private fun Prev() {
 fun CustomAssistChip(
     icon: ImageVector,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     AssistChip(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled,
         label = {
             Icon(
                 imageVector = icon,

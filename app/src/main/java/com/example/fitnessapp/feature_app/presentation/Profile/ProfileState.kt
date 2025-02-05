@@ -12,4 +12,6 @@ data class ProfileState(
     val isNotificationTurnOn: Boolean = false,
 
     val exception: String = "",
+
+    val showIndicator: Boolean = false,
 )
