@@ -60,7 +60,8 @@ fun WorkoutScheduleScreen(
             CustomTopAppBar(
                 title = "Расписание тренировок",
                 moreInformationClick = {},
-                backgroundColor = _F7F8F8
+                backgroundColor = _F7F8F8,
+                textColor = Color.Black
             ) {
                 navController.popBackStack()
             }

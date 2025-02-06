@@ -89,7 +89,8 @@ fun AddWorkoutScheduleScreen(
             CustomTopAppBar(
                 title = "Добавить расписание",
                 moreInformationClick = {},
-                backgroundColor = _F7F8F8
+                backgroundColor = _F7F8F8,
+                textColor = Color.Black
             ) {
                 navController.navigate(Route.WorkoutScheduleScreen.route){
                     popUpTo(Route.AddWorkoutScheduleScreen.route){

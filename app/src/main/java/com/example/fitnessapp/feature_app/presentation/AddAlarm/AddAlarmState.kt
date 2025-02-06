@@ -4,6 +4,8 @@ data class AddAlarmState(
     val exception: String = "",
     val showIndicator: Boolean = false,
 
+    val isAdded: Boolean = false,
+
     val sleepTimeStart: String = "21:00",
     val sleepTimeValue: String = "8:30",
     val repeatDays: String = "Never",

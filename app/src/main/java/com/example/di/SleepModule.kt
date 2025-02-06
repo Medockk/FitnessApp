@@ -3,7 +3,9 @@ package com.example.di
 import com.example.fitnessapp.feature_app.data.repository.SleepRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.SleepRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.AddAlarmUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.Sleep.ChangeEnabledUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Sleep.ChangeAlarmEnabledUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Sleep.ChangeSleepEnabledUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetAlarmClockDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetSleepDataUseCase
 import org.koin.dsl.module
 
@@ -17,11 +19,19 @@ val moduleSleep = module {
         GetSleepDataUseCase(get())
     }
 
-    factory<ChangeEnabledUseCase> {
-        ChangeEnabledUseCase(get())
+    factory<ChangeSleepEnabledUseCase> {
+        ChangeSleepEnabledUseCase(get())
     }
 
     factory<AddAlarmUseCase> {
         AddAlarmUseCase(get())
+    }
+
+    factory<GetAlarmClockDataUseCase> {
+        GetAlarmClockDataUseCase(get())
+    }
+
+    factory<ChangeAlarmEnabledUseCase> {
+        ChangeAlarmEnabledUseCase(get())
     }
 }

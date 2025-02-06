@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +22,8 @@ fun CustomIndicator(
 ) {
     AnimatedVisibility(
         visible = showIndicator,
-        enter = fadeIn(tween(500, easing = LinearOutSlowInEasing))
+        enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+        exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
     ) {
         Box(
             modifier = Modifier

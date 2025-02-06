@@ -6,9 +6,16 @@ import kotlinx.serialization.Serializable
 data class SleepTracker(
     val id: Int,
     val userID: String,
-    val icon: String,
-    val title: String,
     val time: String,
     val enabled: Boolean,
     val lastSleep: String,
+)
+
+@Serializable
+data class AlarmClockTracker(
+    val id: Int,
+    val userID: String,
+    val date: String,
+    val enabled: Boolean,
+    val time: String
 )

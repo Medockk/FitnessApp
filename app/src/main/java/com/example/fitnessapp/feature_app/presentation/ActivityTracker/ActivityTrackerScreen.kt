@@ -101,6 +101,7 @@ fun ActivityTrackerScreen(
                 title = "Трекер активности",
                 moreInformationClick = {},
                 backgroundColor = _F7F8F8,
+                textColor = Color.Black,
                 modifier = Modifier
                     .fillParentMaxWidth()
             ) {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +25,7 @@ import com.example.common.CustomGreenButton
 import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
+import com.example.fitnessapp.Route
 import com.example.fitnessapp.ui.theme._F7F8F8
 import org.koin.androidx.compose.koinViewModel
 
@@ -73,6 +75,16 @@ fun AddAlarmScreen(
 
     CustomIndicator(state.showIndicator)
 
+    LaunchedEffect(key1 = !state.isAdded) {
+        if (state.isAdded){
+            navController.navigate(Route.SleepScheduleScreen.route){
+                popUpTo(Route.AddAlarmScreen.route){
+                    inclusive = true
+                }
+            }
+        }
+    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -83,9 +95,14 @@ fun AddAlarmScreen(
             CustomTopAppBar(
                 title = "Добавить часы",
                 moreInformationClick = {},
-                backgroundColor = _F7F8F8
+                backgroundColor = _F7F8F8,
+                textColor = Color.Black
             ) {
-                navController.popBackStack()
+                navController.navigate(Route.SleepScheduleScreen.route){
+                    popUpTo(Route.AddAlarmScreen.route){
+                        inclusive = true
+                    }
+                }
             }
             Spacer(Modifier.height(30.dp))
 

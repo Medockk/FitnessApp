@@ -1,5 +1,9 @@
 package com.example.fitnessapp.feature_app.presentation.SleepSchedule
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -51,7 +54,7 @@ fun SleepScheduleScreen(
 
     val state = viewModel.state.value
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
@@ -71,9 +74,14 @@ fun SleepScheduleScreen(
             CustomTopAppBar(
                 title = "График сна",
                 moreInformationClick = {},
-                backgroundColor = _F7F8F8
+                backgroundColor = _F7F8F8,
+                textColor = Color.Black
             ) {
-                navController.popBackStack()
+                navController.navigate(Route.SleepTrackerScreen.route) {
+                    popUpTo(Route.SleepScheduleScreen.route) {
+                        inclusive = true
+                    }
+                }
             }
             Spacer(Modifier.height(30.dp))
             Card(
@@ -131,14 +139,35 @@ fun SleepScheduleScreen(
             Spacer(Modifier.height(30.dp))
         }
 
-        items(state.sleepData){sleep ->
-            CustomSleepCard(
-                sleep = sleep,
-                sleepEnd = "",
-                modifier = Modifier
-                    .fillParentMaxWidth()
+        item {
+            AnimatedVisibility(
+                visible = state.sleepData != null,
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
             ) {
-                viewModel.onEvent(SleepScheduleEvent.ChangeEnabled(sleep))
+                CustomSleepCard(
+                    sleep = state.sleepData!!,
+                    icon = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Icon-Bed.png",
+                    sleepEnd = "",
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                ) {
+                    viewModel.onEvent(SleepScheduleEvent.ChangeSleepEnabled(state.sleepData))
+                }
+            }
+            Spacer(Modifier.height(15.dp))
+            AnimatedVisibility(
+                visible = state.alarmClockTracker != null,
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
+                CustomSleepCard(
+                    alarmClockTracker = state.alarmClockTracker!!,
+                    icon = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Icon-Alaarm.png",
+                    alarmEnd = "",
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                ) {
+                    viewModel.onEvent(SleepScheduleEvent.ChangeAlarmEnabled(state.alarmClockTracker))
+                }
             }
             Spacer(Modifier.height(15.dp))
         }
@@ -190,7 +219,13 @@ fun SleepScheduleScreen(
         }
     }
 
-    CustomFloatingActionButton { navController.navigate(Route.AddAlarmScreen.route) }
+    CustomFloatingActionButton {
+        navController.navigate(Route.AddAlarmScreen.route) {
+            popUpTo(Route.SleepScheduleScreen.route) {
+                inclusive = true
+            }
+        }
+    }
 
 
 }
