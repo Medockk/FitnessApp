@@ -40,4 +40,6 @@ sealed class Route(val route: String) {
     data object SleepTrackerScreen : Route("SleepTrackerScreen")
     data object SleepScheduleScreen : Route("SleepScheduleScreen")
     data object AddAlarmScreen : Route("AddAlarmScreen")
+
+    data object ComparisonScreen : Route("ComparisonScreen")
 }
