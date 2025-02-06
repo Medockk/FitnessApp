@@ -41,3 +41,5 @@ val _EEA4CE = Color(0xFFEEA4CE)
 val _C150F6 = Color(0xFFC150F6)
 val _03AE8C = Color(0xFF03AE8C)
 val _42D742 = Color(0xFF42D742)
+
+val _FF0000 = Color(0xFFFF0000)

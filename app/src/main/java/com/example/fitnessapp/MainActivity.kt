@@ -32,6 +32,7 @@ import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityT
 import com.example.fitnessapp.feature_app.presentation.AddAlarm.AddAlarmScreen
 import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.AddWorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastScreen
+import com.example.fitnessapp.feature_app.presentation.Comparison.ComparisonScreen
 import com.example.fitnessapp.feature_app.presentation.Congratulations.CongratulationsScreen
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
 import com.example.fitnessapp.feature_app.presentation.Home.HomeScreen
@@ -40,6 +41,7 @@ import com.example.fitnessapp.feature_app.presentation.MealSchedule.MealSchedule
 import com.example.fitnessapp.feature_app.presentation.Notification.NotificationScreen
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardScreen
 import com.example.fitnessapp.feature_app.presentation.Profile.ProfileScreen
+import com.example.fitnessapp.feature_app.presentation.ProgressPhoto.ProgressPhotoScreen
 import com.example.fitnessapp.feature_app.presentation.RegisterPage.RegisterPageScreen
 import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
@@ -182,6 +184,13 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.AddAlarmScreen.route){
                         AddAlarmScreen(navController)
+                    }
+
+                    composable(Route.ProgressPhotoScreen.route){
+                        ProgressPhotoScreen(navController)
+                    }
+                    composable(Route.ComparisonScreen.route){
+                        ComparisonScreen(navController)
                     }
                 }
             }
