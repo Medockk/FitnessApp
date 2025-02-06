@@ -123,17 +123,14 @@ fun SleepTrackerScreen(
                     .fillParentMaxWidth()
                     .background(
                         brush,
-                        RoundedCornerShape(22.dp),
-                        0.8f
+                        RoundedCornerShape(22.dp)
                     ),
                 shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+                colors = CardDefaults.cardColors(Color.Transparent, Color.Unspecified)
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(20.dp)
-                        .background(Color.Transparent)
+                        .padding(start = 20.dp, top = 20.dp)
                 ) {
                     Text(
                         text = "Последний сон",
@@ -144,14 +141,12 @@ fun SleepTrackerScreen(
                         text = state.lastSleep,
                         style = montserrat50016White
                     )
-                    Spacer(Modifier.height(5.dp))
                 }
                 AsyncImage(
                     model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Sleep-Graph.png",
                     contentDescription = null,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.Transparent),
+                        .fillMaxWidth(),
                     contentScale = ContentScale.Crop
                 )
             }
