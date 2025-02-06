@@ -1,23 +1,46 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
 import com.example.fitnessapp.feature_app.domain.model.SleepTracker
 import com.example.fitnessapp.feature_app.domain.repository.SleepRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
+import java.time.LocalDate
 
 class SleepRepositoryImpl : SleepRepository {
 
     override suspend fun getSleepData(): List<SleepTracker> {
 
         val userID = getUserID()
+        val currentDate = LocalDate.now().toString().replace("-",":")
 
         return client.postgrest["SleepTracker"].select {
-            filter { eq("userID", userID) }
+            filter {
+                and {
+                    eq("userID", userID)
+                    eq("date", currentDate)
+                }
+            }
         }.decodeList<SleepTracker>()
     }
 
-    override suspend fun changeEnabled(sleepTracker: SleepTracker) {
+    override suspend fun getAlarmClockData(): List<AlarmClockTracker> {
+
+        val userID = getUserID()
+        val currentData = LocalDate.now().toString().replace("-",":")
+
+        return client.postgrest["AlarmClockTracker"].select {
+            filter {
+                and {
+                    eq("userID", userID)
+                    eq("date", currentData)
+                }
+            }
+        }.decodeList<AlarmClockTracker>()
+    }
+
+    override suspend fun changeSleepEnabled(sleepTracker: SleepTracker) {
 
         val userID = getUserID()
 
@@ -33,18 +56,42 @@ class SleepRepositoryImpl : SleepRepository {
         }
     }
 
-    override suspend fun addAlarm(sleepTracker: SleepTracker) {
+    override suspend fun changeAlarmEnabled(alarmClockTracker: AlarmClockTracker) {
 
         val userID = getUserID()
-        client.postgrest["SleepTracker"].upsert(
-            mapOf(
-                "title" to "Сон",
-            )
-        ){
-            onConflict = "userID"
-            filter { eq("userID", userID) }
+
+        client.postgrest["AlarmClockTracker"].update({
+            set("enabled", alarmClockTracker.enabled)
+        }){
+            filter {
+                and {
+                    eq("userID", userID)
+                    eq("id", alarmClockTracker.id)
+                }
+            }
         }
-        TODO("IDK how do that!")
+    }
+
+    override suspend fun addAlarm(sleepTracker: SleepTracker, alarmClockTracker: AlarmClockTracker) {
+
+        val userID = getUserID()
+        val date = LocalDate.now().plusDays(1).toString().replace("-",":")
+
+        client.postgrest["SleepTracker"].insert(
+            mapOf(
+                "userID" to userID,
+                "date" to date,
+                "time" to sleepTracker.time
+            )
+        )
+
+        client.postgrest["AlarmClockTracker"].insert(
+            mapOf(
+                "userID" to userID,
+                "date" to date,
+                "time" to alarmClockTracker.time
+            )
+        )
     }
 
     private fun getUserID() : String = client.auth.currentUserOrNull()?.id?:""

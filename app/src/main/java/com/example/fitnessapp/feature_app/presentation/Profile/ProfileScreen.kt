@@ -143,7 +143,8 @@ fun ProfileScreen(
                 backgroundColor = _F7F8F8,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 30.dp)
+                    .padding(horizontal = 30.dp),
+                textColor = Color.Black
             ) {
                 navController.popBackStack()
             }

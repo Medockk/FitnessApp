@@ -85,7 +85,8 @@ fun MealDetailScreen(
                     moreInformationClick = {},
                     backgroundColor = _F7F8F8,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    textColor = Color.Transparent
                 ) {
                     navController.popBackStack()
                 }

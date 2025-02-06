@@ -189,7 +189,7 @@ fun CreateProfileScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
+                    .padding(start = 10.dp, end = 30.dp)
             ) {
                 TextField(
                     value = it[2] as String,

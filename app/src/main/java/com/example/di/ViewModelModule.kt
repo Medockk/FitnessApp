@@ -116,12 +116,13 @@ val moduleViewModel = module {
 
     viewModel<SleepTrackerViewModel>{
         SleepTrackerViewModel(
-            get(), get(), get()
+            get(), get(), get(), get(),
+            get()
         )
     }
 
     viewModel<SleepScheduleViewModel>{
-        SleepScheduleViewModel(get(), get())
+        SleepScheduleViewModel(get(), get(), get(),get())
     }
 
     viewModel<AddAlarmViewModel>{

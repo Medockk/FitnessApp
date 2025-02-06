@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -55,7 +56,8 @@ fun NotificationScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             backgroundColor = _F7F8F8,
-            moreInformationClick = {}
+            moreInformationClick = {},
+            textColor = Color.Black
         ) {
             navController.popBackStack()
         }

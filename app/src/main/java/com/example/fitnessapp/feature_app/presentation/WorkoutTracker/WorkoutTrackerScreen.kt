@@ -82,7 +82,8 @@ fun WorkoutTrackerScreen(
                 backgroundColor = _F7F8F8,
                 modifier = Modifier
                     .fillParentMaxWidth()
-                    .padding(horizontal = 30.dp)
+                    .padding(horizontal = 30.dp),
+                textColor = Color.White
             ) {
                 navController.popBackStack()
             }

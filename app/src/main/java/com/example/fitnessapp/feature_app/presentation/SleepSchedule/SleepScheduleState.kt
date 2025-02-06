@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.SleepSchedule
 
+import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
 import com.example.fitnessapp.feature_app.domain.model.SleepTracker
 
 data class SleepScheduleState(
@@ -9,5 +10,6 @@ data class SleepScheduleState(
     val sleepTime: String = "",
     val sleepPercent: Float = 0f,
 
-    val sleepData: List<SleepTracker> = emptyList(),
+    val sleepData: SleepTracker? = null,
+    val alarmClockTracker: AlarmClockTracker? = null,
 )

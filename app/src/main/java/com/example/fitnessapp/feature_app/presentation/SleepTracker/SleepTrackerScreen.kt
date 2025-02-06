@@ -1,8 +1,11 @@
 package com.example.fitnessapp.feature_app.presentation.SleepTracker
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -45,7 +47,7 @@ import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat50014White
 import com.example.fitnessapp.ui.theme.montserrat50016White
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
-import kotlinx.datetime.LocalTime
+import androidx.compose.animation.AnimatedVisibility
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -65,6 +67,8 @@ fun SleepTrackerScreen(
         }
     }
 
+    CustomIndicator(state.showIndicator)
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +79,8 @@ fun SleepTrackerScreen(
             CustomTopAppBar(
                 title = "Трекер сна",
                 moreInformationClick = {},
-                backgroundColor = _F7F8F8
+                backgroundColor = _F7F8F8,
+                textColor = Color.Black
             ) {
                 navController.popBackStack()
             }
@@ -128,7 +133,7 @@ fun SleepTrackerScreen(
                 Column(
                     modifier = Modifier
                         .padding(20.dp)
-                        .background(Color.Unspecified)
+                        .background(Color.Transparent)
                 ) {
                     Text(
                         text = "Последний сон",
@@ -156,7 +161,11 @@ fun SleepTrackerScreen(
                 buttonText = "Проверить",
                 modifier = Modifier.alpha(0.2f)
             ) {
-                navController.navigate(Route.SleepScheduleScreen.route)
+                navController.navigate(Route.SleepScheduleScreen.route){
+                    popUpTo(Route.SleepTrackerScreen.route){
+                        inclusive = true
+                    }
+                }
             }
             Spacer(Modifier.height(30.dp))
             Text(
@@ -166,39 +175,46 @@ fun SleepTrackerScreen(
             Spacer(Modifier.height(15.dp))
         }
 
-        items(state.sleepData) { sleep ->
-            CustomSleepCard(
-                sleep = sleep,
-                sleepEnd = "через ${
-                    if (LocalTime.parse(sleep.time).hour - state.currentTime.hour > 0) {
-                        LocalTime.parse(sleep.time).hour - state.currentTime.hour
-                    } else {
-                        -(LocalTime.parse(sleep.time).hour - state.currentTime.hour)
-                    }
-                } часов " +
-                        "${
-                            if (LocalTime.parse(sleep.time).minute - state.currentTime.minute > 0) {
-                                LocalTime.parse(sleep.time).minute - state.currentTime.minute
-                            } else {
-                                -(LocalTime.parse(sleep.time).minute - state.currentTime.minute)
-                            }
-                        } минуты",
-                modifier = Modifier
-                    .fillParentMaxWidth()
-                    .animateItem(
-                        placementSpec = spring(
-                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                            visibilityThreshold = IntOffset.VisibilityThreshold
-                        ),
-                        fadeInSpec = spring(Spring.DampingRatioMediumBouncy),
-                        fadeOutSpec = spring(Spring.DampingRatioMediumBouncy),
-                    )
+        item{
+            AnimatedVisibility(
+                visible = state.sleepData!=null,
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
             ) {
-                viewModel.onEvent(SleepTrackerEvent.ChangeSleepWorkout(sleep))
+                CustomSleepCard(
+                    sleep = state.sleepData!!,
+                    icon = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Icon-Bed.png",
+                    sleepEnd = state.sleepEnd,
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                        .animateItem(
+                            placementSpec = spring(
+                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                visibilityThreshold = IntOffset.VisibilityThreshold
+                            ),
+                            fadeInSpec = spring(Spring.DampingRatioMediumBouncy),
+                            fadeOutSpec = spring(Spring.DampingRatioMediumBouncy),
+                        )
+                ) {
+                    viewModel.onEvent(SleepTrackerEvent.ChangeSleepWorkout(state.sleepData))
+                }
             }
             Spacer(Modifier.height(15.dp))
         }
-    }
 
-    CustomIndicator(state.showIndicator)
+        item {
+            AnimatedVisibility(
+                visible = state.alarmClockTracker != null,
+                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+            ) {
+                CustomSleepCard(
+                    alarmClockTracker = state.alarmClockTracker!!,
+                    icon = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Icon-Alaarm.png",
+                    alarmEnd = state.alarmEnd,
+                    modifier = Modifier.fillParentMaxWidth(),
+                ) {
+                    viewModel.onEvent(SleepTrackerEvent.ChangeAlarmState(state.alarmClockTracker))
+                }
+            }
+        }
+    }
 }

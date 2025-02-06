@@ -104,7 +104,8 @@ fun WorkoutDetailScreen(
                     backgroundColor = _F7F8F8,
                     moreInformationClick = {},
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    textColor = Color.Transparent
                 ) {
                     navController.popBackStack()
                 }
