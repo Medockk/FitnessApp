@@ -19,17 +19,15 @@ class GalleryRepositoryImpl : GalleryRepository {
     }
 
     override suspend fun getGalleryFromMonthToMonth(
-        firstMonth: Int,
-        secondMonth: Int
+        firstMonth: String,
+        secondMonth: String
     ): List<GalleryData> {
         val userID = getUserID()
 
         return client.postgrest["Gallery"].select {
             filter {
-                and {
-                    eq("userID", userID)
-                    like("date", "%%.$firstMonth.%%")
-                }
+                eq("userID", userID)
+                eq("date", "2025-$firstMonth-07")
             }
         }.decodeList<GalleryData>()
     }
@@ -56,7 +54,7 @@ class GalleryRepositoryImpl : GalleryRepository {
 
     }
 
-    private fun getUserID() : String{
-        return client.auth.currentUserOrNull()?.id?:""
+    private fun getUserID(): String {
+        return client.auth.currentUserOrNull()?.id ?: ""
     }
 }

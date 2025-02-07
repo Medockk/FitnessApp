@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.presentation.ProgressPhoto
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,9 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -64,7 +64,7 @@ fun ProgressPhotoScreen(
 
     val state = viewModel.state.value
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(description = state.exception) {
             viewModel.onEvent(ProgressPhotoEvent.ResetException)
         }
@@ -86,8 +86,8 @@ fun ProgressPhotoScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 30.dp)
             ) {
-                navController.navigate(Route.HomeScreen.route){
-                    popUpTo(Route.ProgressPhotoScreen.route){
+                navController.navigate(Route.HomeScreen.route) {
+                    popUpTo(Route.ProgressPhotoScreen.route) {
                         inclusive = true
                     }
                 }
@@ -112,23 +112,27 @@ fun ProgressPhotoScreen(
                 Card(
                     modifier = Modifier
                         .fillParentMaxWidth()
-                        .background(Brush.linearGradient(listOf(_FF0000,_FF0000)), RoundedCornerShape(20.dp),0.1f),
+                        .background(
+                            Brush.linearGradient(listOf(_FF0000, _FF0000)),
+                            RoundedCornerShape(20.dp),
+                            0.1f
+                        ),
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(Color.Transparent,Color.Transparent)
+                    colors = CardDefaults.cardColors(Color.Transparent, Color.Transparent)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(15.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Box(
                             modifier = Modifier
                                 .size(60.dp)
                                 .clip(CircleShape)
                                 .background(Color.White, CircleShape),
                             contentAlignment = Alignment.Center
-                        ){
+                        ) {
                             AsyncImage(
                                 model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//PhotoNotification.png",
                                 contentDescription = null,
@@ -168,8 +172,12 @@ fun ProgressPhotoScreen(
                 Card(
                     modifier = Modifier
                         .fillParentMaxWidth()
-                        .background(Brush.linearGradient(listOf(_228F7D, _9CEEDF)), RoundedCornerShape(22.dp), 0.8f),
-                    colors = CardDefaults.cardColors(Color.Transparent,Color.Transparent),
+                        .background(
+                            Brush.linearGradient(listOf(_228F7D, _9CEEDF)),
+                            RoundedCornerShape(22.dp),
+                            0.8f
+                        ),
+                    colors = CardDefaults.cardColors(Color.Transparent, Color.Transparent),
                     shape = RoundedCornerShape(22.dp)
                 ) {
                     Row(
@@ -227,19 +235,20 @@ fun ProgressPhotoScreen(
             }
 
             item {
-                LazyHorizontalGrid(
-                    rows = GridCells.Adaptive(200.dp),
+                LazyRow(
                     modifier = Modifier
-                        .fillParentMaxSize()
+                        .fillParentMaxSize(),
                 ) {
-                    itemsIndexed(state.gallery.sortedBy {item -> item.date }){index, gallery ->
-                        Column {
+                    itemsIndexed(state.gallery.sortedBy { item -> item.date }) { index, gallery ->
+                        Column(
+                            verticalArrangement = Arrangement.Center
+                        ) {
                             androidx.compose.animation.AnimatedVisibility(
-                                visible = state.gallery.size > index+1
+                                visible = state.gallery.size > index + 1
                             ) {
-                                if (gallery.date != state.gallery[index+1].date){
+                                if (gallery.date != state.gallery[index + 1].date) {
                                     Text(
-                                        text = state.gallery[index+1].date,
+                                        text = state.gallery[index + 1].date,
                                         style = montserrat40012_B6B4C2
                                     )
                                 }

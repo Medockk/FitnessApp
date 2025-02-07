@@ -7,5 +7,8 @@ data class ComparisonState(
     val firstMount: String = "",
     val secondMount: String = "",
 
+    val showFirstMonthDropDownMenu: Boolean = false,
+    val showSecondMonthDropDownMenu: Boolean = false,
+
     val comparisonResult: List<Int> = emptyList(),
 )

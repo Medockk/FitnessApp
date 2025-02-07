@@ -6,7 +6,7 @@ interface GalleryRepository {
 
     suspend fun getAllGallery() : List<GalleryData>
 
-    suspend fun getGalleryFromMonthToMonth(firstMonth: Int, secondMonth: Int) : List<GalleryData>
+    suspend fun getGalleryFromMonthToMonth(firstMonth: String, secondMonth: String) : List<GalleryData>
 
     suspend fun uploadPhoto(photo: ByteArray, category: String)
 }

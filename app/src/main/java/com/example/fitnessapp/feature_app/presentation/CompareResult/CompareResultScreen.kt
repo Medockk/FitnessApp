@@ -18,6 +18,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
@@ -49,6 +52,7 @@ import androidx.navigation.NavController
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomCanvasBarChart
 import com.example.common.CustomIndicator
+import com.example.common.CustomPhotoCard
 import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._9CEEDF
@@ -194,7 +198,7 @@ fun CompareResultScreen(
                     ) {
                         Text(
                             text = "Фото",
-                            style = if (pagerState.currentPage==1) montserrat50016White else montserrat40016_A5A3B0
+                            style = if (pagerState.currentPage==0) montserrat50016White else montserrat40016_A5A3B0
                         )
                     }
                     Spacer(Modifier.width(15.dp))
@@ -221,7 +225,7 @@ fun CompareResultScreen(
                     ) {
                         Text(
                             text = "Статистика",
-                            style = if (pagerState.currentPage==2) montserrat50016White else montserrat40016_A5A3B0
+                            style = if (pagerState.currentPage==1) montserrat50016White else montserrat40016_A5A3B0
                         )
                     }
                 }
@@ -288,14 +292,30 @@ fun CompareResultScreen(
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = "",
+                                    text = state.firstMonth,
                                     style = montserrat60016_B6B4C2
                                 )
                                 Spacer(Modifier.weight(1f))
                                 Text(
-                                    text = "",
+                                    text = state.secondMonth,
                                     style = montserrat60016_B6B4C2
                                 )
+                            }
+                            Spacer(Modifier.height(20.dp))
+                        }
+                        item {
+                            LazyVerticalGrid(
+                                columns = GridCells.Fixed(2),
+                                modifier = Modifier
+                                    .fillParentMaxSize()
+                            ) {
+                                items(state.gallery){gallery ->
+                                    CustomPhotoCard(
+                                        photo = gallery.photo,
+                                        modifier = Modifier
+                                            .size(150.dp)
+                                    )
+                                }
                             }
                         }
                     }else{
