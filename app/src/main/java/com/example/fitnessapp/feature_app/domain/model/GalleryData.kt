@@ -15,5 +15,8 @@ data class GalleryData(
         const val reverseSide = "Обратной стороной"
         const val leftSide = "Левая сторона"
         const val rightSide = "Правая сторона"
+
+        var firstMonth = ""
+        var secondMonth = ""
     }
 }
