@@ -42,4 +42,5 @@ sealed class Route(val route: String) {
     data object AddAlarmScreen : Route("AddAlarmScreen")
 
     data object ComparisonScreen : Route("ComparisonScreen")
+    data object CompareResultScreen : Route("CompareResultScreen")
 }

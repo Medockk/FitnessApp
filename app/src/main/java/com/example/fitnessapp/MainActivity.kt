@@ -32,6 +32,7 @@ import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityT
 import com.example.fitnessapp.feature_app.presentation.AddAlarm.AddAlarmScreen
 import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.AddWorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastScreen
+import com.example.fitnessapp.feature_app.presentation.CompareResult.CompareResultScreen
 import com.example.fitnessapp.feature_app.presentation.Comparison.ComparisonScreen
 import com.example.fitnessapp.feature_app.presentation.Congratulations.CongratulationsScreen
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileScreen
@@ -191,6 +192,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.ComparisonScreen.route){
                         ComparisonScreen(navController)
+                    }
+                    composable(Route.CompareResultScreen.route){
+                        CompareResultScreen(navController)
                     }
                 }
             }

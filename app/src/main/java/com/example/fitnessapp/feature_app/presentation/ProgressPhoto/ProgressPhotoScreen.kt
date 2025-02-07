@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -36,6 +39,7 @@ import com.example.common.CustomAlertDialog
 import com.example.common.CustomGreenButton
 import com.example.common.CustomIndicator
 import com.example.common.CustomLightGreenCard
+import com.example.common.CustomPhotoCard
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.ui.theme._1D1617
@@ -44,6 +48,7 @@ import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme._B6B4C2
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme._FF0000
+import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat40012_FF0000
 import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
 import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
@@ -219,6 +224,35 @@ fun ProgressPhotoScreen(
                     )
                 }
                 Spacer(Modifier.height(15.dp))
+            }
+
+            item {
+                LazyHorizontalGrid(
+                    rows = GridCells.Adaptive(200.dp),
+                    modifier = Modifier
+                        .fillParentMaxSize()
+                ) {
+                    itemsIndexed(state.gallery.sortedBy {item -> item.date }){index, gallery ->
+                        Column {
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = state.gallery.size > index+1
+                            ) {
+                                if (gallery.date != state.gallery[index+1].date){
+                                    Text(
+                                        text = state.gallery[index+1].date,
+                                        style = montserrat40012_B6B4C2
+                                    )
+                                }
+                            }
+                            CustomPhotoCard(
+                                photo = gallery.photo,
+                                modifier = Modifier
+                                    .size(100.dp)
+                            )
+                        }
+                        Spacer(Modifier.size(10.dp))
+                    }
+                }
             }
         }
     }

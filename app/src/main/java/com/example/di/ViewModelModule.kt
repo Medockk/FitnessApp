@@ -4,6 +4,7 @@ import com.example.fitnessapp.feature_app.presentation.ActivityTracker.ActivityT
 import com.example.fitnessapp.feature_app.presentation.AddAlarm.AddAlarmViewModel
 import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.AddWorkoutScheduleViewModel
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.CategoryBreakfastViewModel
+import com.example.fitnessapp.feature_app.presentation.CompareResult.CompareResultViewModel
 import com.example.fitnessapp.feature_app.presentation.Comparison.ComparisonViewModel
 import com.example.fitnessapp.feature_app.presentation.CreateProfile.CreateProfileViewModel
 import com.example.fitnessapp.feature_app.presentation.Home.HomeViewModel
@@ -132,10 +133,14 @@ val moduleViewModel = module {
     }
 
     viewModel<ProgressPhotoViewModel>{
-        ProgressPhotoViewModel()
+        ProgressPhotoViewModel(get())
     }
 
     viewModel<ComparisonViewModel>{
         ComparisonViewModel()
+    }
+
+    viewModel<CompareResultViewModel>{
+        CompareResultViewModel()
     }
 }

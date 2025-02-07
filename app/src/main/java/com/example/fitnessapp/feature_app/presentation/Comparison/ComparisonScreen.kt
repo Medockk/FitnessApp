@@ -24,6 +24,7 @@ import com.example.common.CustomGreenButton
 import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
+import com.example.fitnessapp.Route
 import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._F7F8F8
 import org.koin.androidx.compose.koinViewModel
@@ -104,6 +105,7 @@ fun ComparisonScreen(
                 .fillMaxWidth()
         ) {
            viewModel.onEvent(ComparisonEvent.ComparisonClick)
+            navController.navigate(Route.CompareResultScreen.route)
         }
     }
 }
