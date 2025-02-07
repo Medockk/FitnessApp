@@ -2,6 +2,7 @@ package com.example.fitnessapp
 
 import android.app.Application
 import com.example.di.moduleAuth
+import com.example.di.moduleGallery
 import com.example.di.moduleMeal
 import com.example.di.moduleQueue
 import com.example.di.moduleSleep
@@ -25,7 +26,7 @@ class App : Application() {
                 listOf(
                     moduleQueue, moduleViewModel, moduleAuth,
                     moduleUser, moduleWorkout, moduleMeal,
-                    moduleSleep
+                    moduleSleep, moduleGallery
                 )
             )
         }
