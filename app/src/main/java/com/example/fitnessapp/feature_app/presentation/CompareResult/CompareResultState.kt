@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.presentation.CompareResult
 
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
+import com.example.fitnessapp.feature_app.domain.model.StatisticData
 
 data class CompareResultState(
     val exception: String = "",
@@ -13,6 +14,7 @@ data class CompareResultState(
     val secondMonth: String = "",
 
     val gallery: List<GalleryData> = emptyList(),
+    val statistic: List<StatisticData> = emptyList(),
 
     val statisticList: List<Float> = listOf(5f, 3f, 4f, 1f, 1f, 2f, 5f),
 )

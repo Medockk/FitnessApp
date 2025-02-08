@@ -141,6 +141,6 @@ val moduleViewModel = module {
     }
 
     viewModel<CompareResultViewModel>{
-        CompareResultViewModel(get())
+        CompareResultViewModel(get(), get())
     }
 }

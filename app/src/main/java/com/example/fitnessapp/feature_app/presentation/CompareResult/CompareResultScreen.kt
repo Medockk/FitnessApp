@@ -1,14 +1,16 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.fitnessapp.feature_app.presentation.CompareResult
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +22,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
@@ -45,24 +48,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.common.CustomAlertDialog
 import com.example.common.CustomCanvasBarChart
+import com.example.common.CustomGreenButton
 import com.example.common.CustomIndicator
 import com.example.common.CustomPhotoCard
+import com.example.fitnessapp.feature_app.presentation.CompareResult.compontns.CustomStatisticBar
 import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme._A5A3B0
 import com.example.fitnessapp.ui.theme._A8E3D9
 import com.example.fitnessapp.ui.theme._F7F8F8
+import com.example.fitnessapp.ui.theme.montserrat40010_42D742
 import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat40016_A5A3B0
 import com.example.fitnessapp.ui.theme.montserrat50012White
 import com.example.fitnessapp.ui.theme.montserrat50012_42D742
+import com.example.fitnessapp.ui.theme.montserrat50014_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat50016White
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
 import com.example.fitnessapp.ui.theme.montserrat60016_B6B4C2
@@ -140,7 +148,7 @@ fun CompareResultScreen(
                         }
                         Spacer(Modifier.width(15.dp))
                         IconButton(
-                            onClick = {navController.popBackStack()},
+                            onClick = {},
                             modifier = Modifier
                                 .clip(RoundedCornerShape(8.dp))
                                 .size(32.dp)
@@ -309,12 +317,23 @@ fun CompareResultScreen(
                                 modifier = Modifier
                                     .fillParentMaxSize()
                             ) {
-                                items(state.gallery){gallery ->
-                                    CustomPhotoCard(
-                                        photo = gallery.photo,
-                                        modifier = Modifier
-                                            .size(150.dp)
-                                    )
+                                itemsIndexed(state.gallery.sortedBy {item -> item.category}){index, gallery ->
+                                    Column {
+                                        Text(
+                                            text = gallery.category,
+                                            style = montserrat50014_B6B4C2,
+                                            modifier = Modifier
+                                                .padding(top = 15.dp),
+                                            textAlign = TextAlign.Center
+                                        )
+                                        CustomPhotoCard(
+                                            photo = gallery.photo,
+                                            modifier = Modifier
+                                                .fillParentMaxWidth(0.47f)
+                                                .height(150.dp)
+                                                .padding(top = 15.dp)
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -334,6 +353,69 @@ fun CompareResultScreen(
                                         .fillParentMaxWidth()
                                 )
                             }
+                            Spacer(Modifier.height(15.dp))
+                            Box(
+                                modifier = Modifier
+                                    .fillParentMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Card(
+                                    colors = CardDefaults.cardColors(Color.White),
+                                    shape = RoundedCornerShape(8.dp),
+                                    elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
+                                ) {
+                                    Text(
+                                        text = "Увеличено на 43% ",
+                                        style = montserrat40010_42D742,
+                                        modifier = Modifier
+                                            .padding(10.dp)
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.height(15.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillParentMaxWidth()
+                            ) {
+                                Text(
+                                    text = state.firstMonth,
+                                    style = montserrat60016_B6B4C2
+                                )
+                                Spacer(Modifier.weight(1f))
+                                Text(
+                                    text = state.secondMonth,
+                                    style = montserrat60016_B6B4C2
+                                )
+                            }
+                            Spacer(Modifier.height(20.dp))
+                        }
+
+                        itemsIndexed(state.statistic){index, statistic ->
+                            Log.i("index", index.toString())
+                            AnimatedVisibility(
+                                visible = state.statistic.isNotEmpty(),
+                                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing))
+                            ) {
+                                Log.e("enter", statistic.toString())
+                                CustomStatisticBar(
+                                    statisticData = statistic,
+                                    modifier = Modifier
+                                        .fillParentMaxWidth()
+                                )
+                            }
+                            Spacer(Modifier.height(20.dp))
+                        }
+
+                        item {
+                            CustomGreenButton(
+                                text = "Назад",
+                                modifier = Modifier
+                                    .fillParentMaxWidth()
+                            ) {
+                                navController.popBackStack()
+                            }
+                            Spacer(Modifier.height((LocalConfiguration.current.screenHeightDp/20).dp))
                         }
                     }
                 }
