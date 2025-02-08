@@ -6,6 +6,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.fitnessapp.R
 
@@ -258,7 +259,14 @@ val montserrat50014_ADA4A5 = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(500),
     fontSize = 14.sp,
-    color = _ADA4A5
+    color = _ADA4A5,
+    textAlign = TextAlign.Center
+)
+val montserrat50014_B6B4C2 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(500),
+    fontSize = 14.sp,
+    color = _B6B4C2
 )
 val montserrat50014_1D1617 = TextStyle (
     fontFamily = FontFamilyMontserrat,

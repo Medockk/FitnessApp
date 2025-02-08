@@ -6,13 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
-import com.example.fitnessapp.feature_app.domain.usecase.Gallery.GetGalleryFromMonthToMonthUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Compare.GetGalleryFromMonthToMonthUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetStatisticFromMonthToMonthUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CompareResultViewModel(
-    private val getGalleryFromMonthToMonthUseCase: GetGalleryFromMonthToMonthUseCase
+    private val getGalleryFromMonthToMonthUseCase: GetGalleryFromMonthToMonthUseCase,
+    private val getStatisticFromMonthToMonthUseCase: GetStatisticFromMonthToMonthUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(CompareResultState())
@@ -39,10 +41,23 @@ class CompareResultViewModel(
         )
 
         Log.e("gallery", gallery.toString())
+
         withContext(Dispatchers.Main) {
-            _state.value.copy(
+            _state.value = state.value.copy(
                 gallery = gallery
             )
+        }
+
+        val statistic = getStatisticFromMonthToMonthUseCase(
+            firstMonthNumber, secondMonthNumber
+        )
+
+        statistic.sortedBy { it.type }.forEach {
+            withContext(Dispatchers.Main){
+                _state.value = state.value.copy(
+                    statistic = _state.value.statistic+it
+                )
+            }
         }
     }
 
@@ -62,23 +77,23 @@ class CompareResultViewModel(
     }
     private fun getMonthNumber(month: String): String {
         return if (month.trim() == "Январь") {
-            "01"
+            "1"
         } else if (month.trim() == "Февраль") {
-            "02"
+            "2"
         } else if (month.trim() == "Март") {
-            "03"
+            "3"
         } else if (month.trim() == "Апрель") {
-            "04"
+            "4"
         } else if (month.trim() == "Май") {
-            "05"
+            "5"
         } else if (month.trim() == "Июнь") {
-            "06"
+            "6"
         } else if (month.trim() == "Июль") {
-            "07"
+            "7"
         } else if (month.trim() == "Август") {
-            "08"
+            "8"
         } else if (month.trim() == "Сентябрь") {
-            "09"
+            "9"
         } else if (month.trim() == "Октябрь") {
             "10"
         } else if (month.trim() == "Ноябрь") {
