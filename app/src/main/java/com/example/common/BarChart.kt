@@ -1,6 +1,5 @@
 package com.example.common
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -60,7 +59,6 @@ fun BarChart(
                         size = Size(barWidth, height),
                         topLeft = Offset(x, y)
                     )
-                    Log.e("index", "$x $y\n$height $index")
                 }
             }
         }

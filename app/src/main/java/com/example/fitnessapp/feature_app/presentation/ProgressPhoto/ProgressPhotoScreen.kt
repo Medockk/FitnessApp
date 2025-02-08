@@ -118,7 +118,10 @@ fun ProgressPhotoScreen(
                             0.1f
                         ),
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(Color.Transparent, Color.Transparent)
+                    colors = CardDefaults.cardColors(Color.Transparent, Color.Transparent),
+                    onClick = {
+                        navController.navigate(Route.TakePhotoScreen.route)
+                    }
                 ) {
                     Row(
                         modifier = Modifier

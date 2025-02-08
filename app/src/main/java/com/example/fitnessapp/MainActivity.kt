@@ -50,6 +50,7 @@ import com.example.fitnessapp.feature_app.presentation.SleepSchedule.SleepSchedu
 import com.example.fitnessapp.feature_app.presentation.SleepTracker.SleepTrackerScreen
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutScreen
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationScreen
+import com.example.fitnessapp.feature_app.presentation.TakePhoto.TakePhotoScreen
 import com.example.fitnessapp.feature_app.presentation.Welcome.WelcomeScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleScreen
@@ -195,6 +196,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.CompareResultScreen.route){
                         CompareResultScreen(navController)
+                    }
+                    composable(Route.TakePhotoScreen.route){
+                        TakePhotoScreen(navController)
                     }
                 }
             }
