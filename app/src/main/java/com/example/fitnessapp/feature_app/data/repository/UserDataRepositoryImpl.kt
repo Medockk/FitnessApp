@@ -17,7 +17,8 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun getUserData(): UserData {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
+
         return client.postgrest["Users"].select {
             filter {
                 eq("userID", userID)
@@ -27,7 +28,7 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun updateUserData(userData: UserData) {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
         client.postgrest["Users"].update({
             set("fio", userData.fio)
@@ -44,7 +45,8 @@ class UserDataRepositoryImpl : UserDataRepository {
     }
 
     override suspend fun getUserStatistics(): List<UserStatistics> {
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
+
         return client.postgrest["UserStatistics"].select {
             filter { eq("userID", userID) }
         }.decodeList<UserStatistics>()
@@ -52,7 +54,7 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun getNotifications(): List<NotificationData> {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
         return client.postgrest["Notification"].select {
             filter { eq("userID", userID) }
@@ -61,7 +63,7 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun getPurpose(): Purpose {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
         return client.postgrest["Purpose"].select {
             filter { eq("userID", userID) }
@@ -70,7 +72,7 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun getLastActivity(): List<LastActivityData> {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
         return client.postgrest["LastActivity"].select {
             filter { eq("userID", userID) }
@@ -79,7 +81,7 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun getUserImage(): String {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
         val bucket = client.storage.from("avatars")
         val url = bucket.createSignedUrl("$userID.png", Duration.INFINITE)
 
@@ -88,13 +90,10 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun setUserImage(byteArray: ByteArray) {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
-        val signedUploadUrl = client.storage.from("avatars").createSignedUploadUrl("$userID.png", upsert = true)
-
-        client.storage.from("avatars").uploadToSignedUrl(
+        client.storage.from("avatars").upload(
             path = "$userID.png",
-            token = signedUploadUrl.token,
             data = byteArray
         ){
             upsert = true
@@ -103,10 +102,15 @@ class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun getHeartRate(): HeartRate {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
         return client.postgrest["HeartRate"].select {
             filter { eq("userID", userID) }
         }.decodeSingle<HeartRate>()
+    }
+
+    private suspend fun getUserID() : String{
+        client.auth.awaitInitialization()
+        return client.auth.currentUserOrNull()?.id ?: ""
     }
 }

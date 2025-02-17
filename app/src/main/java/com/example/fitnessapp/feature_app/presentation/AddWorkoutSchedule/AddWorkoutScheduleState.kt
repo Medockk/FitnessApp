@@ -10,6 +10,6 @@ data class AddWorkoutScheduleState(
     val year: String = "",
     val currentDayName: String = "",
 
-    val title: String = "",
+    val title: String = "Вверхняя часть",
     val showIndicator: Boolean = false,
 )

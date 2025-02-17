@@ -406,20 +406,21 @@ fun CompareResultScreen(
                             }
                             Spacer(Modifier.height(20.dp))
                         }
-
-                        item {
-                            CustomGreenButton(
-                                text = "Назад",
-                                modifier = Modifier
-                                    .fillParentMaxWidth()
-                            ) {
-                                navController.popBackStack()
-                            }
-                            Spacer(Modifier.height((LocalConfiguration.current.screenHeightDp/20).dp))
-                        }
                     }
                 }
             }
+        }
+
+        item {
+            Spacer(Modifier.height(30.dp))
+            CustomGreenButton(
+                text = "Назад",
+                modifier = Modifier
+                    .fillParentMaxWidth()
+            ) {
+                navController.popBackStack()
+            }
+            Spacer(Modifier.height((LocalConfiguration.current.screenHeightDp/20).dp))
         }
     }
 }

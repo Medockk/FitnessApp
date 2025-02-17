@@ -21,6 +21,7 @@ import com.example.fitnessapp.feature_app.presentation.SleepSchedule.SleepSchedu
 import com.example.fitnessapp.feature_app.presentation.SleepTracker.SleepTrackerViewModel
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutViewModel
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationViewModel
+import com.example.fitnessapp.feature_app.presentation.TakePhoto.TakePhotoViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutViewModel
@@ -142,5 +143,9 @@ val moduleViewModel = module {
 
     viewModel<CompareResultViewModel>{
         CompareResultViewModel(get(), get())
+    }
+
+    viewModel<TakePhotoViewModel> {
+        TakePhotoViewModel(get())
     }
 }

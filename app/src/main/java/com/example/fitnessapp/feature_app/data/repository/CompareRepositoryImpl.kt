@@ -1,5 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import android.graphics.Bitmap
+import android.util.Log
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
@@ -8,6 +10,7 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
 import kotlinx.datetime.Month
+import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import kotlin.time.Duration
 
@@ -30,7 +33,13 @@ class CompareRepositoryImpl : CompareRepository {
         val month1 = Month(firstMonth.toInt())
         val month2 = Month(secondMonth.toInt())
         val date = kotlinx.datetime.LocalDate(currentTime.year, month1, 1)
-        val date1 = kotlinx.datetime.LocalDate(currentTime.year, month2, month2.maxLength())
+        val date1 = kotlinx.datetime.LocalDate(
+            currentTime.year, month2, if (secondMonth.toInt() == 2) {
+                month2.maxLength() - 1
+            } else {
+                month2.maxLength()
+            }
+        )
 
         return client.postgrest["Gallery"].select {
             filter {
@@ -53,7 +62,11 @@ class CompareRepositoryImpl : CompareRepository {
         val month1 = Month(firstMonth.toInt())
 
         val date1 = kotlinx.datetime.LocalDate(currentTime.year, month1, 1)
-        val date2 = kotlinx.datetime.LocalDate(currentTime.year, month1, if (currentTime.year % 4 == 0) month1.maxLength() else month1.maxLength()-1)
+        val date2 = kotlinx.datetime.LocalDate(
+            currentTime.year,
+            month1,
+            if (currentTime.year % 4 == 0) month1.maxLength() else month1.maxLength() - 1
+        )
 
         return client.postgrest["UserStatistic"].select {
             filter {
@@ -66,16 +79,18 @@ class CompareRepositoryImpl : CompareRepository {
         }.decodeList<StatisticData>()
     }
 
-    override suspend fun uploadPhoto(photo: ByteArray, category: String) {
+    override suspend fun uploadPhoto(photo: Bitmap, category: String) {
 
         val userID = getUserID()
+        Log.e("uploadID", userID)
         val bucket = client.storage.from("gallery")
 
-        val signedUploadUrl = bucket.createSignedUploadUrl("$userID.png")
-        client.storage.from("gallery").uploadToSignedUrl(
-            path = "$userID.png", token = signedUploadUrl.token,
-            data = photo
-        )
+        client.storage.from("gallery").upload(
+            "$userID.png",
+            data = photo.toByteArray()
+        ) {
+            this.upsert = true
+        }
 
         val url = bucket.createSignedUrl("$userID.png", Duration.INFINITE)
         client.postgrest["Gallery"].insert(
@@ -85,10 +100,16 @@ class CompareRepositoryImpl : CompareRepository {
                 "category" to category
             )
         )
-
     }
 
-    private fun getUserID(): String {
+    private suspend fun getUserID(): String {
+        client.auth.awaitInitialization()
         return client.auth.currentUserOrNull()?.id ?: ""
+    }
+
+    private fun Bitmap.toByteArray(): ByteArray {
+        val stream = ByteArrayOutputStream()
+        this.compress(Bitmap.CompressFormat.PNG, 60, stream)
+        return stream.toByteArray()
     }
 }

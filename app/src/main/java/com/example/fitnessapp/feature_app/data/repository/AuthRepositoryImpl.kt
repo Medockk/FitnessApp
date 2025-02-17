@@ -21,13 +21,18 @@ class AuthRepositoryImpl : AuthRepository {
     override suspend fun signInWithGoogle(): Boolean {
 
         Log.e("sign in google", "use case")
-        val userID = client.auth.currentUserOrNull()?.id ?: ""
+        val userID = getUserID()
 
-        client.postgrest["Users"].select {
-            filter { eq("userID", userID) }
-        }.decodeSingle<UserData>()
+        try {
+            client.postgrest["Users"].select {
+                filter { eq("userID", userID) }
+            }.decodeSingle<UserData>()
+            return true
+        } catch (e: Exception) {
+            Log.i("catch", userID)
+            return false
+        }
 
-        return true
     }
 
     override suspend fun signUp(mail: String, pass: String, userData: UserData) {
@@ -36,7 +41,7 @@ class AuthRepositoryImpl : AuthRepository {
             password = pass
         }
 
-        val userID = client.auth.currentUserOrNull()?.id ?: ""
+        val userID = getUserID()
         client.postgrest["Users"].insert(
             mapOf(
                 "userID" to userID,
@@ -51,7 +56,7 @@ class AuthRepositoryImpl : AuthRepository {
     override suspend fun signUpWithGoogle(): Boolean {
 
         try {
-            val userID = client.auth.currentUserOrNull()?.id ?: ""
+            val userID = getUserID()
             client.postgrest["Users"].select {
                 filter { eq("userID", userID) }
             }
@@ -67,7 +72,7 @@ class AuthRepositoryImpl : AuthRepository {
         weight: String,
         height: String
     ) {
-        val userID = client.auth.currentUserOrNull()?.id ?: ""
+        val userID = getUserID()
         client.postgrest["Users"].update(
             mapOf(
                 "gender" to gender,
@@ -84,7 +89,7 @@ class AuthRepositoryImpl : AuthRepository {
 
     override suspend fun selectPurpose(purpose: String) {
 
-        val userID = client.auth.currentUserOrNull()?.id ?: ""
+        val userID = getUserID()
         client.postgrest["Purpose"].insert(
             mapOf(
                 "userID" to userID,
@@ -98,7 +103,6 @@ class AuthRepositoryImpl : AuthRepository {
         var heartRate = ""
 
         for (i in 0..11){
-
             heartRate += Random.nextInt(1, 6).toString() + " "
         }
 
@@ -107,7 +111,7 @@ class AuthRepositoryImpl : AuthRepository {
 
     private suspend fun setSomeUserData() {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
         val heartRate = getRandomHeartRate()
 
         client.postgrest["HeartRate"].insert(
@@ -185,5 +189,10 @@ class AuthRepositoryImpl : AuthRepository {
             "title" to "TITLE 4",
             "description" to "DESCRIPTION 4"
         ))
+    }
+
+    private suspend fun getUserID(): String {
+        client.auth.awaitInitialization()
+        return client.auth.currentUserOrNull()?.id ?: ""
     }
 }

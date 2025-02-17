@@ -3,6 +3,7 @@ package com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.common.CustomAlertCard
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomDropDownMenu
 import com.example.common.CustomGreenButton
 import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
@@ -49,25 +51,29 @@ fun AddWorkoutScheduleScreen(
             ImageVector.vectorResource(R.drawable.dumbbells_icon),
             "Трениовка",
             "Вверхняя часть",
-            {}
+            {} as () -> Unit,
+            listOf("Вверхняя часть","Нижняя часть","пресса")
         ),
         listOf(
             ImageVector.vectorResource(R.drawable.height_icon),
             "Сложность",
             "Начинающй",
-            {}
+            {} as () -> Unit,
+            listOf("")
         ),
         listOf(
             ImageVector.vectorResource(R.drawable.custom_repeats_icon),
             "Пользовательские повторы",
             "",
-            {}
+            {} as () -> Unit,
+            listOf("")
         ),
         listOf(
             ImageVector.vectorResource(R.drawable.custom_repeats_icon),
             "Пользовательские веса",
             "",
-            {}
+            {} as () -> Unit,
+            listOf("")
         ),
     )
 
@@ -149,13 +155,22 @@ fun AddWorkoutScheduleScreen(
         }
 
         items(workoutDetailList) { list ->
-            CustomAlertCard(
-                icon = list[0] as ImageVector,
-                title = list[1] as String,
-                description = list[2] as String,
-                onClick = list[3] as () -> Unit
-            )
-            Spacer(Modifier.height(10.dp))
+            Column {
+                Row {
+                    CustomAlertCard(
+                        icon = list[0] as ImageVector,
+                        title = list[1] as String,
+                        description = list[2] as String,
+                        onClick = list[3] as () -> Unit
+                    )
+                    CustomDropDownMenu(
+                        list = list[4] as List<String>,
+                        expanded = true,
+                        onDismissClick = {},
+                    ) { }
+                }
+                Spacer(Modifier.height(10.dp))
+            }
         }
     }
 
