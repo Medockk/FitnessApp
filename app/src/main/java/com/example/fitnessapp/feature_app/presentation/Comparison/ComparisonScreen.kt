@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.common.CustomAlertCard
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomDropDownMenu
 import com.example.common.CustomGreenButton
 import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
-import com.example.fitnessapp.feature_app.presentation.Comparison.componets.CustomDropDownMenu
 import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._F7F8F8
 import org.koin.androidx.compose.koinViewModel
@@ -103,6 +103,20 @@ fun ComparisonScreen(
                 ) {
                     CustomDropDownMenu(
                         expanded = it[4] as Boolean,
+                        list = listOf(
+                            "Январь",
+                            "Февраль",
+                            "Март",
+                            "Апрель",
+                            "Май",
+                            "Июнь",
+                            "Июль",
+                            "Август",
+                            "Сентябрь",
+                            "Октябрь",
+                            "Ноябрь",
+                            "Декабрь",
+                        ),
                         onDismissClick = it[5] as () -> Unit
                     ) { string ->
                         (it[3] as (String) -> Unit).invoke(string)

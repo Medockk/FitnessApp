@@ -35,7 +35,7 @@ class MealRepositoryImpl : MealRepository {
 
     override suspend fun getUserMealSchedule(): List<UserMealSchedule> {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
         return client.postgrest["UserMealSchedule"].select {
             filter { eq("userID", userID) }
@@ -44,12 +44,17 @@ class MealRepositoryImpl : MealRepository {
 
     override suspend fun addMealToUserMealSchedule(meal: DietaryRecommendation) {
 
-        val userID = client.auth.currentUserOrNull()?.id?:""
+        val userID = getUserID()
 
         client.postgrest["UserMealSchedule"].insert(mapOf(
             "userID" to userID,
             "category" to meal.category,
             "mealID" to meal.id.toString()
         ))
+    }
+
+    private suspend fun getUserID() : String{
+        client.auth.awaitInitialization()
+        return client.auth.currentUserOrNull()?.id ?: ""
     }
 }

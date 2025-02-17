@@ -412,6 +412,7 @@ fun CompareResultScreen(
         }
 
         item {
+            Spacer(Modifier.height(30.dp))
             CustomGreenButton(
                 text = "Назад",
                 modifier = Modifier

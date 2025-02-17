@@ -38,9 +38,10 @@ class AddWorkoutScheduleViewModel(
             AddWorkoutScheduleEvent.AddWorkout -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     _state.value = state.value.copy(showIndicator = true)
+                    val time = _state.value.hour + _state.value.minute
                     setWorkoutScheduleUseCase(
                         WorkoutSchedule(
-                            0, "", _state.value.title, ""
+                            0, time, "Тренировка ${_state.value.title}", ""
                         )
                     )
                     _state.value = state.value.copy(showIndicator = false)

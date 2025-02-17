@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -261,6 +262,9 @@ fun MealDetailScreen(
                     CustomGreenButton(
                         text = "Добавить к завтраку",
                         modifier = Modifier.fillMaxWidth()
+                            .padding(
+                                bottom = (LocalConfiguration.current.screenHeightDp / 20).dp
+                            )
                     ) {
                         viewModel.onEvent(MealDetailsEvent.AddToBreakfast(meal))
                     }

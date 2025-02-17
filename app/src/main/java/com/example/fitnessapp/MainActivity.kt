@@ -198,7 +198,7 @@ class MainActivity : ComponentActivity() {
                         CompareResultScreen(navController)
                     }
                     composable(Route.TakePhotoScreen.route){
-                        TakePhotoScreen(navController)
+                        TakePhotoScreen()
                     }
                 }
             }

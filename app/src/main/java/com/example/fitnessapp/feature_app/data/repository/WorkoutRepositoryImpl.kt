@@ -66,9 +66,8 @@ class WorkoutRepositoryImpl : WorkoutRepository {
         ))
     }
 
-    private fun getUserID() : String{
-
-        val userID = client.auth.currentUserOrNull()?.id?:""
-        return userID
+    private suspend fun getUserID() : String{
+        client.auth.awaitInitialization()
+        return client.auth.currentUserOrNull()?.id ?: ""
     }
 }

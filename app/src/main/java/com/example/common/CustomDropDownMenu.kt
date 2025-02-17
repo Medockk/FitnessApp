@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.presentation.Comparison.componets
+package com.example.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,25 +18,12 @@ import com.example.fitnessapp.ui.theme.montserrat40012White
 
 @Composable
 fun CustomDropDownMenu(
+    list: List<String>,
     expanded: Boolean,
     modifier: Modifier = Modifier,
     onDismissClick: () -> Unit,
     onClick: (String) -> Unit
 ) {
-    val monthList = listOf(
-        "Январь",
-        "Февраль",
-        "Март",
-        "Апрель",
-        "Май",
-        "Июнь",
-        "Июль",
-        "Август",
-        "Сентябрь",
-        "Октябрь",
-        "Ноябрь",
-        "Декабрь",
-    )
 
     DropdownMenu(
         expanded = expanded,
@@ -46,16 +33,16 @@ fun CustomDropDownMenu(
             .background(Brush.linearGradient(listOf(_228F7D, _9CEEDF)), RoundedCornerShape(8.dp)),
     ) {
         Column {
-            repeat(monthList.size){
+            repeat(list.size){
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = monthList[it],
+                            text = list[it],
                             style = montserrat40012White
                         )
                     },
                     onClick = {
-                        onClick(monthList[it])
+                        onClick(list[it])
                     },
                     contentPadding = PaddingValues(vertical = 5.dp)
                 )

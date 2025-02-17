@@ -93,6 +93,7 @@ class ProfileViewModel(
                             showIndicator = false
                         )
                     }
+                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
             is ProfileEvent.ChangeImageView -> {

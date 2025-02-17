@@ -1,5 +1,7 @@
 package com.example.fitnessapp.feature_app.presentation.TakePhoto
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -27,8 +32,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.common.CustomAlertDialog
+import com.example.common.CustomIndicator
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.TakePhoto.components.CustomPhotoPose
 import com.example.fitnessapp.ui.theme._07856E
@@ -36,11 +42,26 @@ import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._81CCBF
 import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme._B6B4C2
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TakePhotoScreen(
-    navController: NavController
+    viewModel: TakePhotoViewModel = koinViewModel()
 ) {
+    val state = viewModel.state.value
+    val photo = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) {
+        if (it != null){
+            viewModel.onEvent(TakePhotoEvent.TakePhoto(it))
+        }
+    }
+
+    if (state.exception.isNotEmpty()){
+        CustomAlertDialog(state.exception) {
+            viewModel.onEvent(TakePhotoEvent.ResetException)
+        }
+    }
+
+    CustomIndicator(state.showIndicator)
 
     LazyColumn(
         modifier = Modifier
@@ -99,7 +120,9 @@ fun TakePhotoScreen(
                             )
                         }
                         IconButton(
-                            onClick = {},
+                            onClick = {
+                                photo.launch(null)
+                            },
                             modifier = Modifier
                                 .clip(CircleShape)
                                 .background(
@@ -131,21 +154,21 @@ fun TakePhotoScreen(
                     }
                 }
                 Spacer(Modifier.weight(1f))
-                Row(
+                LazyRow(
                     modifier = Modifier
                         .fillParentMaxWidth()
                         .background(Color.White),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    repeat(4){
+                    items(state.imageBitmaps){
                         CustomPhotoPose(
-                            image = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//takePhotoScreen.png",
+                            bitmap = it,
                             imageModifier = Modifier
-                                .height(60.dp),
+                                .height(65.dp),
                             modifier = Modifier
                                 .padding(vertical = 30.dp)
                         ){}
+                        Spacer(Modifier.width(20.dp))
                     }
                 }
             }

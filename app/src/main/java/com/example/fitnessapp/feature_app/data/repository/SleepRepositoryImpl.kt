@@ -94,5 +94,8 @@ class SleepRepositoryImpl : SleepRepository {
         )
     }
 
-    private fun getUserID() : String = client.auth.currentUserOrNull()?.id?:""
+    private suspend fun getUserID() : String{
+        client.auth.awaitInitialization()
+        return client.auth.currentUserOrNull()?.id ?: ""
+    }
 }
