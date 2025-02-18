@@ -5,4 +5,6 @@ sealed class AddWorkoutScheduleEvent {
     data object ResetException : AddWorkoutScheduleEvent()
 
     data object AddWorkout : AddWorkoutScheduleEvent()
+    //Устанавливает название тренировки
+    data class SetWorkoutTitle(val value: String) : AddWorkoutScheduleEvent()
 }

@@ -17,7 +17,7 @@ object SupabaseClient {
         install(Postgrest)
         install(ComposeAuth){
             googleNativeLogin(
-                "856230107300-pnmfipb7p76cprnns2pf8nkdc01p2f49.apps.googleusercontent.com"
+                "856230107300-45maeovm6tub53tjivojma475t0qmt8f.apps.googleusercontent.com"
             )
         }
         install(Storage)

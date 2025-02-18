@@ -8,6 +8,10 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import java.time.LocalDate
 
+/**
+ * Класс для работы со сном и режимами сна
+ * @author Андреев Арсений, 18,02,2025; 12:07
+ */
 class SleepRepositoryImpl : SleepRepository {
 
     override suspend fun getSleepData(): List<SleepTracker> {
@@ -75,7 +79,7 @@ class SleepRepositoryImpl : SleepRepository {
     override suspend fun addAlarm(sleepTracker: SleepTracker, alarmClockTracker: AlarmClockTracker) {
 
         val userID = getUserID()
-        val date = LocalDate.now().plusDays(1).toString().replace("-",":")
+        val date = LocalDate.now().toString().replace("-",":")
 
         client.postgrest["SleepTracker"].insert(
             mapOf(

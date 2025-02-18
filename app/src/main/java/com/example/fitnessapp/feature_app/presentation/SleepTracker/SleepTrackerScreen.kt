@@ -48,6 +48,7 @@ import com.example.fitnessapp.ui.theme.montserrat50014White
 import com.example.fitnessapp.ui.theme.montserrat50016White
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.ui.platform.LocalConfiguration
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -210,6 +211,7 @@ fun SleepTrackerScreen(
                     viewModel.onEvent(SleepTrackerEvent.ChangeAlarmState(state.alarmClockTracker))
                 }
             }
+            Spacer(Modifier.height((LocalConfiguration.current.screenHeightDp / 20).dp))
         }
     }
 }

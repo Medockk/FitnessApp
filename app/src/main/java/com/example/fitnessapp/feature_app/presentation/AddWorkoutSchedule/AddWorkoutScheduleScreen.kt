@@ -1,5 +1,10 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +21,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,29 +59,25 @@ fun AddWorkoutScheduleScreen(
         listOf(
             ImageVector.vectorResource(R.drawable.dumbbells_icon),
             "Трениовка",
-            "Вверхняя часть",
-            {} as () -> Unit,
-            listOf("Вверхняя часть","Нижняя часть","пресса")
+            state.title,
+            listOf("Тренировка вверхней части","Тренировка нижней части","Тренировка пресса")
         ),
         listOf(
             ImageVector.vectorResource(R.drawable.height_icon),
             "Сложность",
             "Начинающй",
-            {} as () -> Unit,
             listOf("")
         ),
         listOf(
             ImageVector.vectorResource(R.drawable.custom_repeats_icon),
             "Пользовательские повторы",
             "",
-            {} as () -> Unit,
             listOf("")
         ),
         listOf(
             ImageVector.vectorResource(R.drawable.custom_repeats_icon),
             "Пользовательские веса",
             "",
-            {} as () -> Unit,
             listOf("")
         ),
     )
@@ -155,22 +160,36 @@ fun AddWorkoutScheduleScreen(
         }
 
         items(workoutDetailList) { list ->
+            var isDropDownMenuOpen by remember { mutableStateOf(false) }
             Column {
                 Row {
                     CustomAlertCard(
                         icon = list[0] as ImageVector,
                         title = list[1] as String,
                         description = list[2] as String,
-                        onClick = list[3] as () -> Unit
+                        onClick = {isDropDownMenuOpen = !isDropDownMenuOpen},
+                        modifier = Modifier
+                            .weight(1f)
                     )
-                    CustomDropDownMenu(
-                        list = list[4] as List<String>,
-                        expanded = true,
-                        onDismissClick = {},
-                    ) { }
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = isDropDownMenuOpen,
+                        enter = slideInVertically(tween(500, easing = LinearOutSlowInEasing))
+                    ) {
+                        CustomDropDownMenu(
+                            list = list[3] as List<String>,
+                            expanded = true,
+                            onDismissClick = {
+                                isDropDownMenuOpen = false
+                            },
+                            modifier = Modifier
+                        ) { string ->
+                            viewModel.onEvent(AddWorkoutScheduleEvent.SetWorkoutTitle(string))
+                            isDropDownMenuOpen = false
+                        }
+                    }
                 }
-                Spacer(Modifier.height(10.dp))
             }
+            Spacer(Modifier.height(10.dp))
         }
     }
 

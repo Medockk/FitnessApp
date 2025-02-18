@@ -13,8 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -60,8 +61,6 @@ fun TakePhotoScreen(
             viewModel.onEvent(TakePhotoEvent.ResetException)
         }
     }
-
-    CustomIndicator(state.showIndicator)
 
     LazyColumn(
         modifier = Modifier
@@ -111,7 +110,8 @@ fun TakePhotoScreen(
                                 .clip(CircleShape)
                                 .background(
                                     Color.Transparent
-                                )
+                                ),
+                            enabled = !state.showIndicator
                         ) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.flash_off_icon),
@@ -130,7 +130,8 @@ fun TakePhotoScreen(
                                         _228F7D, _9CEEDF
                                     )),
                                     CircleShape
-                                )
+                                ),
+                            enabled = !state.showIndicator
                         ) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.camera_icon),
@@ -142,7 +143,8 @@ fun TakePhotoScreen(
                             onClick = {},
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .background(Color.Transparent)
+                                .background(Color.Transparent),
+                            enabled = !state.showIndicator
                         ) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.camera_icon),
@@ -150,19 +152,18 @@ fun TakePhotoScreen(
                                 tint = _B6B4C2
                             )
                         }
-
                     }
                 }
                 Spacer(Modifier.weight(1f))
-                LazyRow(
+                LazyHorizontalGrid(
+                    rows = GridCells.Fixed(2),
                     modifier = Modifier
                         .fillParentMaxWidth()
-                        .background(Color.White),
-                    verticalAlignment = Alignment.CenterVertically,
+                        .background(Color.White)
                 ) {
-                    items(state.imageBitmaps){
+                    itemsIndexed(state.imageBitmaps){ _, bitmap ->
                         CustomPhotoPose(
-                            bitmap = it,
+                            bitmap = bitmap,
                             imageModifier = Modifier
                                 .height(65.dp),
                             modifier = Modifier
@@ -174,4 +175,6 @@ fun TakePhotoScreen(
             }
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

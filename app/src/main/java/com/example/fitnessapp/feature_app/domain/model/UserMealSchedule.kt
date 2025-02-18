@@ -8,7 +8,8 @@ data class UserMealSchedule(
     val userID: String,
     val category: String,
     val mealID: Int,
-    val time: String
+    val time: String,
+    val date: String
 ){
     companion object{
         const val categoryBreakfast = "breakfast"

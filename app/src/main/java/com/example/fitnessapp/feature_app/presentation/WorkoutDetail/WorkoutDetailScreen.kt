@@ -233,7 +233,7 @@ fun WorkoutDetailScreen(
                                         modifier = Modifier
                                             .padding(25.dp)
                                             .size(60.dp),
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Fit
                                     )
                                 }
                                 Spacer(Modifier.height(10.dp))

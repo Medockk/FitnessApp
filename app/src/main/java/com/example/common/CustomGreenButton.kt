@@ -34,10 +34,11 @@ fun CustomGreenButton(
     isSignInScreen: Boolean = false,
     isNextButton: Boolean = false,
     enabled: Boolean = true,
+    isElevated: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    val brush = Brush.horizontalGradient(
+    val brush = Brush.linearGradient(
         listOf(
             _228F7D,
             _9CEEDF
@@ -52,9 +53,14 @@ fun CustomGreenButton(
             containerColor = Color.Transparent
         ),
         enabled = enabled,
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 10.dp
-        ),
+        elevation = if (isElevated){
+            ButtonDefaults.buttonElevation(
+                defaultElevation = 10.dp,
+                0.dp,0.dp,0.dp,0.dp
+            )
+        }else{
+            ButtonDefaults.buttonElevation()
+        },
         shape = RoundedCornerShape(99.dp),
 
     ) {

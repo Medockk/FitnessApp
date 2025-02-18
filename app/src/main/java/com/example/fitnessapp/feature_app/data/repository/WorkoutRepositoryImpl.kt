@@ -8,7 +8,12 @@ import com.example.fitnessapp.feature_app.domain.model.WorkoutSprint
 import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
+import java.time.LocalDate
 
+/**
+ * Класс для работы с расписанием и тренировками пользователя
+ * @author Андреев Арсений, 18,02,2025; 12:07
+ */
 class WorkoutRepositoryImpl : WorkoutRepository {
 
     override suspend fun getUserWorkout(): List<UserWorkoutData> {
@@ -51,8 +56,15 @@ class WorkoutRepositoryImpl : WorkoutRepository {
     override suspend fun getWorkoutSchedule(): List<WorkoutSchedule> {
 
         val userID = getUserID()
+        val date = LocalDate.now().toString()
+
         return client.postgrest["WorkoutSchedule"].select {
-            filter { eq("userID", userID) }
+            filter {
+                and {
+                    eq("userID", userID)
+                    eq("date", date)
+                }
+            }
         }.decodeList<WorkoutSchedule>()
     }
 
