@@ -1,9 +1,8 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.fitnessapp.feature_app.presentation.StartWorkout
 
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,35 +10,27 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.common.CustomAlertDialog
+import com.example.common.CustomGreenButton
 import com.example.common.CustomIndicator
+import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomPerformingWorkout
-import com.example.fitnessapp.ui.theme._1D1617
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
@@ -65,7 +56,7 @@ fun StartWorkoutScreen(
         }
     }
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
@@ -80,57 +71,34 @@ fun StartWorkoutScreen(
             .padding(horizontal = 30.dp)
     ) {
         item {
-            TopAppBar(
-                title = {},
-                modifier = Modifier
-                    .fillMaxWidth(),
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        },
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(_F7F8F8, RoundedCornerShape(8.dp))
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            tint = _1D1617,
-                            contentDescription = "close"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {},
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(_F7F8F8, RoundedCornerShape(8.dp))
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = null,
-                            tint = _1D1617,
-                            modifier = Modifier
-                                .rotate(90f)
-                        )
-                    }
-                }
-            )
-            Spacer(Modifier.height(30.dp))
+            CustomTopAppBar(
+                title = "",
+                moreInformationClick = {},
+                backgroundColor = _F7F8F8,
+                textColor = Color.Transparent
+            ) {
+                navController.popBackStack()
+            }
         }
 
         item {
-            AndroidView(
-                factory = { context ->
-                    PlayerView(context).apply {
-                        this.player = exoPlayer
-                    }
-                },
-                update = {},
+//            AndroidView(
+//                factory = { context ->
+//                    PlayerView(context).apply {
+//                        this.player = exoPlayer
+//                    }
+//                },
+//                update = {},
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(300.dp)
+//            )
+            AsyncImage(
+                model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Video-Section.png",
+                contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
+                    .fillMaxWidth(),
+                contentScale = ContentScale.Crop
             )
             Spacer(Modifier.height(20.dp))
             Text(
@@ -174,9 +142,10 @@ fun StartWorkoutScreen(
                     style = montserrat50012_A5A3B0
                 )
             }
+            Spacer(Modifier.height(15.dp))
         }
 
-        items(4){
+        items(4) {
             CustomPerformingWorkout(
                 title = "Раскиньте руки",
                 description = "Чтобы жесты казались более расслабленными, в начале движения вытяните руки. Никаких сгибаний рук.",
@@ -184,6 +153,24 @@ fun StartWorkoutScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             )
+        }
+
+        item {
+            Spacer(Modifier.height(45.dp))
+            Box(
+                Modifier
+                    .padding(
+                        bottom = (LocalConfiguration.current.screenHeightDp / 20).dp
+                    ),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                CustomGreenButton(
+                    text = "Сохранить",
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    isElevated = false
+                ) { }
+            }
         }
     }
 

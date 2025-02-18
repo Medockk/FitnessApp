@@ -13,6 +13,10 @@ import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
 import kotlin.time.Duration
 
+/**
+ * Класс для работы с данными пользователя
+ * @author Андреев Арсений, 18,02,2025; 12:08
+ */
 class UserDataRepositoryImpl : UserDataRepository {
 
     override suspend fun getUserData(): UserData {

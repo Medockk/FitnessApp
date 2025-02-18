@@ -8,7 +8,12 @@ import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
+import java.time.LocalDate
 
+/**
+ * Класс для работы с блюдами и их категориями
+ * @author Андреев Арсений, 18,02,2025; 12:07
+ */
 class MealRepositoryImpl : MealRepository {
 
     override suspend fun getCategories(): List<CategoryData> {
@@ -36,9 +41,15 @@ class MealRepositoryImpl : MealRepository {
     override suspend fun getUserMealSchedule(): List<UserMealSchedule> {
 
         val userID = getUserID()
+        val date = LocalDate.now().toString()
 
         return client.postgrest["UserMealSchedule"].select {
-            filter { eq("userID", userID) }
+            filter {
+                and {
+                    eq("userID", userID)
+                    eq("date", date)
+                }
+            }
         }.decodeList<UserMealSchedule>()
     }
 

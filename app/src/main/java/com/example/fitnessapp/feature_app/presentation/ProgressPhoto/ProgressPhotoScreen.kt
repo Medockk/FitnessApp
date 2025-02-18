@@ -1,7 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.ProgressPhoto
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -48,7 +47,6 @@ import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme._B6B4C2
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme._FF0000
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat40012_FF0000
 import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
 import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
@@ -242,26 +240,12 @@ fun ProgressPhotoScreen(
                     modifier = Modifier
                         .fillParentMaxSize(),
                 ) {
-                    itemsIndexed(state.gallery.sortedBy { item -> item.date }) { index, gallery ->
-                        Column(
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            androidx.compose.animation.AnimatedVisibility(
-                                visible = state.gallery.size > index + 1
-                            ) {
-                                if (gallery.date != state.gallery[index + 1].date) {
-                                    Text(
-                                        text = state.gallery[index + 1].date,
-                                        style = montserrat40012_B6B4C2
-                                    )
-                                }
-                            }
-                            CustomPhotoCard(
-                                photo = gallery.photo,
-                                modifier = Modifier
-                                    .size(100.dp)
-                            )
-                        }
+                    items(state.gallery.sortedBy { item -> item.date }) { gallery ->
+                        CustomPhotoCard(
+                            photo = gallery.photo,
+                            modifier = Modifier
+                                .size(100.dp)
+                        )
                         Spacer(Modifier.size(10.dp))
                     }
                 }

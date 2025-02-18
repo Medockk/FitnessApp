@@ -9,6 +9,11 @@ import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.postgrest
 import kotlin.random.Random
 
+/**
+ * Class for authentication, log in, and log in with google
+ * @author Andreev Arsenij
+ * 18.02.2025; 12:01
+ */
 class AuthRepositoryImpl : AuthRepository {
 
     override suspend fun signIn(mail: String, pass: String) {

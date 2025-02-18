@@ -24,8 +24,8 @@ class TakePhotoViewModel(
                         imageBitmaps = _state.value.imageBitmaps + event.bitmap
                     )
 
+                    _state.value = state.value.copy(showIndicator = true)
                     viewModelScope.launch(Dispatchers.IO) {
-                        _state.value = state.value.copy(showIndicator = true)
                         try {
                             when (_state.value.imageBitmaps.size){
                                 1 -> {
@@ -56,8 +56,8 @@ class TakePhotoViewModel(
                         } catch (e: Exception) {
                             _state.value = state.value.copy(exception = e.message.toString())
                         }
-                        _state.value = state.value.copy(showIndicator = false)
                     }
+                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
 

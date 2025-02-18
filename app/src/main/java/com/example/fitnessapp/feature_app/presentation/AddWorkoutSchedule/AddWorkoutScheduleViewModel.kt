@@ -39,11 +39,15 @@ class AddWorkoutScheduleViewModel(
                 viewModelScope.launch(Dispatchers.IO) {
                     _state.value = state.value.copy(showIndicator = true)
                     val time = _state.value.hour + _state.value.minute
-                    setWorkoutScheduleUseCase(
-                        WorkoutSchedule(
-                            0, time, "Тренировка ${_state.value.title}", ""
+                    try {
+                        setWorkoutScheduleUseCase(
+                            WorkoutSchedule(
+                                0, time, _state.value.title, "",""
+                            )
                         )
-                    )
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
                     _state.value = state.value.copy(showIndicator = false)
                 }
             }
@@ -52,6 +56,10 @@ class AddWorkoutScheduleViewModel(
                 _state.value = state.value.copy(
                     exception = ""
                 )
+            }
+
+            is AddWorkoutScheduleEvent.SetWorkoutTitle -> {
+                _state.value = state.value.copy(title = event.value)
             }
         }
     }

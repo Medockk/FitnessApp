@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -216,6 +217,7 @@ fun SleepScheduleScreen(
                     }
                 }
             }
+            Spacer(Modifier.height((LocalConfiguration.current.screenHeightDp / 20).dp))
         }
     }
 
@@ -226,6 +228,4 @@ fun SleepScheduleScreen(
             }
         }
     }
-
-
 }

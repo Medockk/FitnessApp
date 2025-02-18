@@ -96,6 +96,7 @@ fun WorkoutScheduleScreen(
                             text = work.title
                         )
                     }
+                    Spacer(Modifier.width(10.dp))
                 }
             }
             Spacer(Modifier.height(24.dp))

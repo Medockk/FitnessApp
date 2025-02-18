@@ -1,7 +1,6 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
@@ -14,6 +13,10 @@ import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import kotlin.time.Duration
 
+/**
+ * Класс для получения галлереи и статистики с сервера, и отправки фотографий на сервер
+ * @author Андреев Арсений, 18.02.2025; 12:06
+ */
 class CompareRepositoryImpl : CompareRepository {
 
     override suspend fun getAllGallery(): List<GalleryData> {
@@ -82,17 +85,17 @@ class CompareRepositoryImpl : CompareRepository {
     override suspend fun uploadPhoto(photo: Bitmap, category: String) {
 
         val userID = getUserID()
-        Log.e("uploadID", userID)
-        val bucket = client.storage.from("gallery")
+        val bucket = client.storage.from("gallery/$userID")
 
-        client.storage.from("gallery").upload(
-            "$userID.png",
+
+        bucket.upload(
+            "$photo.png",
             data = photo.toByteArray()
         ) {
             this.upsert = true
         }
 
-        val url = bucket.createSignedUrl("$userID.png", Duration.INFINITE)
+        val url = bucket.createSignedUrl("$photo.png", Duration.INFINITE)
         client.postgrest["Gallery"].insert(
             mapOf(
                 "userID" to userID,
@@ -109,7 +112,7 @@ class CompareRepositoryImpl : CompareRepository {
 
     private fun Bitmap.toByteArray(): ByteArray {
         val stream = ByteArrayOutputStream()
-        this.compress(Bitmap.CompressFormat.PNG, 60, stream)
+        this.compress(Bitmap.CompressFormat.PNG, 90, stream)
         return stream.toByteArray()
     }
 }
