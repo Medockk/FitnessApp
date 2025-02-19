@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme.montserrat70016_1D1617
+import com.example.fitnessapp.ui.theme.topAppBarBlackTestStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +41,7 @@ fun CustomTopAppBar(
         title = {
             Text(
                 text = title,
-                style = montserrat70016_1D1617,
+                style = topAppBarBlackTestStyle,
                 fontWeight = FontWeight.Bold,
                 color = textColor,
                 modifier = Modifier

@@ -52,7 +52,7 @@ import com.example.fitnessapp.ui.theme.montserrat40010_ADA4A5
 import com.example.fitnessapp.ui.theme.montserrat40016_1D1617
 import com.example.fitnessapp.ui.theme.montserrat50014_228F7D
 import com.example.fitnessapp.ui.theme.montserrat50014_ADA4A5
-import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
+import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
 import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
@@ -173,7 +173,7 @@ fun SignUpScreen(
                 Spacer(Modifier.height(5.dp))
                 Text(
                     text = "Создай аккаунт",
-                    style = montserrat70020_1D1617
+                    style = montserrat70020Bold_1D1617
                 )
                 Spacer(Modifier.height(30.dp))
 

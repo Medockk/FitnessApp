@@ -45,7 +45,7 @@ import com.example.fitnessapp.ui.theme._A5A3B0
 import com.example.fitnessapp.ui.theme._C6C4D4
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme.montserrat40012_C6C4D4
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -135,7 +135,7 @@ fun CategoryBreakfastScreen(
             Spacer(Modifier.height(30.dp))
             Text(
                 text = "Категории",
-                style = montserrat60016_1D1617
+                style = montserrat60016Bold_1D1617
             )
             Spacer(Modifier.height(15.dp))
         }
@@ -161,7 +161,7 @@ fun CategoryBreakfastScreen(
             Spacer(Modifier.height(30.dp))
             Text(
                 text = "Рекомендации по диете",
-                style = montserrat60016_1D1617
+                style = montserrat60016Bold_1D1617
             )
             Spacer(Modifier.height(35.dp))
             AnimatedVisibility(
@@ -187,7 +187,7 @@ fun CategoryBreakfastScreen(
             Spacer(Modifier.height(30.dp))
             Text(
                 text = "Популярные",
-                style = montserrat60016_1D1617
+                style = montserrat60016Bold_1D1617
             )
             Spacer(Modifier.height(15.dp))
         }

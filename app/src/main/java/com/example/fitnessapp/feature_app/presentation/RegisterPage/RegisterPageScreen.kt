@@ -45,7 +45,7 @@ import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme.montserrat40012White
 import com.example.fitnessapp.ui.theme.montserrat40012_7B6F72
 import com.example.fitnessapp.ui.theme.montserrat60014White
-import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
+import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -123,7 +123,7 @@ fun RegisterPageScreen(
             ) {
                 Text(
                     text = "Какова ваша цель?",
-                    style = montserrat70020_1D1617
+                    style = montserrat70020Bold_1D1617
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(

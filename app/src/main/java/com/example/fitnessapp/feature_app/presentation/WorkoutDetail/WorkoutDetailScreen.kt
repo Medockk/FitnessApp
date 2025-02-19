@@ -58,8 +58,8 @@ import com.example.fitnessapp.ui.theme.montserrat40012Black
 import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
 import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
-import com.example.fitnessapp.ui.theme.montserrat70016_1D1617
+import com.example.fitnessapp.ui.theme.montserrat60016Bold_1D1617
+import com.example.fitnessapp.ui.theme.montserrat70016Bold_1D1617
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.koinViewModel
@@ -145,7 +145,7 @@ fun WorkoutDetailScreen(
                     Column {
                         Text(
                             text = workoutData.title,
-                            style = montserrat70016_1D1617
+                            style = montserrat70016Bold_1D1617
                         )
                         Spacer(Modifier.height(5.dp))
                         Text(
@@ -203,7 +203,7 @@ fun WorkoutDetailScreen(
                 ) {
                     Text(
                         text = "Вам понадобится",
-                        style = montserrat60016_1D1617
+                        style = montserrat60016Bold_1D1617
                     )
                     Spacer(Modifier.weight(1f))
                     Text(
@@ -259,7 +259,7 @@ fun WorkoutDetailScreen(
                 ) {
                     Text(
                         text = "Упражнения",
-                        style = montserrat60016_1D1617
+                        style = montserrat60016Bold_1D1617
                     )
                     Spacer(Modifier.weight(1f))
                     Text(
@@ -343,7 +343,13 @@ fun WorkoutDetailScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp)
-        ) { }
+        ) {
+            navController.navigate(Route.CongratulationsScreen.route){
+                popUpTo(Route.WorkoutDetailScreen.route){
+                    inclusive = true
+                }
+            }
+        }
     }
 
     CustomIndicator(state.showIndicator)

@@ -42,7 +42,7 @@ import com.example.fitnessapp.ui.theme._B0F8E1
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme.montserrat40010White
 import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -145,7 +145,7 @@ fun WorkoutTrackerScreen(
                     ) {
                         Text(
                             text = "Тренировка",
-                            style = montserrat60016_1D1617
+                            style = montserrat60016Bold_1D1617
                         )
                         Spacer(Modifier.weight(1f))
                         Text(
@@ -179,7 +179,7 @@ fun WorkoutTrackerScreen(
                     Spacer(Modifier.height(15.dp))
                     Text(
                         text = "Что вы хотите тренировать",
-                        style = montserrat60016_1D1617
+                        style = montserrat60016Bold_1D1617
                     )
                     Spacer(Modifier.height(15.dp))
                 }
