@@ -1,6 +1,5 @@
 package com.example.fitnessapp.feature_app.presentation.CompareResult
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -39,8 +38,6 @@ class CompareResultViewModel(
         val gallery = getGalleryFromMonthToMonthUseCase(
             firstMonthNumber, secondMonthNumber
         )
-
-        Log.e("gallery", gallery.toString())
 
         withContext(Dispatchers.Main) {
             _state.value = state.value.copy(

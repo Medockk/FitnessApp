@@ -49,6 +49,7 @@ import com.example.fitnessapp.ui.theme.montserrat50016White
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.ui.platform.LocalConfiguration
+import com.example.fitnessapp.ui.theme._5DDDC7
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -155,7 +156,8 @@ fun SleepTrackerScreen(
             CustomLightGreenCard(
                 title = "Трафик сна",
                 buttonText = "Проверить",
-                modifier = Modifier.alpha(0.2f)
+                color = _5DDDC7,
+                modifier = Modifier.alpha(0.8f)
             ) {
                 navController.navigate(Route.SleepScheduleScreen.route){
                     popUpTo(Route.SleepTrackerScreen.route){

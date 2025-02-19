@@ -2,11 +2,13 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import android.util.Log
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.domain.model.StatisticData
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.repository.AuthRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.postgrest
+import java.time.LocalDate
 import kotlin.random.Random
 
 /**
@@ -27,7 +29,6 @@ class AuthRepositoryImpl : AuthRepository {
 
         Log.e("sign in google", "use case")
         val userID = getUserID()
-
         try {
             client.postgrest["Users"].select {
                 filter { eq("userID", userID) }
@@ -194,10 +195,19 @@ class AuthRepositoryImpl : AuthRepository {
             "title" to "TITLE 4",
             "description" to "DESCRIPTION 4"
         ))
+        val weight = StatisticData(LocalDate.now().toString(), userID, StatisticData.loseWeight, getRandomStatistic())
+        val height = StatisticData(LocalDate.now().toString(), userID, StatisticData.increasedGrowth, getRandomStatistic())
+        val muscleMass = StatisticData(LocalDate.now().toString(), userID, StatisticData.increaseInMuscleMass, getRandomStatistic())
+        val press = StatisticData(LocalDate.now().toString(), userID, StatisticData.press, getRandomStatistic())
+        client.postgrest["UserStatistic"].insert(listOf(weight, height, muscleMass, press))
     }
 
     private suspend fun getUserID(): String {
         client.auth.awaitInitialization()
         return client.auth.currentUserOrNull()?.id ?: ""
+    }
+
+    private fun getRandomStatistic() : String{
+        return Random.nextInt(10, 70).toString()
     }
 }

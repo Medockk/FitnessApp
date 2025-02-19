@@ -65,7 +65,6 @@ fun SuccessRegistrationScreen(
             .background(Color.White)
             .padding(
                 top = paddingTop.dp,
-                bottom = paddingBottom.dp,
                 start = 30.dp,
                 end = 30.dp
             ),
@@ -111,6 +110,7 @@ fun SuccessRegistrationScreen(
                 text = "Перейти домой",
                 modifier = Modifier
                     .fillParentMaxWidth()
+                    .padding(bottom = paddingBottom.dp)
             ) {
                 navController.navigate(Route.HomeScreen.route){
                     popUpTo(Route.SuccessRegistrationScreen.route){
