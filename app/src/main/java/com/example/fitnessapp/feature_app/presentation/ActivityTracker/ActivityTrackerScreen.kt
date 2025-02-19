@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -48,6 +49,7 @@ import com.example.common.CustomIndicator
 import com.example.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.components.ActivityBarChart
 import com.example.fitnessapp.ui.theme._07856E
+import com.example.fitnessapp.ui.theme._1D161712
 import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._81CCBF
 import com.example.fitnessapp.ui.theme._83F2A5
@@ -180,7 +182,7 @@ fun ActivityTrackerScreen(
                                         contentDescription = purpose.title,
                                         modifier = Modifier
                                             .size(25.dp, 34.dp),
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Fit
                                     )
                                     Spacer(Modifier.width(5.dp))
                                     Column {
@@ -253,10 +255,10 @@ fun ActivityTrackerScreen(
 
                 Card(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .shadow(10.dp, RoundedCornerShape(20.dp), spotColor = _1D161712),
                     shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
                 ) {
                     Box(
                         modifier = Modifier
@@ -308,10 +310,10 @@ fun ActivityTrackerScreen(
                     items(state.lastActivity){activity ->
                         Card(
                             modifier = Modifier
-                                .fillParentMaxWidth(),
+                                .fillParentMaxWidth()
+                                .shadow(10.dp, RoundedCornerShape(16.dp), spotColor = _1D161712),
                             shape = RoundedCornerShape(16.dp),
                             colors = CardDefaults.cardColors(containerColor = Color.White),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
                         ) {
                             Row(
                                 modifier = Modifier

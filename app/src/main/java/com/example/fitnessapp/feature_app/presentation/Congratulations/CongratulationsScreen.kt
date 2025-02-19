@@ -24,7 +24,7 @@ import coil.compose.AsyncImage
 import com.example.common.CustomGreenButton
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.ui.theme.montserrat40012_7B6F72
-import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
+import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -67,7 +67,7 @@ fun CongratulationsScreen(
                 Spacer(Modifier.height(30.dp))
                 Text(
                     text = "Поздравляем, вы завершили тренировку",
-                    style = montserrat70020_1D1617,
+                    style = montserrat70020Bold_1D1617,
                     textAlign = TextAlign.Center
                 )
                 Spacer(Modifier.height(15.dp))
@@ -84,6 +84,7 @@ fun CongratulationsScreen(
                 text = "Завершить",
                 modifier = Modifier
                     .fillParentMaxWidth()
+                    .padding(bottom = (LocalConfiguration.current.screenHeightDp / 20).dp)
             ) {
                 navController.navigate(Route.HomeScreen.route){
                     popUpTo(Route.CongratulationsScreen.route){

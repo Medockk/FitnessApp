@@ -29,7 +29,7 @@ import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.C
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @androidx.annotation.OptIn(UnstableApi::class)
@@ -77,7 +77,7 @@ fun StartWorkoutScreen(
             Spacer(Modifier.height(20.dp))
             Text(
                 text = Route.StartWorkoutScreen.workout,
-                style = montserrat60016_1D1617
+                style = montserrat60016Bold_1D1617
             )
             Spacer(Modifier.height(5.dp))
             Text(
@@ -90,7 +90,7 @@ fun StartWorkoutScreen(
         item {
             Text(
                 text = "Описание",
-                style = montserrat60016_1D1617
+                style = montserrat60016Bold_1D1617
             )
             Spacer(Modifier.height(5.dp))
             Text(
@@ -108,7 +108,7 @@ fun StartWorkoutScreen(
             ) {
                 Text(
                     text = "Как это сделать",
-                    style = montserrat60016_1D1617
+                    style = montserrat60016Bold_1D1617
                 )
                 Spacer(Modifier.weight(1f))
                 Text(

@@ -38,6 +38,8 @@ val Typography = Typography(
 )
 
 val FontFamilyMontserrat = FontFamily(Font(R.font.montserrat_regular))
+val FontFamilyMontserratBold = FontFamily(Font(R.font.montserrat_bold))
+
 val montserrat70036_52B09F = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(700),
@@ -61,12 +63,6 @@ val montserrat40016_A5A3B0 = TextStyle (
     fontWeight = FontWeight(400),
     fontSize = 16.sp,
     color = _A5A3B0
-)
-val montserrat70024_1D1617 = TextStyle (
-    fontFamily = FontFamilyMontserrat,
-    fontWeight = FontWeight(700),
-    fontSize = 24.sp,
-    color = _1D1617
 )
 val montserrat70020_1D1617 = TextStyle (
     fontFamily = FontFamilyMontserrat,
@@ -293,7 +289,13 @@ val montserrat50014_7B6F72 = TextStyle (
     color = _7B6F72
 )
 val montserrat60016_1D1617 = TextStyle (
-    fontFamily = FontFamilyMontserrat,
+    fontFamily = FontFamilyMontserratBold,
+    fontWeight = FontWeight(600),
+    fontSize = 16.sp,
+    color = _1D1617
+)
+val montserrat60016Bold_1D1617 = TextStyle (
+    fontFamily = FontFamilyMontserratBold,
     fontWeight = FontWeight(600),
     fontSize = 16.sp,
     color = _1D1617
@@ -347,8 +349,32 @@ val montserrat70016White = TextStyle (
     color = Color.White
 )
 val montserrat70016_1D1617 = TextStyle (
-    fontFamily = FontFamilyMontserrat,
+    fontFamily = FontFamilyMontserratBold,
     fontWeight = FontWeight(700),
     fontSize = 16.sp,
+    color = _1D1617
+)
+val montserrat70016Bold_1D1617 = TextStyle (
+    fontFamily = FontFamilyMontserratBold,
+    fontWeight = FontWeight(700),
+    fontSize = 16.sp,
+    color = _1D1617
+)
+val topAppBarBlackTestStyle = TextStyle (
+    fontFamily = FontFamilyMontserratBold,
+    fontWeight = FontWeight(700),
+    fontSize = 16.sp,
+    color = _1D1617
+)
+val montserrat70024Bold_1D1617 = TextStyle (
+    fontFamily = FontFamilyMontserratBold,
+    fontWeight = FontWeight(700),
+    fontSize = 24.sp,
+    color = _1D1617
+)
+val montserrat70020Bold_1D1617 = TextStyle (
+    fontFamily = FontFamilyMontserratBold,
+    fontWeight = FontWeight(700),
+    fontSize = 20.sp,
     color = _1D1617
 )

@@ -32,7 +32,7 @@ import com.example.common.CustomGreenButton
 import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.ui.theme.montserrat40012_7B6F72
-import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
+import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -92,7 +92,7 @@ fun SuccessRegistrationScreen(
                     Text(
                         text = "Добро пожаловать, \n" +
                                 state.userData.fio,
-                        style = montserrat70020_1D1617,
+                        style = montserrat70020Bold_1D1617,
                         textAlign = TextAlign.Center
                     )
                 }

@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -49,13 +50,14 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.Route
 import com.example.fitnessapp.feature_app.presentation.Profile.components.UserAccountCard
 import com.example.fitnessapp.feature_app.presentation.Profile.components.UserDataCard
+import com.example.fitnessapp.ui.theme._1D161712
 import com.example.fitnessapp.ui.theme._228F7D
 import com.example.fitnessapp.ui.theme._C4C4C4
 import com.example.fitnessapp.ui.theme._F7F8F8
 import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat40014_B6B4C2
 import com.example.fitnessapp.ui.theme.montserrat50014_1D1617
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -222,17 +224,19 @@ fun ProfileScreen(
                     LazyRow(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp),
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         item {
-                            UserDataCard(
-                                title = state.userData.height,
-                                description = "Рост",
-                                modifier = Modifier
-                                    .fillParentMaxWidth(0.3f)
-                            )
+                            Row {
+                                Spacer(Modifier.width(5.dp))
+                                UserDataCard(
+                                    title = state.userData.height,
+                                    description = "Рост",
+                                    modifier = Modifier
+                                        .fillParentMaxWidth(0.3f)
+                                )
+                            }
                         }
                         item {
                             UserDataCard(
@@ -243,12 +247,15 @@ fun ProfileScreen(
                             )
                         }
                         item {
-                            UserDataCard(
-                                title = state.userData.birthdayData,
-                                description = "Лет",
-                                modifier = Modifier
-                                    .fillParentMaxWidth(0.3f)
-                            )
+                            Row {
+                                UserDataCard(
+                                    title = state.userData.birthdayData,
+                                    description = "Лет",
+                                    modifier = Modifier
+                                        .fillParentMaxWidth(0.3f)
+                                )
+                                Spacer(Modifier.width(5.dp))
+                            }
                         }
                     }
 
@@ -256,10 +263,10 @@ fun ProfileScreen(
 
                     Card(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .shadow(10.dp, RoundedCornerShape(16.dp), spotColor = _1D161712),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.cardElevation(10.dp)
                     ) {
                         Column(
                             modifier = Modifier
@@ -268,7 +275,7 @@ fun ProfileScreen(
                         ) {
                             Text(
                                 text = "Аккаунт",
-                                style = montserrat60016_1D1617
+                                style = montserrat60016Bold_1D1617
                             )
                             accountCategoryList.forEach { account ->
                                 UserAccountCard(
@@ -284,10 +291,10 @@ fun ProfileScreen(
                     Spacer(Modifier.height(15.dp))
                     Card(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .shadow(10.dp, RoundedCornerShape(16.dp), spotColor = _1D161712),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.cardElevation(10.dp)
                     ){
                         Column(
                             modifier = Modifier
@@ -297,7 +304,7 @@ fun ProfileScreen(
                         ) {
                             Text(
                                 text = "Уведомления",
-                                style = montserrat60016_1D1617
+                                style = montserrat60016Bold_1D1617
                             )
                             Spacer(Modifier.height(10.dp))
                             Row(
@@ -316,8 +323,8 @@ fun ProfileScreen(
                                 Spacer(Modifier.weight(1f))
                                 CustomSwitch(
                                     checked = state.isNotificationTurnOn
-                                ) {
-                                    viewModel.onEvent(ProfileEvent.ChangeNotificationState(it))
+                                ) { switchState ->
+                                    viewModel.onEvent(ProfileEvent.ChangeNotificationState(switchState))
                                 }
                             }
                         }
@@ -325,10 +332,10 @@ fun ProfileScreen(
                     Spacer(Modifier.height(15.dp))
                     Card(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .shadow(10.dp, RoundedCornerShape(16.dp), spotColor = _1D161712),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.cardElevation(10.dp)
                     ) {
                         Column(
                             modifier = Modifier
@@ -337,7 +344,7 @@ fun ProfileScreen(
                         ) {
                             Text(
                                 text = "Остальное",
-                                style = montserrat60016_1D1617
+                                style = montserrat60016Bold_1D1617
                             )
                             otherCategoryList.forEach { other ->
                                 UserAccountCard(

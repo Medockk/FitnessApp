@@ -63,7 +63,7 @@ import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
 import com.example.fitnessapp.ui.theme.montserrat60013White
 import com.example.fitnessapp.ui.theme.montserrat60014_07856E
 import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
-import com.example.fitnessapp.ui.theme.montserrat70020_1D1617
+import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -133,7 +133,7 @@ fun HomeScreen(
                         ) {
                             Text(
                                 text = state.userData.fio,
-                                style = montserrat70020_1D1617
+                                style = montserrat70020Bold_1D1617
                             )
                         }
                     }
