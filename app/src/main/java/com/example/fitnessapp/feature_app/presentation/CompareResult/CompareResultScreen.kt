@@ -1,7 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 package com.example.fitnessapp.feature_app.presentation.CompareResult
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -40,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -104,6 +104,7 @@ fun CompareResultScreen(
     ) {
         item {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White),
                 title = {
                     Text(
                         text = "Результат",
@@ -337,7 +338,8 @@ fun CompareResultScreen(
                                 }
                             }
                         }
-                    }else{
+                    }
+                    else{
                         item {
                             AnimatedVisibility(
                                 visible = state.statisticList.isNotEmpty(),
@@ -391,13 +393,11 @@ fun CompareResultScreen(
                             Spacer(Modifier.height(20.dp))
                         }
 
-                        itemsIndexed(state.statistic){index, statistic ->
-                            Log.i("index", index.toString())
+                        itemsIndexed(state.statistic){ _, statistic ->
                             AnimatedVisibility(
                                 visible = state.statistic.isNotEmpty(),
                                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing))
                             ) {
-                                Log.e("enter", statistic.toString())
                                 CustomStatisticBar(
                                     statisticData = statistic,
                                     modifier = Modifier

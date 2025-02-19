@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.ui.theme._5CBDAC
 import com.example.fitnessapp.ui.theme._68C6B6
@@ -25,11 +26,12 @@ import com.example.fitnessapp.ui.theme.montserrat50014_1D1617
 fun CustomLightGreenCard(
     title: String,
     buttonText: String,
+    color: Color = _5CBDAC,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = _5CBDAC),
+        colors = CardDefaults.cardColors(containerColor = color, contentColor = Color.Unspecified),
         shape = RoundedCornerShape(100.dp),
         modifier = modifier,
         onClick = onClick

@@ -33,7 +33,6 @@ val _C6C4D4 = Color(0xFFC6C4D4)
 val _C4C4C4 = Color(0xFFC4C4C4)
 val _83F2A5 = Color(0xFF83F2A5)
 val _B0F8E1 = Color(0xFFB0F8E1)
-val _3FF9BE = Color(0xFF3FF9BE)
 val _67C5B4 = Color(0xFF67C5B4)
 
 val _00F0FF = Color(0xFF00F0FF)
@@ -43,3 +42,5 @@ val _03AE8C = Color(0xFF03AE8C)
 val _42D742 = Color(0xFF42D742)
 
 val _FF0000 = Color(0xFFFF0000)
+val _95ADFE4D = Color(0x4D95ADFE)
+val _5DDDC7 = Color(0xFF5DDDC7)

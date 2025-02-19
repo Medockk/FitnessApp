@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.R
 import com.example.fitnessapp.ui.theme._228F7D
+import com.example.fitnessapp.ui.theme._95ADFE4D
 import com.example.fitnessapp.ui.theme._9CEEDF
 import com.example.fitnessapp.ui.theme.montserrat70016White
 
@@ -34,7 +36,6 @@ fun CustomGreenButton(
     isSignInScreen: Boolean = false,
     isNextButton: Boolean = false,
     enabled: Boolean = true,
-    isElevated: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -48,19 +49,12 @@ fun CustomGreenButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .background(brush, RoundedCornerShape(99.dp)),
+            .background(brush, RoundedCornerShape(99.dp))
+            .shadow(10.dp, RoundedCornerShape(99.dp), ambientColor = _95ADFE4D),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         ),
         enabled = enabled,
-        elevation = if (isElevated){
-            ButtonDefaults.buttonElevation(
-                defaultElevation = 10.dp,
-                0.dp,0.dp,0.dp,0.dp
-            )
-        }else{
-            ButtonDefaults.buttonElevation()
-        },
         shape = RoundedCornerShape(99.dp),
 
     ) {

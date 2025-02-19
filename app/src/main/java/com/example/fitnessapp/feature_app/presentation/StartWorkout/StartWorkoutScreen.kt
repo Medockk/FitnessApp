@@ -1,6 +1,5 @@
 package com.example.fitnessapp.feature_app.presentation.StartWorkout
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -12,17 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.common.CustomAlertDialog
@@ -45,16 +40,6 @@ fun StartWorkoutScreen(
 ) {
 
     val state = viewModel.state.value
-    val url = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-    val context = LocalContext.current
-    val exoPlayer = remember {
-        ExoPlayer.Builder(context).build().apply {
-            setMediaItem(MediaItem.fromUri(Uri.parse(url)))
-            this.playWhenReady = true
-            prepare()
-            play()
-        }
-    }
 
     if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
@@ -82,17 +67,6 @@ fun StartWorkoutScreen(
         }
 
         item {
-//            AndroidView(
-//                factory = { context ->
-//                    PlayerView(context).apply {
-//                        this.player = exoPlayer
-//                    }
-//                },
-//                update = {},
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(300.dp)
-//            )
             AsyncImage(
                 model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Video-Section.png",
                 contentDescription = null,
@@ -167,8 +141,7 @@ fun StartWorkoutScreen(
                 CustomGreenButton(
                     text = "Сохранить",
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    isElevated = false
+                        .fillMaxWidth()
                 ) { }
             }
         }
