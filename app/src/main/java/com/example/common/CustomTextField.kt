@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -48,12 +49,14 @@ fun CustomTextField(
     showHidePasswordState: Boolean = true,
     showHidePasswordClick: () -> Unit = {},
     enabled: Boolean = true,
+    tag: String = "tag",
     modifier: Modifier = Modifier
 ) {
 
     TextField(
         modifier = modifier
-            .border(1.dp, _F7F8F8, RoundedCornerShape(100.dp)),
+            .border(1.dp, _F7F8F8, RoundedCornerShape(100.dp))
+            .testTag(tag),
         value = value,
         enabled = enabled,
         onValueChange = onValueChange,
