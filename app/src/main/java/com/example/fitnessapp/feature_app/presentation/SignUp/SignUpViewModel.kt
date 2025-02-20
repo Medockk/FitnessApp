@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.SignUp
 
+import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -71,7 +72,9 @@ class SignUpViewModel(
             }
 
             SignUpEvent.SignUp -> {
-                if (
+                if (!Patterns.EMAIL_ADDRESS.matcher(_state.value.email).matches()){
+                    _state.value = state.value.copy(exception = "Неверное имя почты")
+                }else if (
                     _state.value.fio.isNotBlank() &&
                     _state.value.phone.isNotBlank() &&
                     _state.value.email.isNotBlank() &&

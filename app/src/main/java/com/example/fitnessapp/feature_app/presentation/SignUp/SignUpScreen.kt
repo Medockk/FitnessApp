@@ -190,6 +190,7 @@ fun SignUpScreen(
                         icon = it[2] as ImageVector,
                         hint = it[3] as String,
                         enabled = !state.showIndicator,
+                        tag = it[3] as String,
                         modifier = Modifier
                             .fillMaxWidth(),
                         isPassword = signUpList[3] == it,
@@ -253,6 +254,7 @@ fun SignUpScreen(
                     text = "Зарегистрироваться",
                     modifier = Modifier
                         .fillMaxWidth(),
+                    tag = "btn",
                     enabled = !state.showIndicator
                 ) {
                     viewModel.onEvent(SignUpEvent.SignUp)

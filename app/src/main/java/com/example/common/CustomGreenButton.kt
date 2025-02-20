@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ fun CustomGreenButton(
     isSignInScreen: Boolean = false,
     isNextButton: Boolean = false,
     enabled: Boolean = true,
+    tag: String = "tag",
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -50,7 +52,8 @@ fun CustomGreenButton(
         onClick = onClick,
         modifier = modifier
             .background(brush, RoundedCornerShape(99.dp))
-            .shadow(10.dp, RoundedCornerShape(99.dp), ambientColor = _95ADFE4D),
+            .shadow(10.dp, RoundedCornerShape(99.dp), ambientColor = _95ADFE4D)
+            .testTag(tag),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         ),
