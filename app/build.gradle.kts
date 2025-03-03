@@ -5,6 +5,7 @@ plugins {
 
     alias(libs.plugins.serialization)
 //    alias(libs.plugins.ksp)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -78,6 +79,8 @@ dependencies {
 //    implementation(libs.room.ktx)
 //    implementation(libs.room.runtime)
 //    ksp(libs.room.room.compiler)
+    implementation(libs.room)
+    ksp(libs.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
