@@ -76,9 +76,10 @@ some-charts = {module = "com.github.MahmoudIbrahim3:android-compose-charts", ver
 video-player = {module = "com.google.android.exoplayer:exoplayer", version.ref = "videoPlayer"}
 
 #room
-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-room-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+
+room = { module = "androidx.room:room-ktx", version.ref = "room"}
+room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
