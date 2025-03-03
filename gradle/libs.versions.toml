@@ -24,7 +24,7 @@ someCharts = "1.2.2"
 serializable = "2.0.0"
 serialization = "1.7.3"
 
-videoPlayer = "1.5.1"
+videoPlayer = "2.19.1"
 room = "2.6.1"
 #ksp = "2.1.0-1.0.29"
 
@@ -73,7 +73,7 @@ ycharts = {module = "co.yml:ycharts", version.ref = "yCharts"}
 some-charts = {module = "com.github.MahmoudIbrahim3:android-compose-charts", version.ref = "someCharts"}
 
 #video
-video-player = {module = "androidx.media3:media3-session", version.ref = "videoPlayer"}
+video-player = {module = "com.google.android.exoplayer:exoplayer", version.ref = "videoPlayer"}
 
 #room
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
