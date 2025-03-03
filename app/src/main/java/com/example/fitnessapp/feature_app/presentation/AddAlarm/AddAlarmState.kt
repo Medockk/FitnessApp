@@ -7,7 +7,7 @@ data class AddAlarmState(
     val isAdded: Boolean = false,
 
     val sleepTimeStart: String = "21:00",
-    val sleepTimeEnd: String = "8:30",
+    val sleepTimeEnd: String = "08:30",
     val repeatDays: String = "Never",
     val vibrationState: Boolean = false,
 

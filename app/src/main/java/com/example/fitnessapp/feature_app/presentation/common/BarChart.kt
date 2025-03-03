@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -16,7 +16,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._A8E3D9
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A8E3D9
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

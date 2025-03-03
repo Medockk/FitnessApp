@@ -16,11 +16,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
-import com.example.fitnessapp.ui.theme._00F0FF
-import com.example.fitnessapp.ui.theme._00FF66
-import com.example.fitnessapp.ui.theme._FF0000
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat40014_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._00F0FF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._00FF66
+import com.example.fitnessapp.feature_app.presentation.ui.theme._FF0000
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_1D1617
 
 @Composable
 fun CustomStatisticBar(

@@ -1,4 +1,4 @@
-package com.example.fitnessapp.ui.theme
+package com.example.fitnessapp.feature_app.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.graphics.Color
@@ -105,6 +105,12 @@ val montserrat40012_A5A3B0 = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(400),
     fontSize = 12.sp,
+    color = _A5A3B0
+)
+val montserrat4008_A5A3B0 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(400),
+    fontSize = 8.sp,
     color = _A5A3B0
 )
 val montserrat40014_C150F6 = TextStyle (

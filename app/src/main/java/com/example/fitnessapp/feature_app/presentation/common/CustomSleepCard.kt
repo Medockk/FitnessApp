@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
 import com.example.fitnessapp.feature_app.domain.model.SleepTracker
-import com.example.fitnessapp.ui.theme._A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat40014_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat50014_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_1D1617
 
 @Composable
 fun CustomSleepCard(

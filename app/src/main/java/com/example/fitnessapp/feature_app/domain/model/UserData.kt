@@ -11,7 +11,8 @@ data class UserData(
     val gender: String = "",
     val birthdayData: String = "",
     val weight: String = "",
-    val height: String = ""
+    val height: String = "",
+    val notification: Boolean = false,
 ){
     companion object{
         val male = "Мужской"

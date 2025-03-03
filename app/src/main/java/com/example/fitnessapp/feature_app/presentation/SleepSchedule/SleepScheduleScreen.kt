@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,21 +31,21 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomDateCard
-import com.example.common.CustomFloatingActionButton
-import com.example.common.CustomGreenButton
-import com.example.common.CustomIndicator
-import com.example.common.CustomSleepCard
-import com.example.common.CustomTopAppBar
-import com.example.fitnessapp.Route
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40012_1D1617
-import com.example.fitnessapp.ui.theme.montserrat50010White
-import com.example.fitnessapp.ui.theme.montserrat50014_228F7D
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomDateCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomFloatingActionButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomSleepCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50010White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -62,8 +63,6 @@ fun SleepScheduleScreen(
             viewModel.onEvent(SleepScheduleEvent.ResetException)
         }
     }
-
-    CustomIndicator(state.showIndicator)
 
     LazyColumn(
         modifier = Modifier
@@ -135,42 +134,40 @@ fun SleepScheduleScreen(
             CustomDateCard(
                 {},
                 modifier = Modifier
-                    .fillParentMaxWidth()
-            ) { }
+                    .fillParentMaxWidth(),
+                day = state.currentDay
+            ) { viewModel.onEvent(SleepScheduleEvent.MonthClick(it)) }
             Spacer(Modifier.height(30.dp))
         }
 
-        item {
-            AnimatedVisibility(
-                visible = state.sleepData != null,
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
-            ) {
+        items(state.sleepData) { sleep ->
+            if (state.sleepData.isNotEmpty() && state.sleepData.indexOf(sleep) == 0) {
                 CustomSleepCard(
-                    sleep = state.sleepData!!,
+                    sleep = sleep,
                     icon = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Icon-Bed.png",
                     sleepEnd = "",
                     modifier = Modifier
                         .fillParentMaxWidth()
                 ) {
-                    viewModel.onEvent(SleepScheduleEvent.ChangeSleepEnabled(state.sleepData))
+                    viewModel.onEvent(SleepScheduleEvent.ChangeSleepEnabled(sleep))
                 }
+                Spacer(Modifier.height(15.dp))
             }
-            Spacer(Modifier.height(15.dp))
-            AnimatedVisibility(
-                visible = state.alarmClockTracker != null,
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
-            ) {
+        }
+
+        items(state.alarmClockTracker) { alarm ->
+            if (state.alarmClockTracker.isNotEmpty() && state.alarmClockTracker.indexOf(alarm) == 0){
                 CustomSleepCard(
-                    alarmClockTracker = state.alarmClockTracker!!,
+                    alarmClockTracker = alarm,
                     icon = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Icon-Alaarm.png",
                     alarmEnd = "",
                     modifier = Modifier
                         .fillParentMaxWidth()
                 ) {
-                    viewModel.onEvent(SleepScheduleEvent.ChangeAlarmEnabled(state.alarmClockTracker))
+                    viewModel.onEvent(SleepScheduleEvent.ChangeAlarmEnabled(alarm))
                 }
+                Spacer(Modifier.height(15.dp))
             }
-            Spacer(Modifier.height(15.dp))
         }
 
         item {
@@ -228,4 +225,5 @@ fun SleepScheduleScreen(
             }
         }
     }
+    CustomIndicator(state.showIndicator)
 }

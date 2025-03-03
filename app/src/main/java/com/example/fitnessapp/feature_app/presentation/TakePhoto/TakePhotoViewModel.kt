@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.TakePhoto
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.usecase.Compare.UploadPhotoUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 class TakePhotoViewModel(
     private val uploadPhotoUseCase: UploadPhotoUseCase
@@ -19,36 +21,36 @@ class TakePhotoViewModel(
     fun onEvent(event: TakePhotoEvent){
         when (event){
             is TakePhotoEvent.TakePhoto -> {
-                if (_state.value.imageBitmaps.size < 5) {
+                if (_state.value.imageByteArray.size < 5) {
                     _state.value = state.value.copy(
-                        imageBitmaps = _state.value.imageBitmaps + event.bitmap
+                        imageByteArray = _state.value.imageByteArray + event.photo.toByteArray()
                     )
 
                     _state.value = state.value.copy(showIndicator = true)
                     viewModelScope.launch(Dispatchers.IO) {
                         try {
-                            when (_state.value.imageBitmaps.size){
+                            when (_state.value.imageByteArray.size){
                                 1 -> {
                                     uploadPhotoUseCase(
-                                        photo = _state.value.imageBitmaps[0],
+                                        photo = _state.value.imageByteArray[0],
                                         category = GalleryData.frontSide
                                     )
                                 }
                                 2 -> {
                                     uploadPhotoUseCase(
-                                        photo = _state.value.imageBitmaps[1],
+                                        photo = _state.value.imageByteArray[1],
                                         category = GalleryData.leftSide
                                     )
                                 }
                                 3 -> {
                                     uploadPhotoUseCase(
-                                        photo = _state.value.imageBitmaps[2],
+                                        photo = _state.value.imageByteArray[2],
                                         category = GalleryData.reverseSide
                                     )
                                 }
                                 4 -> {
                                     uploadPhotoUseCase(
-                                        photo = _state.value.imageBitmaps[3],
+                                        photo = _state.value.imageByteArray[3],
                                         category = GalleryData.rightSide
                                     )
                                 }
@@ -65,5 +67,11 @@ class TakePhotoViewModel(
                 _state.value = state.value.copy(exception = "")
             }
         }
+    }
+
+    private fun Bitmap.toByteArray() : ByteArray{
+        val stream = ByteArrayOutputStream()
+        this.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
     }
 }

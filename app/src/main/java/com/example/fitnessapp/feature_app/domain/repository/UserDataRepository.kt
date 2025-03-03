@@ -23,4 +23,5 @@ interface UserDataRepository {
 
     suspend fun getUserImage() : String
     suspend fun setUserImage(byteArray: ByteArray)
+    suspend fun changeNotificationState(value: Boolean)
 }

@@ -35,22 +35,22 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomGreenButton
-import com.example.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.presentation.MealDetail.components.CustomIngredientCard
 import com.example.fitnessapp.feature_app.presentation.MealDetail.components.CustomNutritionCard
 import com.example.fitnessapp.feature_app.presentation.MealDetail.components.CustomReceipt
-import com.example.fitnessapp.ui.theme._07856E
-import com.example.fitnessapp.ui.theme._1D1617
-import com.example.fitnessapp.ui.theme._81CCBF
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat40012_C6C4D4
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
-import com.example.fitnessapp.ui.theme.montserrat70016_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
+import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_C6C4D4
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70016_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

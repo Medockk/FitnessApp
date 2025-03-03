@@ -4,14 +4,21 @@ import android.os.CountDownTimer
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.fitnessapp.feature_app.domain.usecase.Queue.QueueUseCase
 
-class WelcomeViewModel : ViewModel() {
+class WelcomeViewModel(
+    private val queueUseCase: QueueUseCase
+) : ViewModel() {
 
     private val _state = mutableStateOf(WelcomeState())
     val state: State<WelcomeState> = _state
 
     init {
-        startTimer()
+        if (queueUseCase.getQueueUseCase() == -1){
+            _state.value = state.value.copy(isQueueComplete = true)
+        }else{
+            startTimer()
+        }
     }
 
     private fun startTimer() {

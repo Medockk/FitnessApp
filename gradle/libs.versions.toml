@@ -1,15 +1,15 @@
 [versions]
-agp = "8.8.1"
+agp = "8.8.2"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.0"
-composeBom = "2024.04.01"
+activityCompose = "1.10.1"
+composeBom = "2025.02.00"
 
-navigation = "2.8.6"
+navigation = "2.8.8"
 viewModel = "2.8.7"
 
 supabase = "3.0.3"
@@ -24,9 +24,9 @@ someCharts = "1.2.2"
 serializable = "2.0.0"
 serialization = "1.7.3"
 
-videoPlayer = "1.5.1"
-media3Exoplayer = "1.5.1"
-media3Ui = "1.5.1"
+videoPlayer = "2.19.1"
+room = "2.6.1"
+#ksp = "2.1.0-1.0.29"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -73,9 +73,12 @@ ycharts = {module = "co.yml:ycharts", version.ref = "yCharts"}
 some-charts = {module = "com.github.MahmoudIbrahim3:android-compose-charts", version.ref = "someCharts"}
 
 #video
-video-player = {module = "androidx.media3:media3-session", version.ref = "videoPlayer"}
-androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
-androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
+video-player = {module = "com.google.android.exoplayer:exoplayer", version.ref = "videoPlayer"}
+
+#room
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -85,4 +88,6 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ##serializable
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serializable" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+#ksp
+#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 

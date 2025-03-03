@@ -35,17 +35,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomGreenButton
-import com.example.fitnessapp.Route
-import com.example.fitnessapp.ui.theme._07856E
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._81CCBF
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme.montserrat40012White
-import com.example.fitnessapp.ui.theme.montserrat40012_7B6F72
-import com.example.fitnessapp.ui.theme.montserrat60014White
-import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_7B6F72
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60014White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)

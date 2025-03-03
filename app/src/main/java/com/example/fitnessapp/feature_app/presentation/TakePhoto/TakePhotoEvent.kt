@@ -5,5 +5,5 @@ import android.graphics.Bitmap
 sealed class TakePhotoEvent {
 
     data object ResetException : TakePhotoEvent()
-    data class TakePhoto(val bitmap: Bitmap) : TakePhotoEvent()
+    data class TakePhoto(val photo: Bitmap) : TakePhotoEvent()
 }

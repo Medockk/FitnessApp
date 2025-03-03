@@ -33,19 +33,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomIndicator
-import com.example.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.R
-import com.example.fitnessapp.Route
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.components.CategoryCard
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.components.DietaryCard
 import com.example.fitnessapp.feature_app.presentation.CategoryBreakfast.components.PopularMealCard
-import com.example.fitnessapp.ui.theme._A5A3B0
-import com.example.fitnessapp.ui.theme._C6C4D4
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40012_C6C4D4
-import com.example.fitnessapp.ui.theme.montserrat60016Bold_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme._C6C4D4
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_C6C4D4
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

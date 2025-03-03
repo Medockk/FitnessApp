@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.Route
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.AddMealToUserMealScheduleUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetMealDetailsUseCase
 import kotlinx.coroutines.Dispatchers

@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 
 @Composable
 fun CustomPhotoPose(

@@ -7,6 +7,7 @@ sealed class SleepScheduleEvent {
 
     data object ResetException : SleepScheduleEvent()
 
+    data class MonthClick(val value: Int) : SleepScheduleEvent()
     data class ChangeSleepEnabled(val sleepTracker: SleepTracker) : SleepScheduleEvent()
     data class ChangeAlarmEnabled(val alarmClockTracker: AlarmClockTracker) : SleepScheduleEvent()
 }

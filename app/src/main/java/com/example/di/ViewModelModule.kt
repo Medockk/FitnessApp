@@ -22,6 +22,7 @@ import com.example.fitnessapp.feature_app.presentation.SleepTracker.SleepTracker
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.StartWorkoutViewModel
 import com.example.fitnessapp.feature_app.presentation.SuccessRegistration.SuccessRegistrationViewModel
 import com.example.fitnessapp.feature_app.presentation.TakePhoto.TakePhotoViewModel
+import com.example.fitnessapp.feature_app.presentation.Welcome.WelcomeViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleViewModel
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutViewModel
@@ -30,6 +31,9 @@ import org.koin.dsl.module
 
 val moduleViewModel = module {
 
+    viewModel<WelcomeViewModel> {
+        WelcomeViewModel(get())
+    }
     viewModel<OnBoardViewModel>{
         OnBoardViewModel(get())
     }
@@ -69,7 +73,7 @@ val moduleViewModel = module {
     viewModel<ProfileViewModel>{
         ProfileViewModel(
             get(), get(),
-            get(), get()
+            get(), get(), get()
         )
     }
 
@@ -102,7 +106,7 @@ val moduleViewModel = module {
 
     viewModel<MealScheduleViewModel>{
         MealScheduleViewModel(
-            get(), get()
+            get(), get(), get()
         )
     }
 
@@ -126,7 +130,8 @@ val moduleViewModel = module {
     }
 
     viewModel<SleepScheduleViewModel>{
-        SleepScheduleViewModel(get(), get(), get(),get())
+        SleepScheduleViewModel(get(), get(), get(),get(),
+            get(), get())
     }
 
     viewModel<AddAlarmViewModel>{

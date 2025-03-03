@@ -26,11 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.presentation.MealSchedule.MealScheduleItem
-import com.example.fitnessapp.ui.theme._00F0FF
-import com.example.fitnessapp.ui.theme._00FF66
-import com.example.fitnessapp.ui.theme._A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat40014_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._00F0FF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._00FF66
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_1D1617
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -64,7 +64,7 @@ fun MealCard(
                 modifier = Modifier
                     .padding(12.dp)
                     .size(40.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Fit
             )
         }
         Spacer(Modifier.width(10.dp))

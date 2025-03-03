@@ -20,9 +20,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat40010_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme._B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 
 @Composable
 fun CustomWorkoutInfo(

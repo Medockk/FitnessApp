@@ -17,14 +17,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.R
-import com.example.fitnessapp.Route
-import com.example.fitnessapp.ui.theme.montserrat40018_CFCFCF
-import com.example.fitnessapp.ui.theme.montserrat70036_1D1617
-import com.example.fitnessapp.ui.theme.montserrat70036_52B09F
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40018_CFCFCF
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70036_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70036_52B09F
+import org.koin.androidx.compose.koinViewModel
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
@@ -35,16 +35,25 @@ private fun Prev() {
 @Composable
 fun WelcomeScreen(
     navController: NavController,
-    viewModel: WelcomeViewModel = viewModel()
+    viewModel: WelcomeViewModel = koinViewModel()
 ) {
 
     val state = viewModel.state.value
     val paddingBottom = LocalConfiguration.current.screenHeightDp / 30
 
     LaunchedEffect(key1 = !state.isComplete) {
-        if (state.isComplete){
-            navController.navigate(Route.OnBoardScreen.route){
-                popUpTo(Route.WelcomeScreen.route){
+        if (state.isComplete) {
+            navController.navigate(Route.OnBoardScreen.route) {
+                popUpTo(Route.WelcomeScreen.route) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+    LaunchedEffect(key1 = !state.isQueueComplete) {
+        if (state.isQueueComplete) {
+            navController.navigate(Route.SignInScreen.route) {
+                popUpTo(Route.WelcomeScreen.route) {
                     inclusive = true
                 }
             }

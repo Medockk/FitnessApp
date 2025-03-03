@@ -2,6 +2,7 @@ package com.example.fitnessapp.feature_app.presentation.MealSchedule
 
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
+import java.time.LocalDate
 
 data class MealScheduleState(
     val exception: String = "",
@@ -23,4 +24,5 @@ data class MealScheduleState(
     val dinnerCalories: String = "",
 
     val showIndicator: Boolean = false,
+    val currentDay: Int = LocalDate.now().dayOfMonth,
 )

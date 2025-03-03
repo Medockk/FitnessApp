@@ -30,26 +30,26 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomCanvasBarChart
-import com.example.common.CustomIndicator
-import com.example.common.CustomLightGreenCard
-import com.example.common.CustomSleepCard
-import com.example.common.CustomTopAppBar
-import com.example.fitnessapp.Route
-import com.example.fitnessapp.ui.theme._07856E
-import com.example.fitnessapp.ui.theme._81CCBF
-import com.example.fitnessapp.ui.theme._A5A3B0
-import com.example.fitnessapp.ui.theme._A8E3D9
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40010_42D742
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat50014White
-import com.example.fitnessapp.ui.theme.montserrat50016White
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomCanvasBarChart
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomLightGreenCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomSleepCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
+import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A8E3D9
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_42D742
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50016White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.ui.platform.LocalConfiguration
-import com.example.fitnessapp.ui.theme._5DDDC7
+import com.example.fitnessapp.feature_app.presentation.ui.theme._5DDDC7
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -68,8 +68,6 @@ fun SleepTrackerScreen(
             viewModel.onEvent(SleepTrackerEvent.ResetException)
         }
     }
-
-    CustomIndicator(state.showIndicator)
 
     LazyColumn(
         modifier = Modifier
@@ -128,7 +126,8 @@ fun SleepTrackerScreen(
                         RoundedCornerShape(22.dp)
                     ),
                 shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(Color.Transparent, Color.Unspecified)
+                colors = CardDefaults.cardColors(Color.Transparent, Color.Unspecified),
+                onClick = { navController.navigate(Route.SleepScheduleScreen.route) }
             ) {
                 Column(
                     modifier = Modifier
@@ -216,4 +215,6 @@ fun SleepTrackerScreen(
             Spacer(Modifier.height((LocalConfiguration.current.screenHeightDp / 20).dp))
         }
     }
+
+    CustomIndicator(state.showIndicator)
 }

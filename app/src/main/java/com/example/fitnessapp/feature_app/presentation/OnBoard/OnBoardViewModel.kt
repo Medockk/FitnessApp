@@ -23,7 +23,7 @@ class OnBoardViewModel(
         if (queue){
             _state.value = state.value.copy(
                 currentPage = queueUseCase.getQueueUseCase(),
-                onBoardItem = onBoardItemList[queueUseCase.getQueueUseCase()]
+                isStart = true
             )
         }else{
             _state.value = state.value.copy(
@@ -35,10 +35,9 @@ class OnBoardViewModel(
     fun onEvent(event: OnBoardEvent){
         when (event){
             is OnBoardEvent.NextPage -> {
-                if (event.value != _state.value.pagesCount){
+                if (event.value < _state.value.onBoardItem.size){
                     _state.value = state.value.copy(
                         currentPage = event.value,
-                        onBoardItem = onBoardItemList[event.value]
                     )
                     queueUseCase.setQueueUseCase(event.value)
                 }else{
@@ -48,6 +47,8 @@ class OnBoardViewModel(
                     queueUseCase.setQueueUseCase(-1)
                 }
             }
+
+            OnBoardEvent.ChangeIsStartState -> {_state.value = state.value.copy(isStart = !_state.value.isStart)}
         }
     }
 }

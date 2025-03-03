@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme.topAppBarBlackTestStyle
+import com.example.fitnessapp.feature_app.presentation.ui.theme.topAppBarBlackTestStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

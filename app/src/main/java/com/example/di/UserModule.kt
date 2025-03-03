@@ -3,6 +3,7 @@ package com.example.di
 import com.example.fitnessapp.feature_app.data.repository.UserDataRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.ChangeNotificationStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetLastActivityUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetNotificationsUseCase
@@ -53,5 +54,8 @@ val moduleUser = module {
 
     factory<SetUserImageUseCase> {
         SetUserImageUseCase(get())
+    }
+    factory<ChangeNotificationStateUseCase> {
+        ChangeNotificationStateUseCase(get())
     }
 }

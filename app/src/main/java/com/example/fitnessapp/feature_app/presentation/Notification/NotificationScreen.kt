@@ -16,11 +16,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomIndicator
-import com.example.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.Notification.components.NotificationCard
-import com.example.fitnessapp.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
