@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.R
-import com.example.fitnessapp.Route
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

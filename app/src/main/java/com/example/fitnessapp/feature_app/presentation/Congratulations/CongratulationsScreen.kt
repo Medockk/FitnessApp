@@ -21,10 +21,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.example.common.CustomGreenButton
-import com.example.fitnessapp.Route
-import com.example.fitnessapp.ui.theme.montserrat40012_7B6F72
-import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_7B6F72
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020Bold_1D1617
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

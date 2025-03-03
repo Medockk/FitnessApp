@@ -104,6 +104,14 @@ class UserDataRepositoryImpl : UserDataRepository {
         }
     }
 
+    override suspend fun changeNotificationState(value: Boolean) {
+        val userID = getUserID()
+
+        client.postgrest["Users"].update(mapOf("notification" to value)){
+            filter { eq("userID", userID) }
+        }
+    }
+
     override suspend fun getHeartRate(): HeartRate {
 
         val userID = getUserID()

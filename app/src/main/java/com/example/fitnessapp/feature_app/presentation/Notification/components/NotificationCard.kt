@@ -24,10 +24,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.fitnessapp.ui.theme._00FF66
-import com.example.fitnessapp.ui.theme._C6C4D4
-import com.example.fitnessapp.ui.theme.montserrat40010_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._00FF66
+import com.example.fitnessapp.feature_app.presentation.ui.theme._C6C4D4
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_1D1617
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

@@ -1,4 +1,4 @@
-package com.example.fitnessapp
+package com.example.fitnessapp.feature_app.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -55,7 +55,7 @@ import com.example.fitnessapp.feature_app.presentation.Welcome.WelcomeScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDetailScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutTrackerScreen
-import com.example.fitnessapp.ui.theme.FitnessAppTheme
+import com.example.fitnessapp.feature_app.presentation.ui.theme.FitnessAppTheme
 import com.mahmoud.composecharts.barchart.BarChart
 import com.mahmoud.composecharts.barchart.BarChartEntity
 
@@ -198,7 +198,7 @@ class MainActivity : ComponentActivity() {
                         CompareResultScreen(navController)
                     }
                     composable(Route.TakePhotoScreen.route){
-                        TakePhotoScreen()
+                        TakePhotoScreen(navController)
                     }
                 }
             }

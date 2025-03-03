@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,9 +20,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme.montserrat50014_ADA4A5
-import com.example.fitnessapp.ui.theme.montserrat70036_52B09F
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_ADA4A5
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70036_52B09F
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

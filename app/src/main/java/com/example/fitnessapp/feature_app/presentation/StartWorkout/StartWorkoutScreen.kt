@@ -20,16 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomGreenButton
-import com.example.common.CustomIndicator
-import com.example.common.CustomTopAppBar
-import com.example.fitnessapp.Route
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomPerformingWorkout
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat60016Bold_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @androidx.annotation.OptIn(UnstableApi::class)

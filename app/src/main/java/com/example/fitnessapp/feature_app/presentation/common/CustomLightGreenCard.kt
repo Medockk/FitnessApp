@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._5CBDAC
-import com.example.fitnessapp.ui.theme._68C6B6
-import com.example.fitnessapp.ui.theme.montserrat40011White
-import com.example.fitnessapp.ui.theme.montserrat50014_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._5CBDAC
+import com.example.fitnessapp.feature_app.presentation.ui.theme._68C6B6
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40011White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_1D1617
 
 @Composable
 fun CustomLightGreenCard(

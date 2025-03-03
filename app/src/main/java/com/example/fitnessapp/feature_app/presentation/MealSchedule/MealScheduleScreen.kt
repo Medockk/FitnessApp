@@ -3,6 +3,8 @@ package com.example.fitnessapp.feature_app.presentation.MealSchedule
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -21,15 +23,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomDateCard
-import com.example.common.CustomFloatingActionButton
-import com.example.common.CustomIndicator
-import com.example.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomDateCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomFloatingActionButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.CustomProductMassCard
 import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.MealCard
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -64,12 +66,16 @@ fun MealScheduleScreen(
                 navController.popBackStack()
             }
             Spacer(Modifier.height(30.dp))
-            CustomDateCard({}) { }
+            CustomDateCard(modifier = Modifier
+                .fillMaxWidth(), lastMountClick = {}, day = state.currentDay) {
+                viewModel.onEvent(MealScheduleEvent.MonthClick(it))
+            }
             Spacer(Modifier.height(30.dp))
 
             AnimatedVisibility(
                 visible = state.breakfastMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -92,7 +98,8 @@ fun MealScheduleScreen(
         items(state.breakfastMeal){meal ->
             AnimatedVisibility(
                 visible = state.breakfastMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 MealCard(
                     mealScheduleItem = meal,
@@ -106,7 +113,8 @@ fun MealScheduleScreen(
         item {
             AnimatedVisibility(
                 visible = state.launchMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
@@ -126,7 +134,8 @@ fun MealScheduleScreen(
         items(state.launchMeal){meal ->
             AnimatedVisibility(
                 visible = state.launchMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 MealCard(
                     mealScheduleItem = meal,
@@ -139,7 +148,8 @@ fun MealScheduleScreen(
         item {
             AnimatedVisibility(
                 visible = state.afternoonMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
@@ -159,7 +169,8 @@ fun MealScheduleScreen(
         items(state.afternoonMeal){meal ->
             AnimatedVisibility(
                 visible = state.afternoonMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 MealCard(
                     mealScheduleItem = meal,
@@ -172,7 +183,8 @@ fun MealScheduleScreen(
         item {
             AnimatedVisibility(
                 visible = state.dinnerMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 Row (
                     verticalAlignment = Alignment.CenterVertically
@@ -192,7 +204,8 @@ fun MealScheduleScreen(
         items(state.dinnerMeal){meal ->
             AnimatedVisibility(
                 visible = state.dinnerMeal.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 MealCard(
                     mealScheduleItem = meal,
@@ -215,7 +228,8 @@ fun MealScheduleScreen(
         items(4){ item ->
             AnimatedVisibility(
                 visible = state.dietaryRecommendation.isNotEmpty(),
-                enter = slideInHorizontally(tween(500, easing = LinearOutSlowInEasing))
+                enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
+                exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
                 CustomProductMassCard(
                     item = item,

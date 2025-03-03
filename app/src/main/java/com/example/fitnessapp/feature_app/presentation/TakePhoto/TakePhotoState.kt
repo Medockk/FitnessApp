@@ -6,5 +6,6 @@ data class TakePhotoState(
     val exception: String = "",
     val showIndicator: Boolean = false,
 
-    val imageBitmaps: List<Bitmap> = emptyList(),
+    val imageByteArray: List<ByteArray> = emptyList(),
+    val imageBitmap: List<Bitmap> = emptyList(),
 )

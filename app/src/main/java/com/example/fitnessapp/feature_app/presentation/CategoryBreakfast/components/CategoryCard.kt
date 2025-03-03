@@ -22,9 +22,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.domain.model.CategoryData
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme.montserrat40012_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_1D1617
 
 @Composable
 fun CategoryCard(

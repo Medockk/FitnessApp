@@ -27,10 +27,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
-import com.example.fitnessapp.ui.theme._67C5B4
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat50010_67C5B4
-import com.example.fitnessapp.ui.theme.montserrat50014_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._67C5B4
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50010_67C5B4
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_1D1617
 
 @Composable
 fun AllWorkoutCard(

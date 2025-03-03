@@ -21,15 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomDateCard
-import com.example.common.CustomFloatingActionButton
-import com.example.common.CustomIndicator
-import com.example.common.CustomTopAppBar
-import com.example.fitnessapp.Route
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomDateCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomFloatingActionButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.components.CustomWorkoutTextCard
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.koinViewModel
 

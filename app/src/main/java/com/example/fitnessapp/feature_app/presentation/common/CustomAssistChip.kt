@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +13,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.R
-import com.example.fitnessapp.ui.theme._DDDADA
+import com.example.fitnessapp.feature_app.presentation.ui.theme._DDDADA
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

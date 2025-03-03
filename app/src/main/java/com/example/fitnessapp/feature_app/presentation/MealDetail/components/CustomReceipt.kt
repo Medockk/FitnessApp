@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._C150F6
-import com.example.fitnessapp.ui.theme._EEA4CE
-import com.example.fitnessapp.ui.theme.montserrat40014_1D1617
-import com.example.fitnessapp.ui.theme.montserrat40014_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat40014_C150F6
+import com.example.fitnessapp.feature_app.presentation.ui.theme._C150F6
+import com.example.fitnessapp.feature_app.presentation.ui.theme._EEA4CE
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_C150F6
 
 @Composable
 fun CustomReceipt(

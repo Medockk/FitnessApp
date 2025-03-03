@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.TakePhoto
 
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -32,30 +33,41 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomIndicator
 import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.TakePhoto.components.CustomPhotoPose
-import com.example.fitnessapp.ui.theme._07856E
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._81CCBF
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme._B6B4C2
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._B6B4C2
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TakePhotoScreen(
+    navController: NavController,
     viewModel: TakePhotoViewModel = koinViewModel()
 ) {
     val state = viewModel.state.value
     val photo = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) {
-        if (it != null){
+        if (it != null) {
             viewModel.onEvent(TakePhotoEvent.TakePhoto(it))
         }
     }
 
-    if (state.exception.isNotEmpty()){
+    BackHandler(!state.showIndicator) {
+        navController.navigate(Route.ProgressPhotoScreen.route) {
+            popUpTo(
+                Route.TakePhotoScreen.route
+            ) { inclusive = true }
+        }
+    }
+
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(state.exception) {
             viewModel.onEvent(TakePhotoEvent.ResetException)
         }
@@ -65,9 +77,11 @@ fun TakePhotoScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                Brush.linearGradient(listOf(
-                    _81CCBF, _07856E
-                )),
+                Brush.linearGradient(
+                    listOf(
+                        _81CCBF, _07856E
+                    )
+                ),
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -93,7 +107,7 @@ fun TakePhotoScreen(
                         .padding(horizontal = 40.dp)
                         .alpha(0.8f)
                         .background(Color.White, RoundedCornerShape(99.dp)),
-                    colors = CardDefaults.cardColors(Color.Transparent,Color.Transparent,),
+                    colors = CardDefaults.cardColors(Color.Transparent, Color.Transparent),
                     shape = RoundedCornerShape(99.dp),
                 ) {
                     Row(
@@ -125,9 +139,11 @@ fun TakePhotoScreen(
                             modifier = Modifier
                                 .clip(CircleShape)
                                 .background(
-                                    Brush.linearGradient(listOf(
-                                        _228F7D, _9CEEDF
-                                    )),
+                                    Brush.linearGradient(
+                                        listOf(
+                                            _228F7D, _9CEEDF
+                                        )
+                                    ),
                                     CircleShape
                                 ),
                             enabled = !state.showIndicator
@@ -159,14 +175,14 @@ fun TakePhotoScreen(
                         .fillParentMaxWidth()
                         .background(Color.White)
                 ) {
-                    itemsIndexed(state.imageBitmaps){ _, bitmap ->
+                    itemsIndexed(state.imageBitmap) { _, bitmap ->
                         CustomPhotoPose(
                             bitmap = bitmap,
                             imageModifier = Modifier
                                 .height(65.dp),
                             modifier = Modifier
                                 .padding(vertical = 30.dp)
-                        ){}
+                        ) {}
                         Spacer(Modifier.width(20.dp))
                     }
                 }

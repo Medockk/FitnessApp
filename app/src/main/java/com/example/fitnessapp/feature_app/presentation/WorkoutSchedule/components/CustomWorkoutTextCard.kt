@@ -12,9 +12,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme.montserrat40012White
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012White
 
 @Composable
 fun CustomWorkoutTextCard(

@@ -16,9 +16,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._1D161712
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat50014_228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._1D161712
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_228F7D
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

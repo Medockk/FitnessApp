@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.presentation.ProgressPhoto
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,8 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -33,25 +36,25 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.common.BottomBar
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomGreenButton
-import com.example.common.CustomIndicator
-import com.example.common.CustomLightGreenCard
-import com.example.common.CustomPhotoCard
-import com.example.common.CustomTopAppBar
-import com.example.fitnessapp.Route
-import com.example.fitnessapp.ui.theme._1D1617
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme._B6B4C2
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme._FF0000
-import com.example.fitnessapp.ui.theme.montserrat40012_FF0000
-import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
-import com.example.fitnessapp.ui.theme.montserrat50012_A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat50014_1D1617
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.feature_app.presentation.common.BottomBar
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomLightGreenCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomPhotoCard
+import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme._FF0000
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_FF0000
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -61,6 +64,7 @@ fun ProgressPhotoScreen(
 ) {
 
     val state = viewModel.state.value
+    val lazyStaggeredGridCells = rememberLazyStaggeredGridState()
 
     if (state.exception.isNotEmpty()) {
         CustomAlertDialog(description = state.exception) {
@@ -236,17 +240,26 @@ fun ProgressPhotoScreen(
             }
 
             item {
-                LazyRow(
+                LazyHorizontalStaggeredGrid(
+                    rows = StaggeredGridCells.Fixed(3),
                     modifier = Modifier
                         .fillParentMaxSize(),
+                    state = lazyStaggeredGridCells,
+                    horizontalItemSpacing = 10.dp,
+                    verticalArrangement = Arrangement.spacedBy((-15).dp),
                 ) {
-                    items(state.gallery.sortedBy { item -> item.date }) { gallery ->
-                        CustomPhotoCard(
-                            photo = gallery.photo,
-                            modifier = Modifier
-                                .size(100.dp)
-                        )
-                        Spacer(Modifier.size(10.dp))
+                    itemsIndexed(state.gallery.sortedBy { item -> item.date }) { index, gallery ->
+                        Column {
+                            if (lazyStaggeredGridCells.firstVisibleItemIndex == state.gallery[index].id) {
+                                Text(text = gallery.date)
+                                Spacer(Modifier.height(10.dp))
+                            }
+                            CustomPhotoCard(
+                                photo = gallery.photo,
+                                modifier = Modifier
+                                    .size(100.dp)
+                            )
+                        }
                     }
                 }
             }

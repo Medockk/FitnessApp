@@ -14,9 +14,9 @@ import co.yml.charts.ui.barchart.models.BarChartData
 import co.yml.charts.ui.barchart.models.BarChartType
 import co.yml.charts.ui.barchart.models.BarData
 import co.yml.charts.ui.barchart.models.BarStyle
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme._A8E3D9
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A8E3D9
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

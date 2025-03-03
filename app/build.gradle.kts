@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 
     alias(libs.plugins.serialization)
+//    alias(libs.plugins.ksp)
 }
 
 android {
@@ -72,8 +73,11 @@ dependencies {
 
     //videoPlayer
     implementation(libs.video.player)
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.ui)
+
+    //room
+//    implementation(libs.room.ktx)
+//    implementation(libs.room.runtime)
+//    ksp(libs.room.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

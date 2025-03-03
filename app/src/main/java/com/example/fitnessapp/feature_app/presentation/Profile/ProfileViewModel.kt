@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.model.UserData
+import com.example.fitnessapp.feature_app.domain.usecase.User.ChangeNotificationStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserImageUseCase
@@ -17,7 +18,8 @@ class ProfileViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val getPurposeUseCase: GetPurposeUseCase,
     private val getUserImageUseCase: GetUserImageUseCase,
-    private val setUserImageUseCase: SetUserImageUseCase
+    private val setUserImageUseCase: SetUserImageUseCase,
+    private val changeNotificationStateUseCase: ChangeNotificationStateUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ProfileState())
@@ -75,6 +77,15 @@ class ProfileViewModel(
                 _state.value = state.value.copy(
                     isNotificationTurnOn = event.value
                 )
+                viewModelScope.launch(Dispatchers.IO) {
+                    _state.value = state.value.copy(showIndicator = true)
+                    try {
+                        changeNotificationStateUseCase(event.value)
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
+                    _state.value = state.value.copy(showIndicator = false)
+                }
             }
             ProfileEvent.ResetException -> {
                 _state.value = state.value.copy(

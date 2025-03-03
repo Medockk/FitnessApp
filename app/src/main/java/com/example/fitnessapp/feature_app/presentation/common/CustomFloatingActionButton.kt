@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 
 @Composable
 fun CustomFloatingActionButton(

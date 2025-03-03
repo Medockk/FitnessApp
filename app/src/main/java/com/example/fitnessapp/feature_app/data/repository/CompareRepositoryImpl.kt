@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
@@ -9,7 +10,6 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
 import kotlinx.datetime.Month
-import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import kotlin.time.Duration
 
@@ -82,20 +82,20 @@ class CompareRepositoryImpl : CompareRepository {
         }.decodeList<StatisticData>()
     }
 
-    override suspend fun uploadPhoto(photo: Bitmap, category: String) {
+    override suspend fun uploadPhoto(photo: ByteArray, category: String) {
 
         val userID = getUserID()
         val bucket = client.storage.from("gallery/$userID")
-
+        val bitmap = photo.toBitmap()
 
         bucket.upload(
-            "$photo.png",
-            data = photo.toByteArray()
+            "$bitmap.png",
+            data = photo
         ) {
             this.upsert = true
         }
 
-        val url = bucket.createSignedUrl("$photo.png", Duration.INFINITE)
+        val url = bucket.createSignedUrl("$bitmap.png", Duration.INFINITE)
         client.postgrest["Gallery"].insert(
             mapOf(
                 "userID" to userID,
@@ -110,9 +110,7 @@ class CompareRepositoryImpl : CompareRepository {
         return client.auth.currentUserOrNull()?.id ?: ""
     }
 
-    private fun Bitmap.toByteArray(): ByteArray {
-        val stream = ByteArrayOutputStream()
-        this.compress(Bitmap.CompressFormat.PNG, 90, stream)
-        return stream.toByteArray()
+    private fun ByteArray.toBitmap() : Bitmap{
+        return BitmapFactory.decodeByteArray(this, 0, this.size)
     }
 }

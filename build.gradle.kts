@@ -6,4 +6,5 @@ plugins {
 
     alias(libs.plugins.serialization) apply false
     alias(libs.plugins.androidLibrary) apply false
+    //alias(libs.plugins.ksp) apply false
 }

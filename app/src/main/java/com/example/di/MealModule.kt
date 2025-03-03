@@ -7,6 +7,7 @@ import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetCategoriesUseCa
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetDietaryRecommendationByIDUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetDietaryRecommendationUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetMealDetailsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetUserMealScheduleByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetUserMealScheduleUseCase
 import org.koin.dsl.module
 
@@ -38,5 +39,8 @@ val moduleMeal = module {
 
     factory<AddMealToUserMealScheduleUseCase> {
         AddMealToUserMealScheduleUseCase(get())
+    }
+    factory<GetUserMealScheduleByDateUseCase> {
+        GetUserMealScheduleByDateUseCase(get())
     }
 }

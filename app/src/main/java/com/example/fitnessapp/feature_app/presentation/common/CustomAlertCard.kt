@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.fitnessapp.feature_app.presentation.common
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,10 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.example.fitnessapp.ui.theme._A5A3B0
-import com.example.fitnessapp.ui.theme._B6B4C2
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40012_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme._B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 
 @Composable
 fun CustomAlertCard(

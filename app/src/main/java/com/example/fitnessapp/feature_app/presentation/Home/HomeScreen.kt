@@ -6,6 +6,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,11 +15,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,27 +44,32 @@ import androidx.navigation.compose.rememberNavController
 import co.yml.charts.common.model.PlotType
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
-import com.example.common.BarChart
-import com.example.common.BottomBar
-import com.example.common.CustomAlertDialog
-import com.example.common.CustomGreenButton
-import com.example.common.CustomIndicator
-import com.example.common.CustomLightGreenCard
+import coil.compose.AsyncImage
+import com.example.fitnessapp.feature_app.presentation.common.BarChart
+import com.example.fitnessapp.feature_app.presentation.common.BottomBar
+import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
+import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
+import com.example.fitnessapp.feature_app.presentation.common.CustomLightGreenCard
 import com.example.fitnessapp.R
-import com.example.fitnessapp.Route
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.Home.components.CustomCard
 import com.example.fitnessapp.feature_app.presentation.Home.components.ImtDiagram
-import com.example.fitnessapp.feature_app.presentation.Home.components.StatisticCard
-import com.example.fitnessapp.ui.theme._07856E
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._81CCBF
-import com.example.fitnessapp.ui.theme._F7F8F8
-import com.example.fitnessapp.ui.theme.montserrat40012White
-import com.example.fitnessapp.ui.theme.montserrat40012_A5A3B0
-import com.example.fitnessapp.ui.theme.montserrat50012_1D1617
-import com.example.fitnessapp.ui.theme.montserrat60013White
-import com.example.fitnessapp.ui.theme.montserrat60014_07856E
-import com.example.fitnessapp.ui.theme.montserrat60016_1D1617
-import com.example.fitnessapp.ui.theme.montserrat70020Bold_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat4008_A5A3B0
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60013White
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60014_07856E
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60014_228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -165,7 +171,8 @@ fun HomeScreen(
                     colors = CardDefaults.cardColors(
                         containerColor = Color.Transparent
                     ),
-                    shape = RoundedCornerShape(22.dp)
+                    shape = RoundedCornerShape(22.dp),
+                    onClick = { navController.navigate(Route.CategoryBreakfastScreen.route) }
                 ) {
                     Row(
                         modifier = Modifier
@@ -289,28 +296,90 @@ fun HomeScreen(
             }
 
             item {
-                AnimatedVisibility(
-                    visible = state.userStatistics.isNotEmpty(),
-                    enter = slideInVertically(tween(500, easing = LinearOutSlowInEasing))
+                Row(
+                    modifier = Modifier
+                        .fillParentMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
+                    CustomCard(
                         modifier = Modifier
-                            .fillParentMaxSize(),
-                        userScrollEnabled = false
+                            .fillParentMaxWidth(0.48f)
                     ) {
-                        this.items(state.userStatistics) { userStatistic ->
-                            StatisticCard(
-                                title = userStatistic.title,
-                                description = userStatistic.description,
-                                modifier = Modifier
-                                    .fillParentMaxWidth(0.47f)
-                                    .padding(top = 10.dp)
-                            ) {
-
+                        Row(
+                            modifier = Modifier
+                                .padding(20.dp)
+                        ) {
+                            Box(Modifier
+                                .size(20.dp, 150.dp)
+                                .background(_F7F8F8, RoundedCornerShape(30.dp)))
+                            Spacer(Modifier.width(10.dp))
+                            Column {
+                                Text(
+                                    text = "Вода",
+                                    style = montserrat50012_1D1617
+                                )
+                                Spacer(Modifier.height(5.dp))
+                                Text(
+                                    text = if (state.userStatistics.isNotEmpty()) {
+                                        state.userStatistics[0].title
+                                    }else{
+                                        "4л"
+                                    },
+                                    style = montserrat60014_228F7D
+                                )
+                                Spacer(Modifier.height(10.dp))
+                                Text(
+                                    text = "В реал. времени",
+                                    style = montserrat40010_B6B4C2
+                                )
+                                Spacer(Modifier.height(5.dp))
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Box(Modifier
+                                        .size(6.dp)
+                                        .background(
+                                            Brush.linearGradient(
+                                                listOf(
+                                                    _228F7D, _9CEEDF
+                                                )
+                                            ), CircleShape, 0.5f
+                                        ))
+                                    Spacer(Modifier.width(5.dp))
+                                    Text(
+                                        text = "6:00 - 8:00",
+                                        style = montserrat4008_A5A3B0
+                                    )
+                                }
                             }
-                            Spacer(Modifier
-                                .width(15.dp))
+                        }
+                    }
+                    CustomCard(
+                        modifier = Modifier
+                            .fillParentMaxWidth(0.48f),
+                        onClick = { navController.navigate(Route.SleepTrackerScreen.route) }
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(20.dp)
+                        ) {
+                            Text(
+                                text = "Сон",
+                                style = montserrat50012_1D1617
+                            )
+                            Spacer(Modifier.height(5.dp))
+                            Text(
+                                text = if (state.userStatistics.size >= 2){state.userStatistics[1].title}else{"8 ч. 20 мин."},
+                                style = montserrat60014_228F7D
+                            )
+                            Spacer(Modifier.height(5.dp))
+                            AsyncImage(
+                                model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Sleep-Graph%20(1).png",
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                contentScale = ContentScale.Crop
+                            )
                         }
                     }
                 }

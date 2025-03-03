@@ -1,4 +1,4 @@
-package com.example.fitnessapp
+package com.example.fitnessapp.feature_app.presentation
 
 import android.app.Application
 import com.example.di.moduleAuth

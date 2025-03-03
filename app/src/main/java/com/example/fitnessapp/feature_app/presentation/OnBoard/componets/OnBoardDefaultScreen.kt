@@ -27,10 +27,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.OnBoard.OnBoardItem
-import com.example.fitnessapp.ui.theme._228F7D
-import com.example.fitnessapp.ui.theme._9CEEDF
-import com.example.fitnessapp.ui.theme.montserrat40014_B6B4C2
-import com.example.fitnessapp.ui.theme.montserrat70024Bold_1D1617
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_B6B4C2
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70024Bold_1D1617
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
