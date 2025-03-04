@@ -132,7 +132,6 @@ fun SleepScheduleScreen(
             )
             Spacer(Modifier.height(15.dp))
             CustomDateCard(
-                {},
                 modifier = Modifier
                     .fillParentMaxWidth(),
                 day = state.currentDay

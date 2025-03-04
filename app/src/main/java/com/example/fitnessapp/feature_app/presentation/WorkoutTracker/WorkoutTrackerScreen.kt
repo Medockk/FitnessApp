@@ -99,10 +99,9 @@ fun WorkoutTrackerScreen(
             ) {
                 CustomCanvasBarChart(
                     list = state.workoutBar,
-                    lineColor = _B0F8E1,
-                    xAxisLineColor = Color.White,
                     height = 200.dp,
                     textStyle = montserrat40010White,
+                    indexToDarkBarColor = 3,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)

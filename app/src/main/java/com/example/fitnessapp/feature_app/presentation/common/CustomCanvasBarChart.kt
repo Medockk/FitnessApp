@@ -20,14 +20,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
+import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
 
 @Composable
 fun CustomCanvasBarChart(
     list: List<Float>,
     height: Dp,
-    lineColor: Color,
-    xAxisLineColor: Color,
     textStyle: TextStyle,
+    indexToDarkBarColor: Int = -1,
     modifier: Modifier = Modifier
 ) {
 
@@ -36,46 +37,68 @@ fun CustomCanvasBarChart(
     )
 
 
-    Column{
+    Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
         ) {
             Canvas(
-                Modifier.height(height).weight(1f)
+                Modifier
+                    .height(height)
+                    .weight(1f)
             ) {
                 val barWidth = (20.dp).toPx()
+
+                list.forEachIndexed { index, i ->
+                    val linePadding = index * (size.height / 6)
+
+                    drawLine(
+                        color = Color.White,
+                        start = Offset(0f, linePadding),
+                        end = Offset(size.width, linePadding),
+                        strokeWidth = (1.dp).toPx()
+                    )
+                }
 
                 list.forEachIndexed { index, i ->
                     val height = (i / list.max()) * size.height
                     val xOffset = index * barWidth + (20.dp).toPx() * index
                     val yOffset = size.height - height
 
-                    val linePadding = index * (size.height / 6)
-
-                    drawLine(
-                        color = xAxisLineColor,
-                        start = Offset(0f, linePadding),
-                        end = Offset(size.width, linePadding),
-                        strokeWidth = (1.dp).toPx()
-                    )
-
-                    drawRoundRect(
-                        color = lineColor,
-                        topLeft = Offset(xOffset, yOffset),
-                        size = Size(barWidth, height),
-                        cornerRadius = CornerRadius((10.dp).toPx()),
-                    )
+                    if (indexToDarkBarColor == -1){
+                        drawRoundRect(
+                            color = _9CEEDF,
+                            topLeft = Offset(xOffset, yOffset),
+                            size = Size(barWidth, height),
+                            cornerRadius = CornerRadius((10.dp).toPx()),
+                        )
+                    }else{
+                        if (index % indexToDarkBarColor == 0) {
+                            drawRoundRect(
+                                color = _228F7D,
+                                topLeft = Offset(xOffset, yOffset),
+                                size = Size(barWidth, height),
+                                cornerRadius = CornerRadius((10.dp).toPx()),
+                            )
+                        } else {
+                            drawRoundRect(
+                                color = _9CEEDF,
+                                topLeft = Offset(xOffset, yOffset),
+                                size = Size(barWidth, height),
+                                cornerRadius = CornerRadius((10.dp).toPx()),
+                            )
+                        }
+                    }
                 }
             }
             Spacer(Modifier.width(5.dp))
             LazyColumn(
                 reverseLayout = true,
                 horizontalAlignment = Alignment.Start,
-                modifier = Modifier.height(height+10.dp),
+                modifier = Modifier.height(height + 10.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                repeat(6){
+                repeat(6) {
                     item {
                         Text(
                             text = "${it * 20}%",
@@ -89,14 +112,14 @@ fun CustomCanvasBarChart(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .fillMaxWidth()
         ) {
-            repeat(dayOfWeek.size){
+            repeat(dayOfWeek.size) {
                 Text(
                     text = dayOfWeek[it],
                     style = textStyle
                 )
+                Spacer(Modifier.width(27.dp))
             }
         }
     }

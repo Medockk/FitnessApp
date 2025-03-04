@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.SleepTracker
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
@@ -26,30 +27,27 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomCanvasBarChart
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomLightGreenCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomSleepCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
+import com.example.fitnessapp.feature_app.presentation.ui.theme._5DDDC7
 import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
-import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
-import com.example.fitnessapp.feature_app.presentation.ui.theme._A8E3D9
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_42D742
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50016White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.ui.platform.LocalConfiguration
-import com.example.fitnessapp.feature_app.presentation.ui.theme._5DDDC7
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -87,8 +85,6 @@ fun SleepTrackerScreen(
             Spacer(Modifier.height(35.dp))
             CustomCanvasBarChart(
                 list = state.barList,
-                lineColor = _A8E3D9,
-                xAxisLineColor = _A5A3B0,
                 height = 140.dp,
                 textStyle = montserrat40012_B6B4C2,
                 modifier = Modifier

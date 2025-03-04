@@ -9,4 +9,5 @@ data class WorkoutDetailState(
     val sprint2: List<WorkoutSprint> = emptyList(),
 
     val showIndicator: Boolean = false,
+    val isComplete: Boolean = false,
 )

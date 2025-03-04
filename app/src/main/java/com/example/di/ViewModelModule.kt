@@ -43,11 +43,11 @@ val moduleViewModel = module {
     }
 
     viewModel<SignUpViewModel>{
-        SignUpViewModel(get(), get())
+        SignUpViewModel(get(), get(), get())
     }
 
     viewModel<RegisterPageViewModel>{
-        RegisterPageViewModel(get())
+        RegisterPageViewModel(get(), get())
     }
 
     viewModel<SuccessRegistrationViewModel>{
@@ -55,7 +55,7 @@ val moduleViewModel = module {
     }
 
     viewModel<CreateProfileViewModel>{
-        CreateProfileViewModel(get())
+        CreateProfileViewModel(get(), get())
     }
 
     viewModel<HomeViewModel>{
@@ -73,7 +73,8 @@ val moduleViewModel = module {
     viewModel<ProfileViewModel>{
         ProfileViewModel(
             get(), get(),
-            get(), get(), get()
+            get(), get(), get(),
+            get()
         )
     }
 
@@ -91,7 +92,7 @@ val moduleViewModel = module {
     }
 
     viewModel<WorkoutDetailViewModel>{
-        WorkoutDetailViewModel(get())
+        WorkoutDetailViewModel(get(), get())
     }
 
     viewModel<CategoryBreakfastViewModel>{
@@ -111,7 +112,7 @@ val moduleViewModel = module {
     }
 
     viewModel<WorkoutScheduleViewModel>{
-        WorkoutScheduleViewModel(get())
+        WorkoutScheduleViewModel(get(), get())
     }
 
     viewModel<AddWorkoutScheduleViewModel>{

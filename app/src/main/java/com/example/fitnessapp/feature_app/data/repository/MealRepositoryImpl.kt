@@ -53,15 +53,14 @@ class MealRepositoryImpl : MealRepository {
         }.decodeList<UserMealSchedule>()
     }
 
-    override suspend fun getUserMealScheduleByDate(date: Int): List<UserMealSchedule> {
+    override suspend fun getUserMealScheduleByDate(year: Int, month: Int,day: Int): List<UserMealSchedule> {
         val userID = getUserID()
-        val currentDate = LocalDate.now()
 
         return client.postgrest["UserMealSchedule"].select {
             filter {
                 and {
                     eq("userID", userID)
-                    eq("date", "${currentDate.year}-${currentDate.month.value}-$date")
+                    eq("date", "${year}-${month}-$day")
                 }
             }
         }.decodeList<UserMealSchedule>()

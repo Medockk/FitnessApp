@@ -268,12 +268,9 @@ fun ActivityTrackerScreen(
                     ) {
                         ActivityBarChart(
                             barChartList = state.activityProgress,
-                            lineColor = _83F2A5,
-                            padding = (LocalConfiguration.current.screenWidthDp/8).dp,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.Center)
-                                .height(200.dp)
+                                .height(160.dp)
                         )
                     }
                 }

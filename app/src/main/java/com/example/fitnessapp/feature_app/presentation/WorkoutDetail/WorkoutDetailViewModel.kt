@@ -4,13 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.model.LastActivityData
+import com.example.fitnessapp.feature_app.domain.usecase.Workout.AddLastActivityUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutSprintUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WorkoutDetailViewModel(
-    private val getWorkoutSprintUseCase: GetWorkoutSprintUseCase
+    private val getWorkoutSprintUseCase: GetWorkoutSprintUseCase,
+    private val addLastActivityUseCase: AddLastActivityUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(WorkoutDetailState())
@@ -36,11 +39,42 @@ class WorkoutDetailViewModel(
         val sprint1 = getWorkoutSprintUseCase(1)
         val sprint2 = getWorkoutSprintUseCase(2)
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
                 sprint1 = sprint1,
                 sprint2 = sprint2
             )
+        }
+    }
+
+    fun onEvent(event: WorkoutDetailEvent) {
+        when (event) {
+            is WorkoutDetailEvent.AddLastActivity -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        addLastActivityUseCase(
+                            LastActivityData(
+                                0,
+                                "",
+                                event.value.title,
+                                "",
+                                event.value.image
+                            )
+                        )
+                        _state.value = state.value.copy(isComplete = true)
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
+                }
+            }
+
+            WorkoutDetailEvent.ResetException -> {
+                _state.value = state.value.copy(exception = "")
+            }
+
+            WorkoutDetailEvent.ResetIsCompleteState -> {
+                _state.value = state.value.copy(isComplete = false)
+            }
         }
     }
 }

@@ -9,6 +9,8 @@ data class UserDataEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
     @ColumnInfo(defaultValue = "")
+    val email: String = "",
+    @ColumnInfo(defaultValue = "")
     val fio: String = "",
     @ColumnInfo(defaultValue = "")
     val phone: String = "",
@@ -22,4 +24,8 @@ data class UserDataEntity(
     val height: String = "",
     @ColumnInfo(defaultValue = "")
     val purpose: String = "",
-)
+){
+    companion object{
+        var email: String = ""
+    }
+}

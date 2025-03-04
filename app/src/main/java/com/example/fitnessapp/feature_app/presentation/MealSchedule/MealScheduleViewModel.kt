@@ -152,11 +152,22 @@ class MealScheduleViewModel(
 
             is MealScheduleEvent.MonthClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    _state.value = state.value.copy(showIndicator = true, currentDay = event.value)
+                    _state.value =
+                        state.value.copy(showIndicator = true, currentDay = event.value.dayOfMonth)
+                    val date = event.value
                     try {
-                        val meal = getUserMealScheduleByDateUseCase(event.value)
+                        val meal = getUserMealScheduleByDateUseCase(
+                            date.year,
+                            date.monthValue,
+                            date.dayOfMonth
+                        )
                         getMealDetail(meal)
-                        withContext(Dispatchers.Main){_state.value = state.value.copy(mealSchedule = meal, currentDay = event.value)}
+                        withContext(Dispatchers.Main) {
+                            _state.value = state.value.copy(
+                                mealSchedule = meal,
+                                currentDay = event.value.dayOfMonth
+                            )
+                        }
                     } catch (e: Exception) {
                         _state.value = state.value.copy(exception = e.message.toString())
                     }

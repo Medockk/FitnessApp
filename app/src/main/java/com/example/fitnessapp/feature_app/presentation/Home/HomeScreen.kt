@@ -45,16 +45,16 @@ import co.yml.charts.common.model.PlotType
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
 import coil.compose.AsyncImage
+import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.presentation.Home.components.CustomCard
+import com.example.fitnessapp.feature_app.presentation.Home.components.ImtDiagram
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.BarChart
 import com.example.fitnessapp.feature_app.presentation.common.BottomBar
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomLightGreenCard
-import com.example.fitnessapp.R
-import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.presentation.Home.components.CustomCard
-import com.example.fitnessapp.feature_app.presentation.Home.components.ImtDiagram
 import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
@@ -321,7 +321,7 @@ fun HomeScreen(
                                 Spacer(Modifier.height(5.dp))
                                 Text(
                                     text = if (state.userStatistics.isNotEmpty()) {
-                                        state.userStatistics[0].title
+                                        state.userStatistics[0].description
                                     }else{
                                         "4л"
                                     },
@@ -369,7 +369,7 @@ fun HomeScreen(
                             )
                             Spacer(Modifier.height(5.dp))
                             Text(
-                                text = if (state.userStatistics.size >= 2){state.userStatistics[1].title}else{"8 ч. 20 мин."},
+                                text = if (state.userStatistics.size >= 2){state.userStatistics[1].description}else{"8 ч. 20 мин."},
                                 style = montserrat60014_228F7D
                             )
                             Spacer(Modifier.height(5.dp))

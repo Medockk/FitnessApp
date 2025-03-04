@@ -348,8 +348,6 @@ fun CompareResultScreen(
                                 CustomCanvasBarChart(
                                     list = state.statisticList,
                                     height = 180.dp,
-                                    lineColor = _A8E3D9,
-                                    xAxisLineColor = _A5A3B0,
                                     textStyle = montserrat40012_B6B4C2,
                                     modifier = Modifier
                                         .fillParentMaxWidth()

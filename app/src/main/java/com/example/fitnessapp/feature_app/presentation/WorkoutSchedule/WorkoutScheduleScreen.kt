@@ -66,7 +66,9 @@ fun WorkoutScheduleScreen(
                 navController.popBackStack()
             }
             Spacer(Modifier.height(30.dp))
-            CustomDateCard({}) { }
+            CustomDateCard(day = state.currentDay) {
+                viewModel.onEvent(WorkoutScheduleEvent.MonthClick(it,))
+            }
             Spacer(Modifier.height(30.dp))
         }
 
