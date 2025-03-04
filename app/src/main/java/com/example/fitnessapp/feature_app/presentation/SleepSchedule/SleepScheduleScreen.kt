@@ -1,9 +1,5 @@
 package com.example.fitnessapp.feature_app.presentation.SleepSchedule
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +27,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomDateCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomFloatingActionButton
@@ -38,7 +35,6 @@ import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomSleepCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
@@ -132,7 +128,6 @@ fun SleepScheduleScreen(
             )
             Spacer(Modifier.height(15.dp))
             CustomDateCard(
-                {},
                 modifier = Modifier
                     .fillParentMaxWidth(),
                 day = state.currentDay
@@ -156,7 +151,7 @@ fun SleepScheduleScreen(
         }
 
         items(state.alarmClockTracker) { alarm ->
-            if (state.alarmClockTracker.isNotEmpty() && state.alarmClockTracker.indexOf(alarm) == 0){
+            if (state.alarmClockTracker.isNotEmpty() && state.alarmClockTracker.indexOf(alarm) == 0) {
                 CustomSleepCard(
                     alarmClockTracker = alarm,
                     icon = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Icon-Alaarm.png",

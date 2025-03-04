@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -81,6 +82,18 @@ fun WorkoutDetailScreen(
 ) {
 
     val state = viewModel.state.value
+
+    LaunchedEffect(key1 = !state.isComplete) {
+        if (state.isComplete){
+            viewModel.onEvent(WorkoutDetailEvent.ResetIsCompleteState)
+            navController.navigate(Route.CongratulationsScreen.route){
+                popUpTo(Route.WorkoutDetailScreen.route){
+                    inclusive = true
+                }
+            }
+        }
+    }
+
     val backgroundBrush = Brush.linearGradient(
         listOf(
             _81CCBF, _07856E
@@ -344,11 +357,7 @@ fun WorkoutDetailScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp)
         ) {
-            navController.navigate(Route.CongratulationsScreen.route){
-                popUpTo(Route.WorkoutDetailScreen.route){
-                    inclusive = true
-                }
-            }
+            viewModel.onEvent(WorkoutDetailEvent.AddLastActivity(workoutData))
         }
     }
 

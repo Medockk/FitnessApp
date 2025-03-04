@@ -53,17 +53,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.fitnessapp.feature_app.presentation.CompareResult.compontns.CustomStatisticBar
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomCanvasBarChart
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomPhotoCard
-import com.example.fitnessapp.feature_app.presentation.CompareResult.compontns.CustomStatisticBar
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
-import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
-import com.example.fitnessapp.feature_app.presentation.ui.theme._A8E3D9
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_42D742
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
@@ -348,8 +346,6 @@ fun CompareResultScreen(
                                 CustomCanvasBarChart(
                                     list = state.statisticList,
                                     height = 180.dp,
-                                    lineColor = _A8E3D9,
-                                    xAxisLineColor = _A5A3B0,
                                     textStyle = montserrat40012_B6B4C2,
                                     modifier = Modifier
                                         .fillParentMaxWidth()

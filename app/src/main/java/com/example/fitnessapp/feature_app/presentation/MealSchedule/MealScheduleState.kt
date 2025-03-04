@@ -24,5 +24,9 @@ data class MealScheduleState(
     val dinnerCalories: String = "",
 
     val showIndicator: Boolean = false,
-    val currentDay: Int = LocalDate.now().dayOfMonth,
+    val currentDay: Int = if (LocalDate.now().month.value==2 && LocalDate.now().isLeapYear){
+        LocalDate.now().dayOfMonth - 1
+    }else{
+        LocalDate.now().dayOfMonth
+    },
 )

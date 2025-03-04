@@ -26,6 +26,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -73,6 +75,13 @@ fun ProfileScreen(
 ) {
 
     val state = viewModel.state.value
+    val daoState = state.userDataDao.collectAsState(emptyList())
+
+    LaunchedEffect(key1 = state.isInit) {
+        if (daoState.value.isNotEmpty()){
+            viewModel.onEvent(ProfileEvent.SetUserDataDao(daoState.value[0]))
+        }
+    }
 
     val context = LocalContext.current
     val selectImage = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()){

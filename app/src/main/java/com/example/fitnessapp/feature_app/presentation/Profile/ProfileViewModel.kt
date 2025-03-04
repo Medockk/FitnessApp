@@ -4,7 +4,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.model.Purpose
 import com.example.fitnessapp.feature_app.domain.model.UserData
+import com.example.fitnessapp.feature_app.domain.usecase.Dao.GetUserDataDaoUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.ChangeNotificationStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
@@ -19,7 +21,8 @@ class ProfileViewModel(
     private val getPurposeUseCase: GetPurposeUseCase,
     private val getUserImageUseCase: GetUserImageUseCase,
     private val setUserImageUseCase: SetUserImageUseCase,
-    private val changeNotificationStateUseCase: ChangeNotificationStateUseCase
+    private val changeNotificationStateUseCase: ChangeNotificationStateUseCase,
+    private val getUserDataDaoUseCase: GetUserDataDaoUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ProfileState())
@@ -29,17 +32,21 @@ class ProfileViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _state.value = state.value.copy(showIndicator = true)
             try {
-                getUserData()
+//                if (getUserDataDaoUseCase(UserDataEntity.email).toList().isNotEmpty()){
+//                    _state.value = state.value.copy(userDataDao = getUserDataDaoUseCase(UserDataEntity.email))
+//                }else{
+                    getUserData()
+//                }
             } catch (e: Exception) {
-                if (state.value.image.isEmpty()){
+                if (state.value.image.isEmpty()) {
                     _state.value = state.value.copy(
-                        image = if (_state.value.userData.gender==UserData.female){
+                        image = if (_state.value.userData.gender == UserData.female) {
                             "https://avatars.mds.yandex.net/i?id=897113eed31435614b7bd5aa7b85fbbdb49c4efb-13071285-images-thumbs&n=13"
-                        }else{
+                        } else {
                             "https://avatars.mds.yandex.net/i?id=d220f7ba1825ae3131662553c80bd138bcb0d782-5492023-images-thumbs&n=13"
                         }
                     )
-                }else{
+                } else {
                     _state.value = state.value.copy(
                         exception = e.message.toString(),
                         showIndicator = false
@@ -55,7 +62,7 @@ class ProfileViewModel(
         val userData = getUserDataUseCase()
         val purpose = getPurposeUseCase()
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
                 userData = userData,
                 purpose = purpose
@@ -64,15 +71,15 @@ class ProfileViewModel(
 
         val userImage = getUserImageUseCase()
 
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             _state.value = state.value.copy(
                 image = userImage
             )
         }
     }
 
-    fun onEvent(event: ProfileEvent){
-        when (event){
+    fun onEvent(event: ProfileEvent) {
+        when (event) {
             is ProfileEvent.ChangeNotificationState -> {
                 _state.value = state.value.copy(
                     isNotificationTurnOn = event.value
@@ -87,6 +94,7 @@ class ProfileViewModel(
                     _state.value = state.value.copy(showIndicator = false)
                 }
             }
+
             ProfileEvent.ResetException -> {
                 _state.value = state.value.copy(
                     exception = ""
@@ -107,6 +115,7 @@ class ProfileViewModel(
                     _state.value = state.value.copy(showIndicator = false)
                 }
             }
+
             is ProfileEvent.ChangeImageView -> {
                 try {
                     _state.value = state.value.copy(
@@ -117,6 +126,23 @@ class ProfileViewModel(
                         exception = e.message.toString()
                     )
                 }
+            }
+
+            is ProfileEvent.SetUserDataDao -> {
+                val data = event.value
+                _state.value = state.value.copy(
+                    userData = UserData(
+                        userID = "",
+                        fio = data.fio,
+                        phone = data.phone,
+                        gender = data.gender,
+                        birthdayData = data.birthdayData,
+                        weight = data.weight,
+                        height = data.height,
+                    ),
+                    purpose = Purpose(0, "", data.purpose),
+                    isInit = false
+                )
             }
         }
     }

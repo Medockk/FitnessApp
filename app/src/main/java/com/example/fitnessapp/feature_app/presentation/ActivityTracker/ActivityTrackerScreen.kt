@@ -44,15 +44,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.fitnessapp.feature_app.presentation.ActivityTracker.components.ActivityBarChart
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.feature_app.presentation.ActivityTracker.components.ActivityBarChart
 import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D161712
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
-import com.example.fitnessapp.feature_app.presentation.ui.theme._83F2A5
 import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
 import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme._C4C4C4
@@ -268,12 +267,9 @@ fun ActivityTrackerScreen(
                     ) {
                         ActivityBarChart(
                             barChartList = state.activityProgress,
-                            lineColor = _83F2A5,
-                            padding = (LocalConfiguration.current.screenWidthDp/8).dp,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.Center)
-                                .height(200.dp)
+                                .height(160.dp)
                         )
                     }
                 }

@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutSchedule
@@ -72,13 +73,44 @@ class WorkoutRepositoryImpl : WorkoutRepository {
 
         val userID = getUserID()
 
-        client.postgrest["WorkoutSchedule"].insert(mapOf(
-            "userID" to userID,
-            "title" to workoutSchedule.title
-        ))
+        client.postgrest["WorkoutSchedule"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to workoutSchedule.title
+            )
+        )
     }
 
-    private suspend fun getUserID() : String{
+    override suspend fun addLastActivity(lastActivityData: LastActivityData) {
+        val userID = getUserID()
+
+        client.postgrest["LastActivity"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to lastActivityData.title,
+                "image" to lastActivityData.image
+            )
+        )
+    }
+
+    override suspend fun getWorkoutScheduleByDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ): List<WorkoutSchedule> {
+        val userID = getUserID()
+
+        return client.postgrest["WorkoutSchedule"].select {
+            filter {
+                and {
+                    eq("userID", userID)
+                    eq("date", "$year-$month-$day")
+                }
+            }
+        }.decodeList<WorkoutSchedule>()
+    }
+
+    private suspend fun getUserID(): String {
         client.auth.awaitInitialization()
         return client.auth.currentUserOrNull()?.id ?: ""
     }

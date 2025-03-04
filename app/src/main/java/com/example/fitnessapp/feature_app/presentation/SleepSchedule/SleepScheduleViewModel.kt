@@ -107,9 +107,9 @@ class SleepScheduleViewModel(
                     _state.value = state.value.copy(showIndicator = true)
                     try {
                         _state.value = state.value.copy(
-                            sleepData = getSleepDataByDateUseCase(event.value),
-                            alarmClockTracker = getAlarmClockDataByDateUseCase(event.value),
-                            currentDay = event.value
+                            sleepData = getSleepDataByDateUseCase(event.value.year, event.value.month.value, event.value.dayOfMonth),
+                            alarmClockTracker = getAlarmClockDataByDateUseCase(event.value.year, event.value.month.value, event.value.dayOfMonth),
+                            currentDay = event.value.dayOfMonth
                         )
                     } catch (e: Exception) {
                         _state.value = state.value.copy(exception = e.message.toString())

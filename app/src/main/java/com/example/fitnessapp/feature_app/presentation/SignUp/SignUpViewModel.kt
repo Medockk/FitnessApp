@@ -8,12 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Dao.UpsertUserDataDaoUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
     private val signUpUseCase: SignUpUseCase,
-    private val signUpWithGoogleUseCase: SignUpWithGoogleUseCase
+    private val signUpWithGoogleUseCase: SignUpWithGoogleUseCase,
+    private val upsertUserDataDaoUseCase: UpsertUserDataDaoUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SignUpState())
@@ -72,9 +74,9 @@ class SignUpViewModel(
             }
 
             SignUpEvent.SignUp -> {
-                if (!Patterns.EMAIL_ADDRESS.matcher(_state.value.email).matches()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(_state.value.email).matches()) {
                     _state.value = state.value.copy(exception = "Неверное имя почты")
-                }else if (
+                } else if (
                     _state.value.fio.isNotBlank() &&
                     _state.value.phone.isNotBlank() &&
                     _state.value.email.isNotBlank() &&
@@ -86,6 +88,17 @@ class SignUpViewModel(
                         _state.value = state.value.copy(
                             showIndicator = true
                         )
+//                        try {
+//                            upsertUserDataDaoUseCase(
+//                                UserDataEntity(
+//                                    fio = _state.value.fio,
+//                                    phone = _state.value.phone,
+//                                    email = _state.value.email
+//                                )
+//                            )
+//                        } catch (e: Exception) {
+//                            _state.value = state.value.copy(exception = e.message.toString())
+//                        }
                         try {
                             signUpUseCase(
                                 mail = _state.value.email,

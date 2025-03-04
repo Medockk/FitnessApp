@@ -1,117 +1,96 @@
 package com.example.fitnessapp.feature_app.presentation.ActivityTracker.components
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import co.yml.charts.axis.AxisData
-import co.yml.charts.axis.DataCategoryOptions
-import co.yml.charts.common.model.Point
-import co.yml.charts.ui.barchart.BarChart
-import co.yml.charts.ui.barchart.models.BarChartData
-import co.yml.charts.ui.barchart.models.BarChartType
-import co.yml.charts.ui.barchart.models.BarData
-import co.yml.charts.ui.barchart.models.BarStyle
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
-import com.example.fitnessapp.feature_app.presentation.ui.theme._A8E3D9
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    ActivityBarChart(
-        listOf(
-            0.1f, 0.75f, 0.65f, 0.78f, 0.51f
-        ),
-        _A8E3D9
-    )
-}
+import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
+import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 
 @Composable
 fun ActivityBarChart(
     barChartList: List<Float>,
-    lineColor: Color,
-    padding: Dp = 0.dp,
     modifier: Modifier = Modifier
 ) {
 
     val dayWeek = listOf(
-        "Пон", "Вто","Сре","Чет","Пят","Суб","Вос"
-    )
-    val colorList = listOf(
-        _228F7D, _9CEEDF
+        "Пон", "Вто", "Сре", "Чет", "Пят", "Суб", "Вос"
     )
 
-    val barDataList = getBarChartData(
-        barChartList,
-        barChartType = BarChartType.VERTICAL,
-        lineColor = lineColor,
-        gradientList = colorList,
-        DataCategoryOptions(),
-    )
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(20.dp)
+    ) {
+        Canvas(modifier.background(Color.Transparent)) {
 
-    val xAxisData = AxisData.Builder()
-        .steps(barChartList.size - 1)
-        .axisLineColor(Color.Transparent)
-        .axisStepSize(15.dp)
-        .startPadding(padding)
-        .startDrawPadding(padding)
-        .labelData { dayWeek[it] }
-        .build()
+            val barWidth = 20.dp.toPx()
 
-    val barChartData = BarChartData(
-        chartData = barDataList,
-        xAxisData = xAxisData,
-        showYAxis = false,
-        backgroundColor = Color.White,
-        barStyle = BarStyle(
-            cornerRadius = 10.dp,
-            barWidth = 22.dp
-        ),
-    )
+            barChartList.forEachIndexed { index, i ->
+                val height = (i / barChartList.max()) * size.height
+                val x = (barWidth * index) + index * 20.dp.toPx()
+                val y = size.height - height
 
-    BarChart(
-        modifier = modifier,
-        barChartData = barChartData
-    )
-}
-
-private fun getBarChartData(
-    listBar: List<Float>,
-    barChartType: BarChartType,
-    lineColor: Color,
-    gradientList: List<Color>,
-    dataCategoryOptions: DataCategoryOptions
-): List<BarData> {
-    val list = arrayListOf<BarData>()
-    for (index in listBar.indices) {
-        val point = when (barChartType) {
-            BarChartType.VERTICAL -> {
-                Point(
-                    index.toFloat(),
-                    listBar[index]
+                drawRoundRect(
+                    color = _F7F8F8,
+                    topLeft = Offset(x, 0f),
+                    size = Size(barWidth, size.height),
+                    cornerRadius = CornerRadius(20.dp.toPx()),
                 )
-            }
 
-            BarChartType.HORIZONTAL -> {
-                Point(
-                    listBar[index],
-                    index.toFloat()
+                drawRoundRect(
+                    brush = if (index % 2 == 0) {
+                        Brush.linearGradient(listOf(_228F7D, _9CEEDF))
+                    } else {
+                        Brush.linearGradient(
+                            listOf(
+                                _9CEEDF, _9CEEDF
+                            )
+                        )
+                    },
+                    topLeft = Offset(x, y),
+                    size = Size(barWidth, height),
+                    cornerRadius = CornerRadius(20.dp.toPx())
                 )
             }
         }
-
-        list.add(
-            BarData(
-                point = point,
-                color = lineColor,
-                dataCategoryOptions = dataCategoryOptions,
-                label = "Bar$index",
-                gradientColorList = gradientList
-            )
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            if (barChartList.size > dayWeek.size){
+                repeat(dayWeek.size) {
+                    Text(
+                        text = dayWeek[it],
+                        style = montserrat40012_B6B4C2
+                    )
+                    Spacer(Modifier.width(15.dp))
+                }
+            }else{
+                repeat(barChartList.size) {
+                    Text(
+                        text = dayWeek[it],
+                        style = montserrat40012_B6B4C2
+                    )
+                    Spacer(Modifier.width(15.dp))
+                }
+            }
+        }
     }
-    return list
 }

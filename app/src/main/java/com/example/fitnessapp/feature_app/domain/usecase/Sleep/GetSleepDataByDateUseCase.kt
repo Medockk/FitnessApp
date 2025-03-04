@@ -7,7 +7,7 @@ class GetSleepDataByDateUseCase(
     private val sleepRepository: SleepRepository
 ) {
 
-    suspend operator fun invoke(date: Int) : List<SleepTracker>{
-        return sleepRepository.getSleepDataByDate(date)
+    suspend operator fun invoke(year: Int, month: Int, day: Int) : List<SleepTracker>{
+        return sleepRepository.getSleepDataByDate(year, month, day)
     }
 }

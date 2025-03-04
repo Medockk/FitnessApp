@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.domain.repository
+package com.example.fitnessapp.feature_app.domain.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -14,8 +14,8 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertUserData(userDataEntity: UserDataEntity)
 
-    @Query("SELECT * FROM UserDataEntity WHERE id=:id")
-    fun getUserData(id: Int) : Flow<UserDataEntity>
+    @Query("SELECT * FROM UserDataEntity WHERE email=:email")
+    fun getUserData(email: String): Flow<List<UserDataEntity>>
 
     @Delete
     fun deleteUserData(userDataEntity: UserDataEntity)
