@@ -10,6 +10,7 @@ import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 /**
  * Класс для работы с расписанием и тренировками пользователя
@@ -69,14 +70,20 @@ class WorkoutRepositoryImpl : WorkoutRepository {
         }.decodeList<WorkoutSchedule>()
     }
 
-    override suspend fun setWorkoutSchedule(workoutSchedule: WorkoutSchedule) {
+    override suspend fun setWorkoutSchedule(
+        workoutSchedule: WorkoutSchedule,
+        hour: Int,
+        minute: Int
+    ) {
 
         val userID = getUserID()
+        val time = LocalDateTime.now().withHour(hour).withMinute(minute)
 
         client.postgrest["WorkoutSchedule"].insert(
             mapOf(
                 "userID" to userID,
-                "title" to workoutSchedule.title
+                "title" to workoutSchedule.title,
+                "time" to time.toString()
             )
         )
     }

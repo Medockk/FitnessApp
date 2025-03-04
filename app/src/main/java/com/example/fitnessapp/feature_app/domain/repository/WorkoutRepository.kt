@@ -17,5 +17,5 @@ interface WorkoutRepository {
 
     suspend fun getWorkoutSchedule() : List<WorkoutSchedule>
     suspend fun getWorkoutScheduleByDate(year: Int, month: Int, day: Int) : List<WorkoutSchedule>
-    suspend fun setWorkoutSchedule(workoutSchedule: WorkoutSchedule)
+    suspend fun setWorkoutSchedule(workoutSchedule: WorkoutSchedule, hour: Int, minute: Int)
 }

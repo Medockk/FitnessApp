@@ -33,14 +33,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.components.CustomTimeTicker
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomDropDownMenu
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.R
-import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.ui.theme._B6B4C2
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_B6B4C2
@@ -60,7 +61,7 @@ fun AddWorkoutScheduleScreen(
             ImageVector.vectorResource(R.drawable.dumbbells_icon),
             "Трениовка",
             state.title,
-            listOf("Тренировка вверхней части","Тренировка нижней части","Тренировка пресса")
+            listOf("Тренировка вверхней части", "Тренировка нижней части", "Тренировка пресса")
         ),
         listOf(
             ImageVector.vectorResource(R.drawable.height_icon),
@@ -82,7 +83,7 @@ fun AddWorkoutScheduleScreen(
         ),
     )
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
@@ -103,8 +104,8 @@ fun AddWorkoutScheduleScreen(
                 backgroundColor = _F7F8F8,
                 textColor = Color.Black
             ) {
-                navController.navigate(Route.WorkoutScheduleScreen.route){
-                    popUpTo(Route.AddWorkoutScheduleScreen.route){
+                navController.navigate(Route.WorkoutScheduleScreen.route) {
+                    popUpTo(Route.AddWorkoutScheduleScreen.route) {
                         inclusive = true
                     }
                 }
@@ -135,18 +136,25 @@ fun AddWorkoutScheduleScreen(
                     text = "Время",
                     style = montserrat50014_1D1617
                 )
-
+                Spacer(Modifier.height(10.dp))
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                     modifier = Modifier
-                         .fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "3",
+                    CustomTimeTicker(
+                        1, { viewModel.onEvent(AddWorkoutScheduleEvent.HourChange(it)) }, 24,
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(20.dp)
                     )
-                    Text(
-                        text = "00",
+                    Spacer(Modifier.width(30.dp))
+                    CustomTimeTicker(
+                        1, { viewModel.onEvent(AddWorkoutScheduleEvent.MinuteChange(it)) }, 60,
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(20.dp)
                     )
                 }
 
@@ -167,7 +175,7 @@ fun AddWorkoutScheduleScreen(
                         icon = list[0] as ImageVector,
                         title = list[1] as String,
                         description = list[2] as String,
-                        onClick = {isDropDownMenuOpen = !isDropDownMenuOpen},
+                        onClick = { isDropDownMenuOpen = !isDropDownMenuOpen },
                         modifier = Modifier
                             .weight(1f)
                     )
@@ -196,9 +204,13 @@ fun AddWorkoutScheduleScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 30.dp, end = 30.dp, bottom = (LocalConfiguration.current.screenHeightDp / 20).dp),
+            .padding(
+                start = 30.dp,
+                end = 30.dp,
+                bottom = (LocalConfiguration.current.screenHeightDp / 20).dp
+            ),
         contentAlignment = Alignment.BottomCenter
-    ){
+    ) {
         CustomGreenButton(
             text = "Сохранить",
             modifier = Modifier

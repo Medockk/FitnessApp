@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.yml.charts.common.extensions.isNotNull
 import com.example.fitnessapp.feature_app.domain.model.WorkoutSchedule
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.SetWorkoutScheduleUseCase
 import kotlinx.coroutines.Dispatchers
@@ -38,15 +39,16 @@ class AddWorkoutScheduleViewModel(
             AddWorkoutScheduleEvent.AddWorkout -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     _state.value = state.value.copy(showIndicator = true)
-                    val time = _state.value.hour + _state.value.minute
-                    try {
-                        setWorkoutScheduleUseCase(
-                            WorkoutSchedule(
-                                0, time, _state.value.title, "",""
+                    if (_state.value.hour.toIntOrNull().isNotNull() && _state.value.minute.toIntOrNull().isNotNull()){
+                        try {
+                            setWorkoutScheduleUseCase(
+                                WorkoutSchedule(
+                                    0, "", _state.value.title, "",""
+                                ), _state.value.hour.toInt(), _state.value.minute.toInt()
                             )
-                        )
-                    } catch (e: Exception) {
-                        _state.value = state.value.copy(exception = e.message.toString())
+                        } catch (e: Exception) {
+                            _state.value = state.value.copy(exception = e.message.toString())
+                        }
                     }
                     _state.value = state.value.copy(showIndicator = false)
                 }
@@ -60,6 +62,13 @@ class AddWorkoutScheduleViewModel(
 
             is AddWorkoutScheduleEvent.SetWorkoutTitle -> {
                 _state.value = state.value.copy(title = event.value)
+            }
+
+            is AddWorkoutScheduleEvent.HourChange -> {
+                _state.value = state.value.copy(hour = event.value.toString())
+            }
+            is AddWorkoutScheduleEvent.MinuteChange -> {
+                _state.value = state.value.copy(minute = event.value.toString())
             }
         }
     }
