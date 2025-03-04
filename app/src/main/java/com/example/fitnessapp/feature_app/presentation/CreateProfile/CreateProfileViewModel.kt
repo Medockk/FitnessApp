@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.model.UserData
-import com.example.fitnessapp.feature_app.domain.model.UserDataEntity
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.CreateProfileUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Dao.UpsertUserDataDaoUseCase
 import kotlinx.coroutines.Dispatchers

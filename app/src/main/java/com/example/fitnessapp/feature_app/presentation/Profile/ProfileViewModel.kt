@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.model.Purpose
 import com.example.fitnessapp.feature_app.domain.model.UserData
-import com.example.fitnessapp.feature_app.domain.model.UserDataEntity
 import com.example.fitnessapp.feature_app.domain.usecase.Dao.GetUserDataDaoUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.ChangeNotificationStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
@@ -14,7 +13,6 @@ import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserImageUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.SetUserImageUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
