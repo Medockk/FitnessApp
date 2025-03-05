@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.fitnessapp.feature_app.presentation.Profile
 
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -42,16 +44,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.presentation.Profile.components.UserAccountCard
+import com.example.fitnessapp.feature_app.presentation.Profile.components.UserDataCard
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.BottomBar
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomSwitch
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.R
-import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.presentation.Profile.components.UserAccountCard
-import com.example.fitnessapp.feature_app.presentation.Profile.components.UserDataCard
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D161712
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._C4C4C4

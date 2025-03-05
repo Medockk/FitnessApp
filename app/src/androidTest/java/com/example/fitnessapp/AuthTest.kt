@@ -1,6 +1,7 @@
 package com.example.fitnessapp
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onFirst
@@ -8,8 +9,12 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.fitnessapp.feature_app.data.dao.UserDataDao
+import com.example.fitnessapp.feature_app.data.dao.UserDataDaoImpl
+import com.example.fitnessapp.feature_app.domain.dao.UserDao
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Dao.UpsertUserDataDaoUseCase
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
 import org.junit.Before
@@ -23,6 +28,8 @@ class AuthTest {
     private lateinit var authRepository: AuthTestRepoImpl
     private lateinit var signUpUseCase: SignUpUseCase
     private lateinit var signUpWithGoogleUseCase: SignUpWithGoogleUseCase
+    private lateinit var userDataDao: UserDataDao
+    private lateinit var userDao: UserDao
 
     @get:Rule
     val rule = createAndroidComposeRule<ComponentActivity>()
@@ -37,9 +44,14 @@ class AuthTest {
     @Test
     fun emailValidateFailed() {
         rule.setContent {
+            val context = LocalContext.current
+            userDataDao = UserDataDao.createDataBase(context)
+            userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(
+                    UserDataDaoImpl(userDao)
+                ))
             )
         }
 
@@ -53,9 +65,15 @@ class AuthTest {
     @Test
     fun emailValidateSuccessful() {
         rule.setContent {
+            val context = LocalContext.current
+            userDataDao = UserDataDao.createDataBase(context)
+            userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(
+                    UserDataDaoImpl(userDao)
+                )
+                )
             )
         }
 
@@ -66,9 +84,12 @@ class AuthTest {
     @Test
     fun passwordValidateFailed() {
         rule.setContent {
+            val context = LocalContext.current
+            userDataDao = UserDataDao.createDataBase(context)
+            userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
             )
         }
         rule.onAllNodesWithTag("Пароль")
@@ -82,11 +103,12 @@ class AuthTest {
     @Test
     fun passwordValidateSuccessful() {
         rule.setContent {
+            val context = LocalContext.current
+            userDataDao = UserDataDao.createDataBase(context)
+            userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(
-                    signUpUseCase, signUpWithGoogleUseCase
-                )
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
             )
         }
         rule.onAllNodesWithTag("Пароль")
@@ -98,11 +120,12 @@ class AuthTest {
     @Test
     fun authSuccessful() {
         rule.setContent {
+            val context = LocalContext.current
+            userDataDao = UserDataDao.createDataBase(context)
+            userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(
-                    signUpUseCase, signUpWithGoogleUseCase
-                )
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
             )
         }
         rule.onAllNodesWithTag("Почта")
@@ -116,11 +139,12 @@ class AuthTest {
     @Test
     fun authFailed() {
         rule.setContent {
+            val context = LocalContext.current
+            userDataDao = UserDataDao.createDataBase(context)
+            userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(
-                    signUpUseCase, signUpWithGoogleUseCase
-                )
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
             )
         }
         rule.onAllNodesWithTag("Почта")

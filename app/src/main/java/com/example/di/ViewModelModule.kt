@@ -120,7 +120,7 @@ val moduleViewModel = module {
     }
 
     viewModel<StartWorkoutViewModel>{
-        StartWorkoutViewModel()
+        StartWorkoutViewModel(get())
     }
 
     viewModel<SleepTrackerViewModel>{

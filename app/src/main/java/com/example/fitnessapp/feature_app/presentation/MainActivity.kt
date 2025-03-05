@@ -17,14 +17,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -56,8 +49,6 @@ import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDeta
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutTrackerScreen
 import com.example.fitnessapp.feature_app.presentation.ui.theme.FitnessAppTheme
-import com.mahmoud.composecharts.barchart.BarChart
-import com.mahmoud.composecharts.barchart.BarChartEntity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,9 +76,6 @@ class MainActivity : ComponentActivity() {
                                 shrinkHorizontally()
                     }
                 ) {
-                    composable("Test"){
-                        Test()
-                    }
                     composable(Route.WelcomeScreen.route) {
                         WelcomeScreen(navController)
                     }
@@ -133,12 +121,13 @@ class MainActivity : ComponentActivity() {
                         route = Route.WorkoutDetailScreen.route,
                         enterTransition = {
                             expandVertically(expandFrom = Alignment.Bottom) +
-                            slideInVertically(tween(500, easing = LinearOutSlowInEasing),
-                                initialOffsetY = { it / 2})
+                                    slideInVertically(
+                                        tween(500, easing = LinearOutSlowInEasing),
+                                        initialOffsetY = { it / 2 })
                         },
                         exitTransition = {
                             shrinkVertically(shrinkTowards = Alignment.Top) +
-                            slideOutVertically(tween(500, easing = LinearOutSlowInEasing))
+                                    slideOutVertically(tween(500, easing = LinearOutSlowInEasing))
                         }
                     ) {
                         WorkoutDetailScreen(
@@ -146,15 +135,16 @@ class MainActivity : ComponentActivity() {
                             workoutData = Route.WorkoutDetailScreen.workoutData
                         )
                     }
-                    composable(Route.CategoryBreakfastScreen.route){
+                    composable(Route.CategoryBreakfastScreen.route) {
                         CategoryBreakfastScreen(navController)
                     }
                     composable(
                         route = Route.MealDetailScreen.route,
                         enterTransition = {
                             expandVertically(expandFrom = Alignment.Bottom) +
-                                    slideInVertically(tween(500, easing = LinearOutSlowInEasing),
-                                        initialOffsetY = { it / 2})
+                                    slideInVertically(
+                                        tween(500, easing = LinearOutSlowInEasing),
+                                        initialOffsetY = { it / 2 })
                         },
                         exitTransition = {
                             shrinkVertically(shrinkTowards = Alignment.Top) +
@@ -166,74 +156,42 @@ class MainActivity : ComponentActivity() {
                             meal = Route.MealDetailScreen.meal
                         )
                     }
-                    composable(Route.MealScheduleScreen.route){
+                    composable(Route.MealScheduleScreen.route) {
                         MealScheduleScreen(navController)
                     }
-                    composable(Route.WorkoutScheduleScreen.route){
+                    composable(Route.WorkoutScheduleScreen.route) {
                         WorkoutScheduleScreen(navController)
                     }
-                    composable(Route.AddWorkoutScheduleScreen.route){
+                    composable(Route.AddWorkoutScheduleScreen.route) {
                         AddWorkoutScheduleScreen(navController)
                     }
-                    composable(Route.StartWorkoutScreen.route){
+                    composable(Route.StartWorkoutScreen.route) {
                         StartWorkoutScreen(navController)
                     }
-                    composable(Route.SleepTrackerScreen.route){
+                    composable(Route.SleepTrackerScreen.route) {
                         SleepTrackerScreen(navController)
                     }
-                    composable(Route.SleepScheduleScreen.route){
+                    composable(Route.SleepScheduleScreen.route) {
                         SleepScheduleScreen(navController)
                     }
-                    composable(Route.AddAlarmScreen.route){
+                    composable(Route.AddAlarmScreen.route) {
                         AddAlarmScreen(navController)
                     }
 
-                    composable(Route.ProgressPhotoScreen.route){
+                    composable(Route.ProgressPhotoScreen.route) {
                         ProgressPhotoScreen(navController)
                     }
-                    composable(Route.ComparisonScreen.route){
+                    composable(Route.ComparisonScreen.route) {
                         ComparisonScreen(navController)
                     }
-                    composable(Route.CompareResultScreen.route){
+                    composable(Route.CompareResultScreen.route) {
                         CompareResultScreen(navController)
                     }
-                    composable(Route.TakePhotoScreen.route){
+                    composable(Route.TakePhotoScreen.route) {
                         TakePhotoScreen(navController)
                     }
                 }
             }
         }
     }
-}
-
-@Composable
-fun Test() {
-
-    val barChartData = listOf(
-        BarChartEntity(10f, Color.Blue),
-        BarChartEntity(58f, Color.Red),
-        BarChartEntity(75f, Color.Green),
-        BarChartEntity(23f, Color.DarkGray),
-        BarChartEntity(75f, Color.Black),
-        BarChartEntity(13f, Color.Yellow),
-        BarChartEntity(85f, Color.Magenta),
-        BarChartEntity(10f, Color.Blue),
-        BarChartEntity(58f, Color.Red),
-        BarChartEntity(75f, Color.Green),
-        BarChartEntity(23f, Color.DarkGray),
-        BarChartEntity(75f, Color.Black),
-        BarChartEntity(13f, Color.Yellow),
-        BarChartEntity(85f, Color.Magenta),
-    )
-
-    BarChart(
-        barChartData = barChartData,
-        verticalAxisValues = listOf(0f, 20f, 40f, 60f, 80f, 100f),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .padding(
-                vertical = 50.dp, horizontal = 30.dp
-            )
-    )
 }

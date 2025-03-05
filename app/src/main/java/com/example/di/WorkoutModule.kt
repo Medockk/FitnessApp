@@ -6,6 +6,7 @@ import com.example.fitnessapp.feature_app.domain.usecase.Workout.AddLastActivity
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.ChangeUserWorkoutStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetAllWorkoutUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetUserWorkoutUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutDetailsUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutSprintUseCase
@@ -46,5 +47,8 @@ val moduleWorkout = module {
     }
     factory<GetWorkoutScheduleByDateUseCase> {
         GetWorkoutScheduleByDateUseCase(get())
+    }
+    factory<GetWorkoutDetailsUseCase> {
+        GetWorkoutDetailsUseCase(get())
     }
 }
