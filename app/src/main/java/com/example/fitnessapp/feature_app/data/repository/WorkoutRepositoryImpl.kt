@@ -4,6 +4,7 @@ import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
+import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
 import com.example.fitnessapp.feature_app.domain.model.WorkoutSchedule
 import com.example.fitnessapp.feature_app.domain.model.WorkoutSprint
 import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
@@ -115,6 +116,13 @@ class WorkoutRepositoryImpl : WorkoutRepository {
                 }
             }
         }.decodeList<WorkoutSchedule>()
+    }
+
+    override suspend fun getWorkoutDetails(workoutSprintID: Int): List<WorkoutDetails> {
+
+        return client.postgrest["WorkoutDetails"].select {
+            filter { eq("workoutSprintID", workoutSprintID) }
+        }.decodeList<WorkoutDetails>()
     }
 
     private suspend fun getUserID(): String {

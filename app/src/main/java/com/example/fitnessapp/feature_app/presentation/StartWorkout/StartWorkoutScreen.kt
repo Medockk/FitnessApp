@@ -1,5 +1,11 @@
 package com.example.fitnessapp.feature_app.presentation.StartWorkout
 
+import android.content.pm.ActivityInfo
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
+import androidx.annotation.OptIn
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -12,16 +18,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
+import co.yml.charts.common.extensions.isNotNull
+import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomPerformingWorkout
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomUserWorkoutRepeats
@@ -33,14 +49,9 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(UnstableApi::class)
 @Composable
 fun StartWorkoutScreen(
     navController: NavController,
@@ -49,17 +60,40 @@ fun StartWorkoutScreen(
 
     val state = viewModel.state.value
     val context = LocalContext.current
-    val videoUrl =
-        "https://yandex.ru/video/preview/16440480486051164973?from=tabbar&parent-reqid=1740976113805496-11373023267903828608-balancer-l7leveler-kubr-yp-sas-164-BAL&text=video+player+jetpack+compose.mp4"
-    val exoPlayer = remember(context) {
-        ExoPlayer.Builder(context).build().apply {
-            val dataSourceFactory =
-                DefaultDataSourceFactory(context, Util.getUserAgent(context, context.packageName))
-            val source = DefaultMediaSourceFactory(dataSourceFactory).createMediaSource(
-                MediaItem.fromUri(videoUrl)
-            )
-            prepare(source)
+    val activity = LocalActivity.current
+
+    LaunchedEffect(key1 = state.videoUrl.isEmpty()) {
+        if (state.videoUrl.isNotEmpty()) {
+            val exoPlayer = androidx.media3.exoplayer.ExoPlayer.Builder(context).build().also {
+                val mediaItem = MediaItem.fromUri(state.videoUrl)
+                it.setMediaItem(mediaItem)
+                it.prepare()
+                it.addListener(object : Player.Listener {
+                    override fun onPlayerError(error: PlaybackException) {
+                        viewModel.onEvent(StartWorkoutEvent.SetException(error.errorCodeName))
+                    }
+                })
+            }
+            viewModel.onEvent(StartWorkoutEvent.SetExoplayer(exoPlayer))
         }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            if (state.exoPlayer.isNotNull()) {
+                state.exoPlayer!!.release()
+            }
+        }
+    }
+
+    BackHandler {
+        if (state.videoUrl.isNotEmpty() && state.exoPlayer.isNotNull()) {
+            state.exoPlayer!!.release()
+        }
+        if (activity.isNotNull()){
+            viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED))
+        }
+        navController.popBackStack()
     }
 
     if (state.exception.isNotEmpty()) {
@@ -83,31 +117,61 @@ fun StartWorkoutScreen(
                 backgroundColor = _F7F8F8,
                 textColor = Color.Transparent
             ) {
+                if (state.videoUrl.isNotEmpty() && state.exoPlayer.isNotNull()) {
+                    state.exoPlayer!!.release()
+                }
+                if (activity.isNotNull()){
+                    viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED))
+                }
                 navController.popBackStack()
             }
         }
 
         item {
-//            AsyncImage(
-//                model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Video-Section.png",
-//                contentDescription = "feature video",
-//                modifier = Modifier
-//                    .fillMaxWidth(),
-//                contentScale = ContentScale.Crop
-//            )
-            AndroidView(
-                factory = { context ->
-                    PlayerView(context).apply {
-                        player = exoPlayer
+            Crossfade(targetState = state.exoPlayer.isNotNull()) {
+                if (!it) {
+                    AsyncImage(
+                        model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Video-Section.png",
+                        contentDescription = "feature video",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                AnimatedVisibility(
+                    visible = it
+                ) {
+                    AndroidView(
+                        factory = { factoryContext ->
+                            PlayerView(factoryContext).apply {
+                                this.player = state.exoPlayer
+                                this.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                                this.setFullscreenButtonClickListener { isFullScreen ->
+
+                                    if (isFullScreen && activity.isNotNull()){
+                                        viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
+                                    }else if (!isFullScreen && activity.isNotNull()){
+                                        viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED))
+                                    }
+                                }
+                                this.setFullscreenButtonState(state.isFullScreen)
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                            .clip(RoundedCornerShape(22.dp))
+                    ) { player ->
+                        if (player.player.isNotNull() && player.player!!.isPlaying && activity.isNotNull()){
+                            viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
+                        }
                     }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(22.dp))
-            ) {}
+                }
+            }
             Spacer(Modifier.height(20.dp))
             Text(
-                text = Route.StartWorkoutScreen.workout,
+                text = Route.StartWorkoutScreen.title,
                 style = montserrat60016Bold_1D1617
             )
             Spacer(Modifier.height(5.dp))

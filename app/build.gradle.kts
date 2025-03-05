@@ -70,15 +70,12 @@ dependencies {
 
     //yCharts
     implementation(libs.ycharts)
-    implementation(libs.some.charts)
 
     //videoPlayer
-    implementation(libs.video.player)
+    implementation(libs.video.ui)
+    implementation(libs.video.exoplayer)
 
     //room
-//    implementation(libs.room.ktx)
-//    implementation(libs.room.runtime)
-//    ksp(libs.room.room.compiler)
     implementation(libs.room)
     ksp(libs.room.compiler)
 
