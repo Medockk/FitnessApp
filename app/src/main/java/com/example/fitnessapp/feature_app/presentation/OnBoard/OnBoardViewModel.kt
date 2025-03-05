@@ -22,8 +22,7 @@ class OnBoardViewModel(
 
         if (queue){
             _state.value = state.value.copy(
-                currentPage = queueUseCase.getQueueUseCase(),
-                isStart = true
+                currentPage = queueUseCase.getQueueUseCase()
             )
         }else{
             _state.value = state.value.copy(
@@ -47,8 +46,6 @@ class OnBoardViewModel(
                     queueUseCase.setQueueUseCase(-1)
                 }
             }
-
-            OnBoardEvent.ChangeIsStartState -> {_state.value = state.value.copy(isStart = !_state.value.isStart)}
         }
     }
 }

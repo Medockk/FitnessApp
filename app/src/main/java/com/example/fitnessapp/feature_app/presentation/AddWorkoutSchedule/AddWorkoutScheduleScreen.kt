@@ -31,9 +31,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.components.Border
 import com.example.fitnessapp.feature_app.presentation.AddWorkoutSchedule.components.CustomTimeTicker
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertCard
@@ -95,14 +97,15 @@ fun AddWorkoutScheduleScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 30.dp)
     ) {
         item {
             CustomTopAppBar(
                 title = "Добавить расписание",
                 moreInformationClick = {},
                 backgroundColor = _F7F8F8,
-                textColor = Color.Black
+                textColor = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 30.dp)
             ) {
                 navController.navigate(Route.WorkoutScheduleScreen.route) {
                     popUpTo(Route.AddWorkoutScheduleScreen.route) {
@@ -112,7 +115,9 @@ fun AddWorkoutScheduleScreen(
             }
             Spacer(Modifier.height(30.dp))
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(horizontal = 30.dp)
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.birthday_data_icon),
@@ -128,48 +133,65 @@ fun AddWorkoutScheduleScreen(
             Spacer(Modifier.height(30.dp))
         }
         item {
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "Время",
-                    style = montserrat50014_1D1617
+                    style = montserrat50014_1D1617,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 30.dp),
+                    textAlign = TextAlign.Start
                 )
                 Spacer(Modifier.height(10.dp))
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CustomTimeTicker(
-                        1, { viewModel.onEvent(AddWorkoutScheduleEvent.HourChange(it)) }, 24,
-                        modifier = Modifier
-                            .height(80.dp)
-                            .width(20.dp)
-                    )
-                    Spacer(Modifier.width(30.dp))
-                    CustomTimeTicker(
-                        1, { viewModel.onEvent(AddWorkoutScheduleEvent.MinuteChange(it)) }, 60,
-                        modifier = Modifier
-                            .height(80.dp)
-                            .width(20.dp)
-                    )
-                }
 
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(horizontal = 30.dp)
+                    ) {
+                        Spacer(Modifier.weight(1f))
+                        CustomTimeTicker(
+                            1, { viewModel.onEvent(AddWorkoutScheduleEvent.HourChange(it)) }, 24,
+                            modifier = Modifier
+                                .height(80.dp)
+                                .width(20.dp)
+                        )
+                        Spacer(Modifier.width(30.dp))
+                        CustomTimeTicker(
+                            1, { viewModel.onEvent(AddWorkoutScheduleEvent.MinuteChange(it)) }, 60,
+                            modifier = Modifier
+                                .height(80.dp)
+                                .width(20.dp)
+                        )
+                        Spacer(Modifier.weight(1f))
+                    }
+                    Border(Modifier.fillParentMaxWidth())
+                }
             }
             Spacer(Modifier.height(30.dp))
             Text(
                 text = "Детали тренировки",
-                style = montserrat50014_1D1617
+                style = montserrat50014_1D1617,
+                modifier = Modifier
+                    .padding(horizontal = 30.dp)
             )
             Spacer(Modifier.height(10.dp))
         }
 
         items(workoutDetailList) { list ->
             var isDropDownMenuOpen by remember { mutableStateOf(false) }
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 30.dp)
+            ) {
                 Row {
                     CustomAlertCard(
                         icon = list[0] as ImageVector,
