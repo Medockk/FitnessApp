@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -84,7 +85,11 @@ fun WorkoutTrackerScreen(
                     .padding(horizontal = 30.dp),
                 textColor = Color.White
             ) {
-                navController.popBackStack()
+                navController.navigate(Route.HomeScreen.route){
+                    popUpTo(Route.WorkoutTrackerScreen.route){
+                        inclusive = true
+                    }
+                }
             }
         }
 
@@ -177,7 +182,10 @@ fun WorkoutTrackerScreen(
                     Spacer(Modifier.height(15.dp))
                     Text(
                         text = "Что вы хотите тренировать",
-                        style = montserrat60016Bold_1D1617
+                        style = montserrat60016Bold_1D1617,
+                        modifier = Modifier
+                            .fillParentMaxWidth(),
+                        textAlign = TextAlign.Start
                     )
                     Spacer(Modifier.height(15.dp))
                 }

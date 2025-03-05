@@ -6,5 +6,4 @@ data class OnBoardState(
 
     val currentPage: Int = 0,
     val isComplete: Boolean = false,
-    val isStart: Boolean = false,
 )

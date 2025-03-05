@@ -10,19 +10,10 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.OnBoard.componets.OnBoardDefaultScreen
+import com.example.fitnessapp.feature_app.presentation.Route
 import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Prev() {
-    OnBoardScreen(rememberNavController())
-}
 
 @Composable
 fun OnBoardScreen(
@@ -31,14 +22,9 @@ fun OnBoardScreen(
 ) {
 
     val state = viewModel.state.value
-    val pagerState = rememberPagerState { state.pagesCount }
-
-    LaunchedEffect(!state.isStart){
-        if (state.isStart){
-            viewModel.onEvent(OnBoardEvent.ChangeIsStartState)
-            pagerState.requestScrollToPage(state.currentPage)
-        }
-    }
+    val pagerState = rememberPagerState(
+        initialPage = state.currentPage
+    ) { state.pagesCount }
 
     LaunchedEffect(key1 = !state.isComplete) {
         if (state.isComplete){
@@ -47,6 +33,12 @@ fun OnBoardScreen(
                     inclusive = true
                 }
             }
+        }
+    }
+
+    LaunchedEffect(key1 = pagerState.isScrollInProgress) {
+        if (!pagerState.isScrollInProgress){
+            viewModel.onEvent(OnBoardEvent.NextPage(pagerState.currentPage))
         }
     }
 

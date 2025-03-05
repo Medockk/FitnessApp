@@ -24,6 +24,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomPerformingWorkout
+import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomUserWorkoutRepeats
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
@@ -160,6 +161,21 @@ fun StartWorkoutScreen(
         }
 
         item {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(110.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                item {
+                    CustomUserWorkoutRepeats(
+                        initialValue = 1,
+                        height = 110.dp,
+                        modifier = Modifier
+                            .fillParentMaxWidth()
+                    ) { viewModel.onEvent(StartWorkoutEvent.ChangeUserRepeatable(it)) }
+                }
+            }
             Spacer(Modifier.height(45.dp))
             Box(
                 Modifier

@@ -6,4 +6,5 @@ data class StartWorkoutState(
     val workoutDescription: String = "",
 
     val showIndicator: Boolean = false,
+    val userRepeatable: Int = 1,
 )

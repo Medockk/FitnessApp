@@ -82,6 +82,12 @@ val montserrat40014_B6B4C2 = TextStyle (
     fontSize = 14.sp,
     color = _B6B4C2
 )
+val montserrat50024_B6B4C2 = TextStyle (
+    fontFamily = FontFamilyMontserrat,
+    fontWeight = FontWeight(500),
+    fontSize = 24.sp,
+    color = _B6B4C2
+)
 val montserrat40014_228F7D = TextStyle (
     fontFamily = FontFamilyMontserrat,
     fontWeight = FontWeight(400),

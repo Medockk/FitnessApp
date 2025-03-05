@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.WorkoutSchedule
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -39,13 +40,21 @@ fun WorkoutScheduleScreen(
     viewModel: WorkoutScheduleViewModel = koinViewModel()
 ) {
 
-    val state= viewModel.state.value
+    val state = viewModel.state.value
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
             viewModel.onEvent(WorkoutScheduleEvent.ResetException)
+        }
+    }
+
+    BackHandler {
+        navController.navigate(Route.WorkoutTrackerScreen.route) {
+            popUpTo(Route.WorkoutScheduleScreen.route) {
+                inclusive = true
+            }
         }
     }
 
@@ -63,16 +72,20 @@ fun WorkoutScheduleScreen(
                 backgroundColor = _F7F8F8,
                 textColor = Color.Black
             ) {
-                navController.popBackStack()
+                navController.navigate(Route.WorkoutTrackerScreen.route) {
+                    popUpTo(Route.WorkoutScheduleScreen.route) {
+                        inclusive = true
+                    }
+                }
             }
             Spacer(Modifier.height(30.dp))
             CustomDateCard(day = state.currentDay) {
-                viewModel.onEvent(WorkoutScheduleEvent.MonthClick(it,))
+                viewModel.onEvent(WorkoutScheduleEvent.MonthClick(it))
             }
             Spacer(Modifier.height(30.dp))
         }
 
-        items(24){
+        items(24) {
             LazyRow(
                 modifier = Modifier
                     .fillParentMaxWidth(),
@@ -80,18 +93,18 @@ fun WorkoutScheduleScreen(
             ) {
                 item {
                     Text(
-                        text = if ((it+1) < 10){
+                        text = if ((it + 1) < 10) {
                             "0${it + 1}:00"
-                        }else{
-                            "${it+1}:00"
+                        } else {
+                            "${it + 1}:00"
                         },
                         style = montserrat40012_B6B4C2
                     )
                     Spacer(Modifier.width(40.dp))
                 }
-                items(state.workoutSchedule){work ->
+                items(state.workoutSchedule) { work ->
                     AnimatedVisibility(
-                        visible = (it+1) == LocalDateTime.parse(work.time).hour,
+                        visible = (it + 1) == LocalDateTime.parse(work.time).hour,
                         enter = fadeIn(tween(1000))
                     ) {
                         CustomWorkoutTextCard(
@@ -102,10 +115,12 @@ fun WorkoutScheduleScreen(
                 }
             }
             Spacer(Modifier.height(24.dp))
-            Spacer(Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(_F7F8F8))
+            Spacer(
+                Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .background(_F7F8F8)
+            )
         }
     }
 
