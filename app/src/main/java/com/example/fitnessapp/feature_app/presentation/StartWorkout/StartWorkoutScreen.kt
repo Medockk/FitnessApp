@@ -36,7 +36,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
-import co.yml.charts.common.extensions.isNotNull
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.StartWorkout.components.CustomPerformingWorkout
@@ -72,7 +71,18 @@ fun StartWorkoutScreen(
                     override fun onPlayerError(error: PlaybackException) {
                         viewModel.onEvent(StartWorkoutEvent.SetException(error.errorCodeName))
                     }
+
+                    override fun onIsPlayingChanged(isPlaying: Boolean) {
+                        super.onIsPlayingChanged(isPlaying)
+                        if (activity != null) {
+                            if (!state.isFullScreen){
+                                viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity,
+                                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
+                            }
+                        }
+                    }
                 })
+                it.seekTo(state.videoPosition)
             }
             viewModel.onEvent(StartWorkoutEvent.SetExoplayer(exoPlayer))
         }
@@ -80,18 +90,24 @@ fun StartWorkoutScreen(
 
     DisposableEffect(Unit) {
         onDispose {
-            if (state.exoPlayer.isNotNull()) {
-                state.exoPlayer!!.release()
+            if (state.exoPlayer != null) {
+                viewModel.onEvent(StartWorkoutEvent.ChangeVideoPosition)
+                state.exoPlayer.release()
             }
         }
     }
 
     BackHandler {
-        if (state.videoUrl.isNotEmpty() && state.exoPlayer.isNotNull()) {
-            state.exoPlayer!!.release()
+        if (state.videoUrl.isNotEmpty() && state.exoPlayer != null) {
+            state.exoPlayer.release()
         }
-        if (activity.isNotNull()){
-            viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED))
+        if (activity != null) {
+            viewModel.onEvent(
+                StartWorkoutEvent.ChangeFullScreenOrientation(
+                    activity,
+                    ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                )
+            )
         }
         navController.popBackStack()
     }
@@ -117,18 +133,23 @@ fun StartWorkoutScreen(
                 backgroundColor = _F7F8F8,
                 textColor = Color.Transparent
             ) {
-                if (state.videoUrl.isNotEmpty() && state.exoPlayer.isNotNull()) {
-                    state.exoPlayer!!.release()
+                if (state.videoUrl.isNotEmpty() && state.exoPlayer != null) {
+                    state.exoPlayer.release()
                 }
-                if (activity.isNotNull()){
-                    viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED))
+                if (activity != null) {
+                    viewModel.onEvent(
+                        StartWorkoutEvent.ChangeFullScreenOrientation(
+                            activity,
+                            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                        )
+                    )
                 }
                 navController.popBackStack()
             }
         }
 
         item {
-            Crossfade(targetState = state.exoPlayer.isNotNull()) {
+            Crossfade(targetState = state.exoPlayer != null) {
                 if (!it) {
                     AsyncImage(
                         model = "https://qappxorzuldxgbbwlxvt.supabase.co/storage/v1/object/public/image//Video-Section.png",
@@ -145,28 +166,18 @@ fun StartWorkoutScreen(
                     AndroidView(
                         factory = { factoryContext ->
                             PlayerView(factoryContext).apply {
-                                this.player = state.exoPlayer
-                                this.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-                                this.setFullscreenButtonClickListener { isFullScreen ->
-
-                                    if (isFullScreen && activity.isNotNull()){
-                                        viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
-                                    }else if (!isFullScreen && activity.isNotNull()){
-                                        viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED))
-                                    }
+                                player = state.exoPlayer
+                                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                                if (this.player?.playWhenReady != null) {
+                                    viewModel.onEvent(StartWorkoutEvent.ChangeVideoPosition)
                                 }
-                                this.setFullscreenButtonState(state.isFullScreen)
                             }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(150.dp)
                             .clip(RoundedCornerShape(22.dp))
-                    ) { player ->
-                        if (player.player.isNotNull() && player.player!!.isPlaying && activity.isNotNull()){
-                            viewModel.onEvent(StartWorkoutEvent.ChangeFullScreenOrientation(activity!!, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
-                        }
-                    }
+                    ) {  }
                 }
             }
             Spacer(Modifier.height(20.dp))

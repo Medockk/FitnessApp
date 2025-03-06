@@ -12,5 +12,6 @@ data class StartWorkoutState(
     val showIndicator: Boolean = false,
     val isVideoPlaying: Boolean = false,
     val isFullScreen: Boolean = false,
+    val videoPosition: Long = 0L,
     val userRepeatable: Int = 1,
 )
