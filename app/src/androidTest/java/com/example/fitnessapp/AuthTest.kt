@@ -9,12 +9,10 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.fitnessapp.feature_app.data.dao.UserDao
 import com.example.fitnessapp.feature_app.data.dao.UserDataDao
-import com.example.fitnessapp.feature_app.data.dao.UserDataDaoImpl
-import com.example.fitnessapp.feature_app.domain.dao.UserDao
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.Dao.UpsertUserDataDaoUseCase
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
 import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
 import org.junit.Before
@@ -49,9 +47,7 @@ class AuthTest {
             userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(
-                    UserDataDaoImpl(userDao)
-                ))
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
             )
         }
 
@@ -70,9 +66,8 @@ class AuthTest {
             userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(
-                    UserDataDaoImpl(userDao)
-                )
+                SignUpViewModel(
+                    signUpUseCase, signUpWithGoogleUseCase
                 )
             )
         }
@@ -89,7 +84,7 @@ class AuthTest {
             userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
             )
         }
         rule.onAllNodesWithTag("Пароль")
@@ -108,7 +103,7 @@ class AuthTest {
             userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
             )
         }
         rule.onAllNodesWithTag("Пароль")
@@ -125,7 +120,7 @@ class AuthTest {
             userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
             )
         }
         rule.onAllNodesWithTag("Почта")
@@ -144,7 +139,7 @@ class AuthTest {
             userDao = userDataDao.userDao
             SignUpScreen(
                 rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase, UpsertUserDataDaoUseCase(UserDataDaoImpl(userDao)))
+                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
             )
         }
         rule.onAllNodesWithTag("Почта")

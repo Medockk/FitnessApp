@@ -133,12 +133,12 @@ fun HomeScreen(
                         )
                         Spacer(Modifier.height(5.dp))
                         AnimatedVisibility(
-                            visible = state.userData.fio.isNotEmpty(),
+                            visible = state.userData != null && state.userData.fio.isNotEmpty(),
                             label = "animated user fio",
                             enter = slideInVertically(tween(500, easing = LinearOutSlowInEasing))
                         ) {
                             Text(
-                                text = state.userData.fio,
+                                text = state.userData!!.fio,
                                 style = montserrat70020Bold_1D1617
                             )
                         }

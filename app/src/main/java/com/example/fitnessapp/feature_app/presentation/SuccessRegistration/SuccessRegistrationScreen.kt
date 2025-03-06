@@ -86,12 +86,12 @@ fun SuccessRegistrationScreen(
                 )
                 Spacer(Modifier.height(25.dp))
                 AnimatedVisibility(
-                    visible = state.userData.fio.isNotEmpty(),
+                    visible = state.userData != null && state.userData.fio.isNotEmpty(),
                     enter = expandVertically(tween(500, easing = LinearOutSlowInEasing))
                 ) {
                     Text(
                         text = "Добро пожаловать, \n" +
-                                state.userData.fio,
+                                state.userData!!.fio,
                         style = montserrat70020Bold_1D1617,
                         textAlign = TextAlign.Center
                     )

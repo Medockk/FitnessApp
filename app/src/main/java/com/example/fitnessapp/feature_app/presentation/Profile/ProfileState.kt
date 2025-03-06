@@ -1,17 +1,15 @@
 package com.example.fitnessapp.feature_app.presentation.Profile
 
+import com.example.fitnessapp.feature_app.data.entity.UserDataEntity
 import com.example.fitnessapp.feature_app.domain.model.Purpose
-import com.example.fitnessapp.feature_app.domain.model.UserData
-import com.example.fitnessapp.feature_app.domain.model.UserDataEntity
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import com.example.fitnessapp.feature_app.domain.model.UserDataInter
 
 data class ProfileState(
 
-    val userData: UserData = UserData(0,"","","","","","",""),
-    val purpose: Purpose = Purpose(0,"",""),
+    val userData: UserDataInter? = null,
+    val purpose: Purpose = Purpose(0, "", ""),
     val image: String = "",
-    val userDataDao: Flow<List<UserDataEntity>> = emptyFlow(),
+    val userDataDao: UserDataEntity? = null,
 
     val isNotificationTurnOn: Boolean = false,
 

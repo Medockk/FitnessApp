@@ -4,9 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.model.Purpose
 import com.example.fitnessapp.feature_app.domain.model.UserData
-import com.example.fitnessapp.feature_app.domain.usecase.Dao.GetUserDataDaoUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.ChangeNotificationStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
@@ -21,8 +19,7 @@ class ProfileViewModel(
     private val getPurposeUseCase: GetPurposeUseCase,
     private val getUserImageUseCase: GetUserImageUseCase,
     private val setUserImageUseCase: SetUserImageUseCase,
-    private val changeNotificationStateUseCase: ChangeNotificationStateUseCase,
-    private val getUserDataDaoUseCase: GetUserDataDaoUseCase
+    private val changeNotificationStateUseCase: ChangeNotificationStateUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ProfileState())
@@ -31,16 +28,13 @@ class ProfileViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _state.value = state.value.copy(showIndicator = true)
+
             try {
-//                if (getUserDataDaoUseCase(UserDataEntity.email).toList().isNotEmpty()){
-//                    _state.value = state.value.copy(userDataDao = getUserDataDaoUseCase(UserDataEntity.email))
-//                }else{
-                    getUserData()
-//                }
+                getUserData()
             } catch (e: Exception) {
                 if (state.value.image.isEmpty()) {
                     _state.value = state.value.copy(
-                        image = if (_state.value.userData.gender == UserData.female) {
+                        image = if (_state.value.userData?.gender == UserData.female) {
                             "https://avatars.mds.yandex.net/i?id=897113eed31435614b7bd5aa7b85fbbdb49c4efb-13071285-images-thumbs&n=13"
                         } else {
                             "https://avatars.mds.yandex.net/i?id=d220f7ba1825ae3131662553c80bd138bcb0d782-5492023-images-thumbs&n=13"
@@ -52,6 +46,7 @@ class ProfileViewModel(
                         showIndicator = false
                     )
                 }
+
             }
             _state.value = state.value.copy(showIndicator = false)
         }
@@ -126,23 +121,6 @@ class ProfileViewModel(
                         exception = e.message.toString()
                     )
                 }
-            }
-
-            is ProfileEvent.SetUserDataDao -> {
-                val data = event.value
-                _state.value = state.value.copy(
-                    userData = UserData(
-                        userID = "",
-                        fio = data.fio,
-                        phone = data.phone,
-                        gender = data.gender,
-                        birthdayData = data.birthdayData,
-                        weight = data.weight,
-                        height = data.height,
-                    ),
-                    purpose = Purpose(0, "", data.purpose),
-                    isInit = false
-                )
             }
         }
     }
