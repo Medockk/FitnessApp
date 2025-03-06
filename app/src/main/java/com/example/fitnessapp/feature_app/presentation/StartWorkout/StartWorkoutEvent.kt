@@ -11,5 +11,5 @@ sealed class StartWorkoutEvent {
     data class ChangeFullScreenOrientation(val activity: Activity, val orientation: Int) : StartWorkoutEvent()
 
     data class ChangeUserRepeatable(val value: String) : StartWorkoutEvent()
-    data object StartVideo : StartWorkoutEvent()
+    data object ChangeVideoPosition : StartWorkoutEvent()
 }

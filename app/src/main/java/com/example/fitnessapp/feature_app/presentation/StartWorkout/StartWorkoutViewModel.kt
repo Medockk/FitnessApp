@@ -50,8 +50,10 @@ class StartWorkoutViewModel(
                 _state.value = state.value.copy(userRepeatable = event.value.toInt())
             }
 
-            StartWorkoutEvent.StartVideo -> {
-
+            StartWorkoutEvent.ChangeVideoPosition -> {
+                if (_state.value.exoPlayer != null){
+                    _state.value = state.value.copy(videoPosition = _state.value.exoPlayer!!.currentPosition, isVideoPlaying = true)
+                }
             }
 
             StartWorkoutEvent.ResetException -> {
@@ -63,6 +65,7 @@ class StartWorkoutViewModel(
             }
 
             is StartWorkoutEvent.ChangeFullScreenOrientation -> {
+                _state.value = state.value.copy(isFullScreen = !_state.value.isFullScreen)
                 event.activity.requestedOrientation = event.orientation
             }
         }
