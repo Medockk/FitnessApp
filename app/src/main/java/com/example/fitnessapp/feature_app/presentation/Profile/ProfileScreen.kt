@@ -186,11 +186,11 @@ fun ProfileScreen(
                             contentAlignment = Alignment.Center,
                         ) {
                             androidx.compose.animation.AnimatedVisibility(
-                                visible = state.userDataDao != null || state.image.isNotEmpty(),
+                                visible = state.userData != null,
                                 enter = fadeIn(tween(1000))
                             ) {
                                 AsyncImage(
-                                    model = if (state.userDataDao != null) state.userDataDao.image else state.image,
+                                    model = state.userData?.image ?: "",
                                     contentDescription = "your image",
                                     modifier = Modifier
                                         .size(35.dp)
@@ -203,14 +203,12 @@ fun ProfileScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = if (state.userDataDao != null) {
-                                    state.userDataDao.fio
-                                } else state.userData?.fio.toString(),
+                                text = state.userData?.fio ?: "",
                                 style = montserrat50014_1D1617
                             )
                             Spacer(Modifier.height(5.dp))
                             Text(
-                                text = if (state.userDataDao != null) state.userDataDao.purpose else state.purpose.purpose,
+                                text = state.purpose.purpose,
                                 style = montserrat40014_B6B4C2
                             )
                         }
