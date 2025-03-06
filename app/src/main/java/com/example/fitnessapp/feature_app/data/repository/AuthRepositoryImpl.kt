@@ -34,7 +34,7 @@ class AuthRepositoryImpl : AuthRepository {
                 filter { eq("userID", userID) }
             }.decodeSingle<UserData>()
             return true
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Log.i("catch", userID)
             return false
         }

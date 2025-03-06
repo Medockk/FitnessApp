@@ -4,11 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.fitnessapp.feature_app.domain.dao.UserDao
-import com.example.fitnessapp.feature_app.domain.model.UserDataEntity
-import kotlinx.coroutines.flow.Flow
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 
-@Database([UserDataEntity::class], version = 1)
+@Database([UserDataImpl ::class], version = 1, exportSchema = false)
 abstract class UserDataDao : RoomDatabase() {
 
     abstract val userDao: UserDao
@@ -18,22 +16,4 @@ abstract class UserDataDao : RoomDatabase() {
             return Room.databaseBuilder(context, UserDataDao::class.java, "userData.db").build()
         }
     }
-}
-
-class UserDataDaoImpl(
-    private val userDao: UserDao
-) {
-    suspend fun upsertUserData(userDataEntity: UserDataEntity) {
-        userDao.upsertUserData(userDataEntity)
-    }
-
-    fun getUserData(email: String): Flow<List<UserDataEntity>> {
-        return userDao.getUserData(email)
-    }
-
-    fun deleteUserData(userDataEntity: UserDataEntity) {
-        userDao.deleteUserData(userDataEntity)
-    }
-
-
 }

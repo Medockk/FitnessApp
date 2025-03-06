@@ -1,9 +1,9 @@
 package com.example.fitnessapp.feature_app.presentation.SuccessRegistration
 
-import com.example.fitnessapp.feature_app.domain.model.UserData
+import com.example.fitnessapp.feature_app.domain.model.UserDataInter
 
 data class SuccessRegistrationState(
-    val userData: UserData = UserData(0,"","","","","","",""),
+    val userData: UserDataInter? = null,
 
     val exception: String = "",
 )

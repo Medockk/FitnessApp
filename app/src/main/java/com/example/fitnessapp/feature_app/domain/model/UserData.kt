@@ -13,6 +13,7 @@ data class UserData(
     val weight: String = "",
     val height: String = "",
     val notification: Boolean = false,
+    val image: String = "",
 ){
     companion object{
         val male = "Мужской"
