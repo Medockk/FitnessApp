@@ -28,23 +28,25 @@ class ProfileViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _state.value = state.value.copy(showIndicator = true)
+
             try {
                 getUserData()
             } catch (e: Exception) {
-                if (state.value.image.isEmpty()){
+                if (state.value.image.isEmpty()) {
                     _state.value = state.value.copy(
-                        image = if (_state.value.userData.gender==UserData.female){
+                        image = if (_state.value.userData?.gender == UserData.female) {
                             "https://avatars.mds.yandex.net/i?id=897113eed31435614b7bd5aa7b85fbbdb49c4efb-13071285-images-thumbs&n=13"
-                        }else{
+                        } else {
                             "https://avatars.mds.yandex.net/i?id=d220f7ba1825ae3131662553c80bd138bcb0d782-5492023-images-thumbs&n=13"
                         }
                     )
-                }else{
+                } else {
                     _state.value = state.value.copy(
                         exception = e.message.toString(),
                         showIndicator = false
                     )
                 }
+
             }
             _state.value = state.value.copy(showIndicator = false)
         }
@@ -55,7 +57,7 @@ class ProfileViewModel(
         val userData = getUserDataUseCase()
         val purpose = getPurposeUseCase()
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
                 userData = userData,
                 purpose = purpose
@@ -64,15 +66,15 @@ class ProfileViewModel(
 
         val userImage = getUserImageUseCase()
 
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             _state.value = state.value.copy(
                 image = userImage
             )
         }
     }
 
-    fun onEvent(event: ProfileEvent){
-        when (event){
+    fun onEvent(event: ProfileEvent) {
+        when (event) {
             is ProfileEvent.ChangeNotificationState -> {
                 _state.value = state.value.copy(
                     isNotificationTurnOn = event.value
@@ -87,6 +89,7 @@ class ProfileViewModel(
                     _state.value = state.value.copy(showIndicator = false)
                 }
             }
+
             ProfileEvent.ResetException -> {
                 _state.value = state.value.copy(
                     exception = ""
@@ -107,6 +110,7 @@ class ProfileViewModel(
                     _state.value = state.value.copy(showIndicator = false)
                 }
             }
+
             is ProfileEvent.ChangeImageView -> {
                 try {
                     _state.value = state.value.copy(

@@ -5,7 +5,6 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,13 +22,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.CustomProductMassCard
+import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.MealCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomDateCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomFloatingActionButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.CustomProductMassCard
-import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.MealCard
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
 import org.koin.androidx.compose.koinViewModel
@@ -42,7 +41,7 @@ fun MealScheduleScreen(
 
     val state = viewModel.state.value
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
@@ -66,8 +65,10 @@ fun MealScheduleScreen(
                 navController.popBackStack()
             }
             Spacer(Modifier.height(30.dp))
-            CustomDateCard(modifier = Modifier
-                .fillMaxWidth(), lastMountClick = {}, day = state.currentDay) {
+            CustomDateCard(
+                modifier = Modifier
+                    .fillMaxWidth(), day = state.currentDay
+            ) {
                 viewModel.onEvent(MealScheduleEvent.MonthClick(it))
             }
             Spacer(Modifier.height(30.dp))
@@ -95,7 +96,7 @@ fun MealScheduleScreen(
             Spacer(Modifier.height(20.dp))
         }
 
-        items(state.breakfastMeal){meal ->
+        items(state.breakfastMeal) { meal ->
             AnimatedVisibility(
                 visible = state.breakfastMeal.isNotEmpty(),
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
@@ -116,9 +117,9 @@ fun MealScheduleScreen(
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
                 exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
-                ){
+                ) {
                     Text(
                         text = "Обед",
                         style = montserrat60016_1D1617
@@ -131,7 +132,7 @@ fun MealScheduleScreen(
             }
         }
 
-        items(state.launchMeal){meal ->
+        items(state.launchMeal) { meal ->
             AnimatedVisibility(
                 visible = state.launchMeal.isNotEmpty(),
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
@@ -151,9 +152,9 @@ fun MealScheduleScreen(
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
                 exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
-                ){
+                ) {
                     Text(
                         text = "Полдник",
                         style = montserrat60016_1D1617
@@ -166,7 +167,7 @@ fun MealScheduleScreen(
             }
         }
 
-        items(state.afternoonMeal){meal ->
+        items(state.afternoonMeal) { meal ->
             AnimatedVisibility(
                 visible = state.afternoonMeal.isNotEmpty(),
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
@@ -186,9 +187,9 @@ fun MealScheduleScreen(
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
                 exit = fadeOut(tween(500, easing = LinearOutSlowInEasing))
             ) {
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
-                ){
+                ) {
                     Text(
                         text = "Ужин",
                         style = montserrat60016_1D1617
@@ -201,7 +202,7 @@ fun MealScheduleScreen(
             }
         }
 
-        items(state.dinnerMeal){meal ->
+        items(state.dinnerMeal) { meal ->
             AnimatedVisibility(
                 visible = state.dinnerMeal.isNotEmpty(),
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
@@ -216,7 +217,7 @@ fun MealScheduleScreen(
             Spacer(Modifier.height(10.dp))
         }
 
-        item{
+        item {
             Spacer(Modifier.height(20.dp))
             Text(
                 text = "Питание сегодня",
@@ -225,7 +226,7 @@ fun MealScheduleScreen(
             Spacer(Modifier.height(15.dp))
         }
 
-        items(4){ item ->
+        items(4) { item ->
             AnimatedVisibility(
                 visible = state.dietaryRecommendation.isNotEmpty(),
                 enter = fadeIn(tween(500, easing = LinearOutSlowInEasing)),
@@ -233,7 +234,7 @@ fun MealScheduleScreen(
             ) {
                 CustomProductMassCard(
                     item = item,
-                    value = when (item){
+                    value = when (item) {
                         0 -> state.caloriesSum.toString()
                         1 -> state.proteinSum.toString()
                         2 -> state.fatSum.toString()

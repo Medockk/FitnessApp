@@ -7,7 +7,7 @@ class SetWorkoutScheduleUseCase(
     private val workoutRepository: WorkoutRepository
 ) {
 
-    suspend operator fun invoke(workoutSchedule: WorkoutSchedule){
-        workoutRepository.setWorkoutSchedule(workoutSchedule)
+    suspend operator fun invoke(workoutSchedule: WorkoutSchedule, hour: Int, minute: Int){
+        workoutRepository.setWorkoutSchedule(workoutSchedule, hour, minute)
     }
 }

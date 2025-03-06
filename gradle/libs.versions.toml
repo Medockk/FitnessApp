@@ -19,14 +19,12 @@ coil = "2.6.0"
 koin = "3.5.6"
 
 yCharts = "2.1.0"
-someCharts = "1.2.2"
 
 serializable = "2.0.0"
 serialization = "1.7.3"
 
-videoPlayer = "2.19.1"
 room = "2.6.1"
-#ksp = "2.1.0-1.0.29"
+video = "1.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -70,14 +68,12 @@ io-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", ve
 
 #yCharts
 ycharts = {module = "co.yml:ycharts", version.ref = "yCharts"}
-some-charts = {module = "com.github.MahmoudIbrahim3:android-compose-charts", version.ref = "someCharts"}
 
 #video
-video-player = {module = "com.google.android.exoplayer:exoplayer", version.ref = "videoPlayer"}
+video-exoplayer = {module = "androidx.media3:media3-exoplayer", version.ref = "video"}
+video-ui = {module = "androidx.media3:media3-ui", version.ref="video"}
 
 #room
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-
 room = { module = "androidx.room:room-ktx", version.ref = "room"}
 room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
 
@@ -89,6 +85,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ##serializable
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serializable" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-#ksp
-#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 

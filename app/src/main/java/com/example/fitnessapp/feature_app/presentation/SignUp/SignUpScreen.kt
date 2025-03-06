@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.fitnessapp.feature_app.presentation.SignUp
 
 import android.util.Log
@@ -36,15 +38,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomAssistChip
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomHorizontalDivider
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTextField
-import com.example.fitnessapp.R
-import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._ADA4A5
@@ -68,7 +70,7 @@ private fun Prev() {
 @Composable
 fun SignUpScreen(
     navController: NavController,
-    viewModel: SignUpViewModel = koinViewModel()
+    viewModel: SignUpViewModel = koinViewModel(),
 ) {
 
     val state = viewModel.state.value
@@ -77,41 +79,44 @@ fun SignUpScreen(
     val signUpList = listOf(
         listOf(
             state.fio,
-            {it: String -> viewModel.onEvent(SignUpEvent.EnterFIO(it)) },
+            { it: String -> viewModel.onEvent(SignUpEvent.EnterFIO(it)) },
             ImageVector.vectorResource(R.drawable.fio_icon),
             "ФИО"
         ),
         listOf(
             state.phone,
-            {it: String -> viewModel.onEvent(SignUpEvent.EnterPhone(it)) },
+            { it: String -> viewModel.onEvent(SignUpEvent.EnterPhone(it)) },
             ImageVector.vectorResource(R.drawable.phone_icon),
             "Номер телефона"
         ),
         listOf(
             state.email,
-            {it: String -> viewModel.onEvent(SignUpEvent.EnterEmail(it)) },
+            { it: String -> viewModel.onEvent(SignUpEvent.EnterEmail(it)) },
             ImageVector.vectorResource(R.drawable.email_icon),
             "Почта"
         ),
         listOf(
             state.password,
-            {it: String -> viewModel.onEvent(SignUpEvent.EnterPassword(it)) },
+            { it: String -> viewModel.onEvent(SignUpEvent.EnterPassword(it)) },
             ImageVector.vectorResource(R.drawable.password_icon),
             "Пароль"
         ),
     )
 
     val authState = client.composeAuth.rememberSignInWithGoogle({
-        when (it){
+        when (it) {
             NativeSignInResult.ClosedByUser -> {
                 Log.e("up", "closed")
             }
+
             is NativeSignInResult.Error -> {
                 viewModel.onEvent(SignUpEvent.SetException(it.exception.toString()))
             }
+
             is NativeSignInResult.NetworkError -> {
                 viewModel.onEvent(SignUpEvent.SetException(it.message))
             }
+
             NativeSignInResult.Success -> {
                 viewModel.onEvent(SignUpEvent.SignUpWithGoogle)
             }
@@ -119,9 +124,9 @@ fun SignUpScreen(
     })
 
     LaunchedEffect(key1 = !state.isFirstRegistration) {
-        if (state.isFirstRegistration){
-            navController.navigate(Route.CreateProfileScreen.route){
-                popUpTo(Route.SignUpScreen.route){
+        if (state.isFirstRegistration) {
+            navController.navigate(Route.CreateProfileScreen.route) {
+                popUpTo(Route.SignUpScreen.route) {
                     inclusive = true
                 }
             }
@@ -129,16 +134,16 @@ fun SignUpScreen(
     }
 
     LaunchedEffect(key1 = !state.isNotFirstRegistration) {
-        if (state.isNotFirstRegistration){
-            navController.navigate(Route.SuccessRegistrationScreen.route){
-                popUpTo(Route.SignUpScreen.route){
+        if (state.isNotFirstRegistration) {
+            navController.navigate(Route.SuccessRegistrationScreen.route) {
+                popUpTo(Route.SignUpScreen.route) {
                     inclusive = true
                 }
             }
         }
     }
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
@@ -146,9 +151,11 @@ fun SignUpScreen(
         }
     }
 
-    Box(Modifier
-        .fillMaxSize()
-        .background(Color.White))
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
 
     LazyColumn(
         modifier = Modifier
@@ -194,9 +201,9 @@ fun SignUpScreen(
                         modifier = Modifier
                             .fillMaxWidth(),
                         isPassword = signUpList[3] == it,
-                        showHidePasswordState = if (signUpList[3] == it){
+                        showHidePasswordState = if (signUpList[3] == it) {
                             state.showHidePasswordState
-                        }else{
+                        } else {
                             false
                         },
                         showHidePasswordClick = {
@@ -271,7 +278,7 @@ fun SignUpScreen(
                 ) {
                     CustomAssistChip(
                         icon =
-                            ImageVector.vectorResource(R.drawable.google_icon),
+                        ImageVector.vectorResource(R.drawable.google_icon),
                         modifier = Modifier
                             .size(50.dp),
                         enabled = !state.showIndicator
@@ -281,7 +288,7 @@ fun SignUpScreen(
                     Spacer(Modifier.width(30.dp))
                     CustomAssistChip(
                         icon =
-                            ImageVector.vectorResource(R.drawable.facebook_icon),
+                        ImageVector.vectorResource(R.drawable.facebook_icon),
                         modifier = Modifier
                             .size(50.dp),
                         enabled = !state.showIndicator
@@ -290,8 +297,8 @@ fun SignUpScreen(
                 Spacer(Modifier.height(20.dp))
                 TextButton(
                     onClick = {
-                        navController.navigate(Route.SignInScreen.route){
-                            popUpTo(Route.SignUpScreen.route){
+                        navController.navigate(Route.SignInScreen.route) {
+                            popUpTo(Route.SignUpScreen.route) {
                                 inclusive = true
                             }
                         }

@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.fitnessapp.feature_app.presentation.Profile
 
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -40,16 +42,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.presentation.Profile.components.UserAccountCard
+import com.example.fitnessapp.feature_app.presentation.Profile.components.UserDataCard
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.BottomBar
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomSwitch
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.R
-import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.presentation.Profile.components.UserAccountCard
-import com.example.fitnessapp.feature_app.presentation.Profile.components.UserDataCard
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D161712
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._C4C4C4
@@ -75,8 +77,8 @@ fun ProfileScreen(
     val state = viewModel.state.value
 
     val context = LocalContext.current
-    val selectImage = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()){
-        if (it != null){
+    val selectImage = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
+        if (it != null) {
             viewModel.onEvent(ProfileEvent.ChangeImageView(it))
             val item = context.contentResolver.openInputStream(it)
             viewModel.onEvent(ProfileEvent.ChangeImage(item?.readBytes()))
@@ -124,7 +126,7 @@ fun ProfileScreen(
         ),
     )
 
-    if (state.exception.isNotEmpty()){
+    if (state.exception.isNotEmpty()) {
         CustomAlertDialog(
             description = state.exception
         ) {
@@ -167,7 +169,7 @@ fun ProfileScreen(
                 .padding(horizontal = 30.dp)
         ) {
             item {
-                Column{
+                Column {
                     Spacer(Modifier.height(30.dp))
 
                     Row(
@@ -182,13 +184,13 @@ fun ProfileScreen(
                                 .clip(CircleShape)
                                 .background(_C4C4C4, CircleShape),
                             contentAlignment = Alignment.Center,
-                        ){
+                        ) {
                             androidx.compose.animation.AnimatedVisibility(
-                                visible = state.image.isNotEmpty(),
+                                visible = state.userDataDao != null || state.image.isNotEmpty(),
                                 enter = fadeIn(tween(1000))
                             ) {
                                 AsyncImage(
-                                    model = state.image,
+                                    model = if (state.userDataDao != null) state.userDataDao.image else state.image,
                                     contentDescription = "your image",
                                     modifier = Modifier
                                         .size(35.dp)
@@ -201,17 +203,19 @@ fun ProfileScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = state.userData.fio,
+                                text = if (state.userDataDao != null) {
+                                    state.userDataDao.fio
+                                } else state.userData?.fio.toString(),
                                 style = montserrat50014_1D1617
                             )
                             Spacer(Modifier.height(5.dp))
                             Text(
-                                text = state.purpose.purpose,
+                                text = if (state.userDataDao != null) state.userDataDao.purpose else state.purpose.purpose,
                                 style = montserrat40014_B6B4C2
                             )
                         }
                         CustomGreenButton(
-                            text =  "Изменить",
+                            text = "Изменить",
                         ) {
                             selectImage.launch(
                                 "image/*"
@@ -231,7 +235,7 @@ fun ProfileScreen(
                             Row {
                                 Spacer(Modifier.width(5.dp))
                                 UserDataCard(
-                                    title = state.userData.height,
+                                    title = if (state.userData != null) state.userData.height else "",
                                     description = "Рост",
                                     modifier = Modifier
                                         .fillParentMaxWidth(0.3f)
@@ -240,7 +244,7 @@ fun ProfileScreen(
                         }
                         item {
                             UserDataCard(
-                                title = state.userData.weight,
+                                title = if (state.userData != null) state.userData.weight else "",
                                 description = "Вес",
                                 modifier = Modifier
                                     .fillParentMaxWidth(0.3f)
@@ -249,7 +253,7 @@ fun ProfileScreen(
                         item {
                             Row {
                                 UserDataCard(
-                                    title = state.userData.birthdayData,
+                                    title = if (state.userData != null) state.userData.birthdayData else "",
                                     description = "Лет",
                                     modifier = Modifier
                                         .fillParentMaxWidth(0.3f)
@@ -295,7 +299,7 @@ fun ProfileScreen(
                             .shadow(10.dp, RoundedCornerShape(16.dp), spotColor = _1D161712),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         shape = RoundedCornerShape(16.dp),
-                    ){
+                    ) {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -324,7 +328,11 @@ fun ProfileScreen(
                                 CustomSwitch(
                                     checked = state.isNotificationTurnOn
                                 ) { switchState ->
-                                    viewModel.onEvent(ProfileEvent.ChangeNotificationState(switchState))
+                                    viewModel.onEvent(
+                                        ProfileEvent.ChangeNotificationState(
+                                            switchState
+                                        )
+                                    )
                                 }
                             }
                         }

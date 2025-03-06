@@ -5,8 +5,8 @@ data class AddWorkoutScheduleState(
 
     val currentData: String = "",
     val monthName: String = "",
-    val hour: String = "",
-    val minute: String = "",
+    val hour: String = "1",
+    val minute: String = "1",
     val year: String = "",
     val currentDayName: String = "",
 

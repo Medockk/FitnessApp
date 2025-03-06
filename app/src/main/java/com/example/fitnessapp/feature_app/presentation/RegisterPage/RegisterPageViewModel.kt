@@ -15,11 +15,11 @@ class RegisterPageViewModel(
     private val _state = mutableStateOf(RegisterPageState())
     val state: State<RegisterPageState> = _state
 
-    fun onEvent(event: RegisterEvent){
-        when (event){
+    fun onEvent(event: RegisterEvent) {
+        when (event) {
             is RegisterEvent.SelectPurpose -> {
-                try {
-                    viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
                         selectPurposeUseCase(
                             _state.value.yourPurpose[event.value]
                                 .title
@@ -27,11 +27,11 @@ class RegisterPageViewModel(
                         _state.value = state.value.copy(
                             isComplete = true
                         )
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(
+                            exception = e.message.toString()
+                        )
                     }
-                } catch (e: Exception) {
-                    _state.value = state.value.copy(
-                        exception = e.message.toString()
-                    )
                 }
             }
 

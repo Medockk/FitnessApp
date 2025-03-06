@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.domain.model
+package com.example.fitnessapp.feature_app.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -8,6 +8,8 @@ import androidx.room.PrimaryKey
 data class UserDataEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
+    @ColumnInfo(defaultValue = "")
+    val email: String = "",
     @ColumnInfo(defaultValue = "")
     val fio: String = "",
     @ColumnInfo(defaultValue = "")
@@ -22,4 +24,10 @@ data class UserDataEntity(
     val height: String = "",
     @ColumnInfo(defaultValue = "")
     val purpose: String = "",
-)
+    @ColumnInfo(defaultValue = "")
+    val image: String = "",
+){
+    companion object{
+        var email: String = ""
+    }
+}

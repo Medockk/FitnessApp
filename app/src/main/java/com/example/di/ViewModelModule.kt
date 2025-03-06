@@ -91,7 +91,7 @@ val moduleViewModel = module {
     }
 
     viewModel<WorkoutDetailViewModel>{
-        WorkoutDetailViewModel(get())
+        WorkoutDetailViewModel(get(), get())
     }
 
     viewModel<CategoryBreakfastViewModel>{
@@ -111,7 +111,7 @@ val moduleViewModel = module {
     }
 
     viewModel<WorkoutScheduleViewModel>{
-        WorkoutScheduleViewModel(get())
+        WorkoutScheduleViewModel(get(), get())
     }
 
     viewModel<AddWorkoutScheduleViewModel>{
@@ -119,7 +119,7 @@ val moduleViewModel = module {
     }
 
     viewModel<StartWorkoutViewModel>{
-        StartWorkoutViewModel()
+        StartWorkoutViewModel(get())
     }
 
     viewModel<SleepTrackerViewModel>{

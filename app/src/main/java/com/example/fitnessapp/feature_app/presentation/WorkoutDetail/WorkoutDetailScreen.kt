@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -40,14 +41,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.domain.model.WorkoutData
+import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomSprintCard
+import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomWorkoutInfo
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.R
-import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.domain.model.WorkoutData
-import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomSprintCard
-import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomWorkoutInfo
 import com.example.fitnessapp.feature_app.presentation.ui.theme._00F0FF
 import com.example.fitnessapp.feature_app.presentation.ui.theme._00FF66
 import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
@@ -81,6 +83,18 @@ fun WorkoutDetailScreen(
 ) {
 
     val state = viewModel.state.value
+
+    LaunchedEffect(key1 = !state.isComplete) {
+        if (state.isComplete){
+            viewModel.onEvent(WorkoutDetailEvent.ResetIsCompleteState)
+            navController.navigate(Route.CongratulationsScreen.route){
+                popUpTo(Route.WorkoutDetailScreen.route){
+                    inclusive = true
+                }
+            }
+        }
+    }
+
     val backgroundBrush = Brush.linearGradient(
         listOf(
             _81CCBF, _07856E
@@ -292,7 +306,8 @@ fun WorkoutDetailScreen(
                         .fillParentMaxWidth()
                         .padding(horizontal = 30.dp)
                 ) {
-                    Route.StartWorkoutScreen.workout = sprint.title
+                    Route.StartWorkoutScreen.title = sprint.title
+                    Route.StartWorkoutScreen.workout = WorkoutDetails(0, sprint.id, "","")
                     navController.navigate(Route.StartWorkoutScreen.route)
                 }
             }
@@ -325,7 +340,8 @@ fun WorkoutDetailScreen(
                         .fillParentMaxWidth()
                         .padding(horizontal = 30.dp)
                 ) {
-                    Route.StartWorkoutScreen.workout = workoutSprint.title
+                    Route.StartWorkoutScreen.title = workoutSprint.title
+                    Route.StartWorkoutScreen.workout = WorkoutDetails(0, workoutSprint.id, "","")
                     navController.navigate(Route.StartWorkoutScreen.route)
                 }
             }
@@ -344,11 +360,7 @@ fun WorkoutDetailScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp)
         ) {
-            navController.navigate(Route.CongratulationsScreen.route){
-                popUpTo(Route.WorkoutDetailScreen.route){
-                    inclusive = true
-                }
-            }
+            viewModel.onEvent(WorkoutDetailEvent.AddLastActivity(workoutData))
         }
     }
 

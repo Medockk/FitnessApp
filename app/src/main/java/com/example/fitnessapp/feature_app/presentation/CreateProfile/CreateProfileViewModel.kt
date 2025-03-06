@@ -16,28 +16,32 @@ class CreateProfileViewModel(
     private val _state = mutableStateOf(CreateProfileState())
     val state: State<CreateProfileState> = _state
 
-    fun onEvent(event: CreateProfileEvent){
-        when (event){
+    fun onEvent(event: CreateProfileEvent) {
+        when (event) {
             is CreateProfileEvent.EnterBirthdayData -> {
                 _state.value = state.value.copy(
                     birthdayData = event.value
                 )
             }
+
             is CreateProfileEvent.EnterGender -> {
                 _state.value = state.value.copy(
                     gender = event.value
                 )
             }
+
             is CreateProfileEvent.EnterHeight -> {
                 _state.value = state.value.copy(
                     height = event.value
                 )
             }
+
             is CreateProfileEvent.EnterWeight -> {
                 _state.value = state.value.copy(
                     weight = event.value
                 )
             }
+
             CreateProfileEvent.ResetException -> {
                 _state.value = state.value.copy(
                     exception = ""
@@ -47,15 +51,13 @@ class CreateProfileViewModel(
             CreateProfileEvent.CreateProfileClick -> {
                 if (
                     _state.value.gender.isNotBlank() &&
-                    (_state.value.gender==UserData.male||_state.value.gender==UserData.female) &&
+                    (_state.value.gender == UserData.male || _state.value.gender == UserData.female) &&
                     _state.value.birthdayData.isNotBlank() &&
                     _state.value.weight.isNotBlank() &&
                     _state.value.height.isNotBlank()
-                ){
+                ) {
                     viewModelScope.launch(Dispatchers.IO) {
-                        _state.value = state.value.copy(
-                            showIndicator = true
-                        )
+                        _state.value = state.value.copy(showIndicator = true)
                         try {
                             createProfileUseCase(
                                 gender = _state.value.gender,
@@ -74,32 +76,32 @@ class CreateProfileViewModel(
                             )
                         }
                     }
-                }else if (_state.value.gender.isBlank()){
+                } else if (_state.value.gender.isBlank()) {
                     _state.value = state.value.copy(
                         exception = "Поле Ваш Пол не может быть пустым!",
                         showIndicator = false
                     )
-                }else if (_state.value.gender!=UserData.male||_state.value.gender!=UserData.female){
+                } else if (_state.value.gender != UserData.male || _state.value.gender != UserData.female) {
                     _state.value = state.value.copy(
                         exception = "Поле Ваш Пол не может принимать других значений:(",
                         showIndicator = false
                     )
-                }else if (_state.value.birthdayData.isBlank()){
+                } else if (_state.value.birthdayData.isBlank()) {
                     _state.value = state.value.copy(
                         exception = "Поле Дата Рождения не может быть пустым!",
                         showIndicator = false
                     )
-                }else if (_state.value.weight.isBlank()){
+                } else if (_state.value.weight.isBlank()) {
                     _state.value = state.value.copy(
                         exception = "Поле Ваш Вес не может быть пустым!",
                         showIndicator = false
                     )
-                }else if (_state.value.height.isBlank()){
+                } else if (_state.value.height.isBlank()) {
                     _state.value = state.value.copy(
                         exception = "Поле Ваш Рост не может быть пустым!",
                         showIndicator = false
                     )
-                }else{
+                } else {
                     _state.value = state.value.copy(
                         exception = "Непредвиденная ошибка!",
                         showIndicator = false

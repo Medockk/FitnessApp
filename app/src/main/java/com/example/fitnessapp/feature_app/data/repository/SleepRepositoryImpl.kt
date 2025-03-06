@@ -30,15 +30,14 @@ class SleepRepositoryImpl : SleepRepository {
         }.decodeList<SleepTracker>()
     }
 
-    override suspend fun getSleepDataByDate(date: Int): List<SleepTracker> {
+    override suspend fun getSleepDataByDate(year: Int, month: Int, day: Int): List<SleepTracker> {
         val userID = getUserID()
-        val currentData = LocalDate.now()
 
         return client.postgrest["SleepTracker"].select {
             filter {
                 and {
                     eq("userID", userID)
-                    eq("date", "${currentData.year}-${currentData.month.value}-$date")
+                    eq("date", "${year}-${month}-$day")
                 }
             }
         }.decodeList<SleepTracker>()
@@ -61,15 +60,14 @@ class SleepRepositoryImpl : SleepRepository {
         return t
     }
 
-    override suspend fun getAlarmClockDataByDate(date: Int): List<AlarmClockTracker> {
+    override suspend fun getAlarmClockDataByDate(year: Int, month: Int, day: Int): List<AlarmClockTracker> {
         val userID = getUserID()
-        val currentDate = LocalDate.now()
 
         return client.postgrest["AlarmClockTracker"].select {
             filter {
                 and {
                     eq("userID", userID)
-                    eq("date", "${currentDate.year}-${currentDate.month.value}-$date")
+                    eq("date", "${year}-${month}-$day")
                 }
             }
         }.decodeList<AlarmClockTracker>()

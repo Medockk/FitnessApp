@@ -9,7 +9,6 @@ import com.example.di.moduleSleep
 import com.example.di.moduleUser
 import com.example.di.moduleViewModel
 import com.example.di.moduleWorkout
-import com.example.fitnessapp.feature_app.data.dao.UserDataDao
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -20,7 +19,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val database by lazy { UserDataDao.createDB(this) }
         startKoin {
             androidContext(applicationContext)
             androidLogger(Level.DEBUG)

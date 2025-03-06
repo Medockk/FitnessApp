@@ -2,6 +2,7 @@ package com.example.fitnessapp.feature_app.presentation
 
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
+import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
 
 sealed class Route(val route: String) {
 
@@ -34,7 +35,8 @@ sealed class Route(val route: String) {
     data object WorkoutScheduleScreen : Route("WorkoutScheduleScreen")
     data object AddWorkoutScheduleScreen : Route("AddWorkoutScheduleScreen")
     data object StartWorkoutScreen : Route("StartWorkoutScreen"){
-        var workout = ""
+        var workout = WorkoutDetails(0,0,"","")
+        var title = ""
     }
 
     data object SleepTrackerScreen : Route("SleepTrackerScreen")

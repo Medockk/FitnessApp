@@ -41,7 +41,7 @@ private fun Prev() {
             "title1",
             description = "descr2"
         )
-    ){
+    ) {
 
     }
 }

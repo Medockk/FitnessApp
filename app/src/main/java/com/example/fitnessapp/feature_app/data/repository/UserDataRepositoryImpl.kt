@@ -1,5 +1,8 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import android.util.Log
+import com.example.fitnessapp.feature_app.data.dao.UserDao
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
@@ -17,17 +20,36 @@ import kotlin.time.Duration
  * Класс для работы с данными пользователя
  * @author Андреев Арсений, 18,02,2025; 12:08
  */
-class UserDataRepositoryImpl : UserDataRepository {
+class UserDataRepositoryImpl(
+    private val userDao: UserDao
+) : UserDataRepository {
 
-    override suspend fun getUserData(): UserData {
+    override suspend fun getUserData(): UserDataImpl {
 
         val userID = getUserID()
+        val userData = userDao.getUserData(userID)
 
-        return client.postgrest["Users"].select {
-            filter {
-                eq("userID", userID)
-            }
-        }.decodeSingle<UserData>()
+        if (userData != null) {
+
+            return userData
+            Log.e("getUserData", "block: if\nafter return")
+            val serverData = client.postgrest["Users"].select {
+                filter {
+                    eq("userID", userID)
+                }
+            }.decodeSingle<UserDataImpl>()
+            userDao.upsertUserData(serverData)
+        } else {//if it's a new user
+
+            val serverData = client.postgrest["Users"].select {
+                filter {
+                    eq("userID", userID)
+                }
+            }.decodeSingle<UserDataImpl>()
+            userDao.upsertUserData(serverData)
+            return serverData
+            Log.e("getUserData", "block: else\nafter return")
+        }
     }
 
     override suspend fun updateUserData(userData: UserData) {
@@ -99,15 +121,18 @@ class UserDataRepositoryImpl : UserDataRepository {
         client.storage.from("avatars").upload(
             path = "$userID.png",
             data = byteArray
-        ){
+        ) {
             upsert = true
         }
+
+        val url = client.storage.from("avatars").createSignedUrl("$userID.png", Duration.INFINITE)
+        client.postgrest["Users"].update(mapOf("image" to url)) { filter { eq("userID", userID) } }
     }
 
     override suspend fun changeNotificationState(value: Boolean) {
         val userID = getUserID()
 
-        client.postgrest["Users"].update(mapOf("notification" to value)){
+        client.postgrest["Users"].update(mapOf("notification" to value)) {
             filter { eq("userID", userID) }
         }
     }
@@ -121,8 +146,13 @@ class UserDataRepositoryImpl : UserDataRepository {
         }.decodeSingle<HeartRate>()
     }
 
-    private suspend fun getUserID() : String{
+    private suspend fun getUserID(): String {
         client.auth.awaitInitialization()
         return client.auth.currentUserOrNull()?.id ?: ""
+    }
+
+    private suspend fun getUserEmail(): String {
+        client.auth.awaitInitialization()
+        return client.auth.currentUserOrNull()?.email ?: ""
     }
 }

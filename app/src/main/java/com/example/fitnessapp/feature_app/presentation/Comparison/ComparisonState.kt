@@ -6,6 +6,20 @@ data class ComparisonState(
 
     val firstMount: String = "",
     val secondMount: String = "",
+    val monthList: List<String> = listOf(
+        "Январь",
+        "Февраль",
+        "Март",
+        "Апрель",
+        "Май",
+        "Июнь",
+        "Июль",
+        "Август",
+        "Сентябрь",
+        "Октябрь",
+        "Ноябрь",
+        "Декабрь",
+    ),
 
     val showFirstMonthDropDownMenu: Boolean = false,
     val showSecondMonthDropDownMenu: Boolean = false,

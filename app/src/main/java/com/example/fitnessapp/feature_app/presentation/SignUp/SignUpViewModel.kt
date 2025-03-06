@@ -72,9 +72,9 @@ class SignUpViewModel(
             }
 
             SignUpEvent.SignUp -> {
-                if (!Patterns.EMAIL_ADDRESS.matcher(_state.value.email).matches()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(_state.value.email).matches()) {
                     _state.value = state.value.copy(exception = "Неверное имя почты")
-                }else if (
+                } else if (
                     _state.value.fio.isNotBlank() &&
                     _state.value.phone.isNotBlank() &&
                     _state.value.email.isNotBlank() &&

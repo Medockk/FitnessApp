@@ -19,10 +19,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
@@ -30,25 +31,16 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_7B6F72
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_A5A3B0
-import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014White
-import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_7B6F72
 import java.time.LocalDate
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    CustomDateCard(lastMountClick = {}) { }
-}
 
 @Composable
 fun CustomDateCard(
-    lastMountClick: () -> Unit = {},
     modifier: Modifier = Modifier,
     day: Int = LocalDate.now().dayOfMonth,
-    nextMountClick: () -> Unit = {},
-    onDateClick: (Int) -> Unit,
+    onDateClick: (LocalDate) -> Unit,
 ) {
-    val currentDay = LocalDate.now()
+    val currentDay = remember { mutableStateOf(LocalDate.now()) }
+    val _day = remember { mutableStateOf(day) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -57,7 +49,12 @@ fun CustomDateCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = lastMountClick,
+                onClick = {
+                    if (0 != _day.value - 1) {
+                        _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                        currentDay.value = currentDay.value.minusMonths(1)
+                    }
+                },
                 modifier = Modifier
                     .clip(CircleShape)
             ) {
@@ -69,12 +66,33 @@ fun CustomDateCard(
             }
             Spacer(Modifier.width(25.dp))
             Text(
-                text = currentDay.month.name + " ${currentDay.year}",
+                text = currentDay.value.month.name + " ${currentDay.value.year}",
                 style = montserrat40014_A5A3B0
             )
             Spacer(Modifier.width(25.dp))
             IconButton(
-                onClick = nextMountClick,
+                onClick = {
+                    when (currentDay.value.isLeapYear){
+                        true -> {
+                            //если февраль впсокосного года
+                            if (currentDay.value.month.value == 2 && _day.value <= currentDay.value.month.maxLength()-1){
+                                _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                                currentDay.value = currentDay.value.plusMonths(1)
+                            }
+                            //если не февраль
+                            else if (_day.value <= currentDay.value.month.maxLength()){
+                                _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                                currentDay.value = currentDay.value.plusMonths(1)
+                            }
+                        }
+                        false -> {
+                            if (_day.value <= currentDay.value.month.maxLength()){
+                                _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                                currentDay.value = currentDay.value.plusMonths(1)
+                            }
+                        }
+                    }
+                },
                 modifier = Modifier
                     .clip(CircleShape)
             ) {
@@ -91,17 +109,18 @@ fun CustomDateCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             items(
-                if (currentDay.month.value == 2) {
-                    currentDay.month.maxLength() - 1
+                if (currentDay.value.month.value == 2 && currentDay.value.isLeapYear) {
+                    currentDay.value.month.maxLength() - 1
                 } else {
-                    currentDay.month.maxLength()
+                    currentDay.value.month.maxLength()
                 }
             ) {
                 Card(
                     modifier = Modifier
                         .widthIn(60.dp),
                     onClick = {
-                        onDateClick(it + 1)
+                        currentDay.value = currentDay.value.withDayOfMonth(it+1)
+                        onDateClick(currentDay.value)
                     },
                     shape = RoundedCornerShape(10.dp),
                     colors = CardDefaults.cardColors(
@@ -118,9 +137,23 @@ fun CustomDateCard(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = currentDay.withDayOfMonth(it + 1).dayOfWeek.name[0].toString() +
-                                    currentDay.withDayOfMonth(it + 1).dayOfWeek.name[1].toString() +
-                                    currentDay.withDayOfMonth(it + 1).dayOfWeek.name[2].toString(),
+                            text = if (currentDay.value.year %4 == 0 && currentDay.value.isLeapYear) {
+                                if (it != 0){
+                                    currentDay.value.withDayOfMonth(it).dayOfWeek.name[0].toString() +
+                                            currentDay.value.withDayOfMonth(it).dayOfWeek.name[1].toString() +
+                                            currentDay.value.withDayOfMonth(it).dayOfWeek.name[2].toString()
+                                }else{
+                                    currentDay.value.withDayOfMonth(it+1).dayOfWeek.name[0].toString() +
+                                            currentDay.value.withDayOfMonth(it+1).dayOfWeek.name[1].toString() +
+                                            currentDay.value.withDayOfMonth(it+1).dayOfWeek.name[2].toString()
+                                }
+                            } else {
+                                try {
+                                    currentDay.value.withDayOfMonth(it + 1).dayOfWeek.name[0].toString() +
+                                            currentDay.value.withDayOfMonth(it + 1).dayOfWeek.name[1].toString() +
+                                            currentDay.value.withDayOfMonth(it + 1).dayOfWeek.name[2].toString()
+                                } catch (_: Exception) { "" }
+                            },
                             style = if (day == it + 1) {
                                 montserrat40012White
                             } else {

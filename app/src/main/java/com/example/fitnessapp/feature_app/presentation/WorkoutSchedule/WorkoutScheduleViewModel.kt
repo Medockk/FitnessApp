@@ -4,13 +4,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WorkoutScheduleViewModel(
-    private val getWorkoutScheduleUseCase: GetWorkoutScheduleUseCase
+    private val getWorkoutScheduleUseCase: GetWorkoutScheduleUseCase,
+    private val getWorkoutScheduleByDateUseCase: GetWorkoutScheduleByDateUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(WorkoutScheduleState())
@@ -46,6 +48,28 @@ class WorkoutScheduleViewModel(
                 _state.value = state.value.copy(
                     exception = ""
                 )
+            }
+
+            is WorkoutScheduleEvent.MonthClick -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    _state.value = state.value.copy(showIndicator = true)
+                    val date = event.value
+                    withContext(Dispatchers.Main) {
+                        try {
+                            _state.value = state.value.copy(
+                                workoutSchedule = getWorkoutScheduleByDateUseCase(
+                                    date.year,
+                                    date.month.value,
+                                    date.dayOfMonth
+                                ),
+                                currentDay = date.dayOfMonth
+                            )
+                        } catch (e: Exception) {
+                            _state.value = state.value.copy(exception = e.message.toString())
+                        }
+                    }
+                    _state.value = state.value.copy(showIndicator = false)
+                }
             }
         }
     }

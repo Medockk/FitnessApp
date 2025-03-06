@@ -24,21 +24,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.AllWorkoutCard
+import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.UserWorkoutCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomCanvasBarChart
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomLightGreenCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.AllWorkoutCard
-import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.UserWorkoutCard
 import com.example.fitnessapp.feature_app.presentation.ui.theme._03AE8C
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
-import com.example.fitnessapp.feature_app.presentation.ui.theme._B0F8E1
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
@@ -85,7 +85,11 @@ fun WorkoutTrackerScreen(
                     .padding(horizontal = 30.dp),
                 textColor = Color.White
             ) {
-                navController.popBackStack()
+                navController.navigate(Route.HomeScreen.route){
+                    popUpTo(Route.WorkoutTrackerScreen.route){
+                        inclusive = true
+                    }
+                }
             }
         }
 
@@ -99,10 +103,9 @@ fun WorkoutTrackerScreen(
             ) {
                 CustomCanvasBarChart(
                     list = state.workoutBar,
-                    lineColor = _B0F8E1,
-                    xAxisLineColor = Color.White,
                     height = 200.dp,
                     textStyle = montserrat40010White,
+                    indexToDarkBarColor = 3,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
@@ -179,7 +182,10 @@ fun WorkoutTrackerScreen(
                     Spacer(Modifier.height(15.dp))
                     Text(
                         text = "Что вы хотите тренировать",
-                        style = montserrat60016Bold_1D1617
+                        style = montserrat60016Bold_1D1617,
+                        modifier = Modifier
+                            .fillParentMaxWidth(),
+                        textAlign = TextAlign.Start
                     )
                     Spacer(Modifier.height(15.dp))
                 }

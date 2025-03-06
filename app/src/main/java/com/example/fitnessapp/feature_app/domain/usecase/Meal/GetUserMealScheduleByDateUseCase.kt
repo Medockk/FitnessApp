@@ -7,7 +7,7 @@ class GetUserMealScheduleByDateUseCase(
     private val mealRepository: MealRepository
 ) {
 
-    suspend operator fun invoke(date: Int) : List<UserMealSchedule>{
-        return mealRepository.getUserMealScheduleByDate(date)
+    suspend operator fun invoke(year: Int, month: Int,day: Int) : List<UserMealSchedule>{
+        return mealRepository.getUserMealScheduleByDate(year, month, day)
     }
 }

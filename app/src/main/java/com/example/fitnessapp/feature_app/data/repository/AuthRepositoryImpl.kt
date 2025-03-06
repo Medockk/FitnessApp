@@ -34,7 +34,7 @@ class AuthRepositoryImpl : AuthRepository {
                 filter { eq("userID", userID) }
             }.decodeSingle<UserData>()
             return true
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Log.i("catch", userID)
             return false
         }
@@ -143,22 +143,6 @@ class AuthRepositoryImpl : AuthRepository {
             "image" to "https://avatars.mds.yandex.net/i?id=235372336de4205955ef50002f605c58eff716ab-10848343-images-thumbs&n=13"
         ))
 
-        client.postgrest["LastActivity"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 1",
-            "image" to "https://avatars.mds.yandex.net/i?id=b423ba05961f480723da2984814eafa3a5f7b098-10895071-images-thumbs&n=13"
-        ))
-        client.postgrest["LastActivity"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 2",
-            "image" to "https://avatars.mds.yandex.net/i?id=f5dcdb8d72912dcd17fd2928355c34f36ab5468b-5987336-images-thumbs&n=13"
-        ))
-        client.postgrest["LastActivity"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 3",
-            "image" to "https://avatars.mds.yandex.net/i?id=afa88c37e00bdefb2e1cc8358642ae7ea6b43207-5551844-images-thumbs&n=13"
-        ))
-
         client.postgrest["UserWorkoutData"].insert(mapOf(
             "userID" to userID,
             "title" to "TITLE 1",
@@ -178,23 +162,14 @@ class AuthRepositoryImpl : AuthRepository {
         client.postgrest["UserStatistics"].insert(mapOf(
             "userID" to userID,
             "title" to "TITLE 1",
-            "description" to "DESCRIPTION 1"
+            "description" to "8 ч. 20 мин."
         ))
         client.postgrest["UserStatistics"].insert(mapOf(
             "userID" to userID,
             "title" to "TITLE 2",
-            "description" to "DESCRIPTION 2"
+            "description" to "4 л."
         ))
-        client.postgrest["UserStatistics"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 3",
-            "description" to "DESCRIPTION 3"
-        ))
-        client.postgrest["UserStatistics"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 4",
-            "description" to "DESCRIPTION 4"
-        ))
+
         val weight = StatisticData(LocalDate.now().toString(), userID, StatisticData.loseWeight, getRandomStatistic())
         val height = StatisticData(LocalDate.now().toString(), userID, StatisticData.increasedGrowth, getRandomStatistic())
         val muscleMass = StatisticData(LocalDate.now().toString(), userID, StatisticData.increaseInMuscleMass, getRandomStatistic())
