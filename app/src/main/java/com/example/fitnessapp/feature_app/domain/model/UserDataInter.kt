@@ -2,7 +2,7 @@ package com.example.fitnessapp.feature_app.domain.model
 
 interface UserDataInter {
 
-    val id: Int
+    val id: Int?
     val fio: String
     val userID: String
     val phone: String
@@ -12,4 +12,5 @@ interface UserDataInter {
     val height: String
     val notification: Boolean
     val image: String
+    val purpose: String
 }

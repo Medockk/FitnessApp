@@ -1,6 +1,5 @@
 package com.example.fitnessapp.feature_app.data.repository
 
-import android.util.Log
 import com.example.fitnessapp.feature_app.data.dao.UserDao
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
@@ -14,11 +13,13 @@ import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
 
 /**
  * Класс для работы с данными пользователя
- * @author Андреев Арсений, 18,02,2025; 12:08
+ * @author Андреев Арсений, 18.02.2025; 12:08
  */
 class UserDataRepositoryImpl(
     private val userDao: UserDao
@@ -27,30 +28,22 @@ class UserDataRepositoryImpl(
     override suspend fun getUserData(): UserDataImpl {
 
         val userID = getUserID()
-        val userData = userDao.getUserData(userID)
 
-        if (userData != null) {
+        val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
+            .decodeSingle<UserDataImpl>()
+        userDao.upsertUserData(serverData)
+        return serverData
+    }
 
-            return userData
-            Log.e("getUserData", "block: if\nafter return")
-            val serverData = client.postgrest["Users"].select {
-                filter {
-                    eq("userID", userID)
-                }
-            }.decodeSingle<UserDataImpl>()
-            userDao.upsertUserData(serverData)
-        } else {//if it's a new user
+    override suspend fun upsertUserData(userDataImpl: UserDataImpl) {
+        val userID = getUserID()
+        val data = userDataImpl.copy(userID = userID)
 
-            val serverData = client.postgrest["Users"].select {
-                filter {
-                    eq("userID", userID)
-                }
-            }.decodeSingle<UserDataImpl>()
-            userDao.upsertUserData(serverData)
-            return serverData
-            Log.e("getUserData", "block: else\nafter return")
-            userData
-        }
+        userDao.upsertUserData(data)
+    }
+
+    override suspend fun getUserDataDao(userID: String): Flow<UserDataImpl> = flow {
+        userDao.getUserData(userID)
     }
 
     override suspend fun updateUserData(userData: UserData) {
@@ -92,7 +85,7 @@ class UserDataRepositoryImpl(
 
         val userID = getUserID()
 
-        return client.postgrest["Purpose"].select {
+        return client.postgrest["Users"].select {
             filter { eq("userID", userID) }
         }.decodeSingle<Purpose>()
     }
@@ -150,10 +143,5 @@ class UserDataRepositoryImpl(
     private suspend fun getUserID(): String {
         client.auth.awaitInitialization()
         return client.auth.currentUserOrNull()?.id ?: ""
-    }
-
-    private suspend fun getUserEmail(): String {
-        client.auth.awaitInitialization()
-        return client.auth.currentUserOrNull()?.email ?: ""
     }
 }

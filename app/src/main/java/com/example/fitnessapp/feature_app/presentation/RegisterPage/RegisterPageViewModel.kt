@@ -4,12 +4,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SelectPurposeUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.UpsertUserDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RegisterPageViewModel(
-    private val selectPurposeUseCase: SelectPurposeUseCase
+    private val selectPurposeUseCase: SelectPurposeUseCase,
+    private val upsertUserDataUseCase: UpsertUserDataUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(RegisterPageState())
@@ -24,6 +27,7 @@ class RegisterPageViewModel(
                             _state.value.yourPurpose[event.value]
                                 .title
                         )
+                        upsertUserDataUseCase(UserDataImpl(purpose = _state.value.yourPurpose[event.value].title))
                         _state.value = state.value.copy(
                             isComplete = true
                         )

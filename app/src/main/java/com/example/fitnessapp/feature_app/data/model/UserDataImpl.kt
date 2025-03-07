@@ -10,25 +10,27 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserDataImpl(
     @PrimaryKey(autoGenerate = true)
-    override val id: Int,
+    override val id: Int? = null,
     @ColumnInfo(defaultValue = "")
-    override val fio: String,
+    override val fio: String = "",
     @ColumnInfo(defaultValue = "")
-    override val userID: String,
+    override val userID: String = "",
     @ColumnInfo(defaultValue = "")
-    override val phone: String,
+    override val phone: String = "",
     @ColumnInfo(defaultValue = "")
-    override val gender: String,
+    override val gender: String = "",
     @ColumnInfo(defaultValue = "")
-    override val birthdayData: String,
+    override val birthdayData: String = "",
     @ColumnInfo(defaultValue = "")
-    override val weight: String,
+    override val weight: String = "",
     @ColumnInfo(defaultValue = "")
-    override val height: String,
+    override val height: String = "",
     @ColumnInfo(defaultValue = "")
-    override val notification: Boolean,
+    override val notification: Boolean = false,
     @ColumnInfo(defaultValue = "")
-    override val image: String,
+    override val image: String = "",
+    @ColumnInfo(defaultValue = "")
+    override val purpose: String = "",
 ) : UserDataInter{
 
     companion object{

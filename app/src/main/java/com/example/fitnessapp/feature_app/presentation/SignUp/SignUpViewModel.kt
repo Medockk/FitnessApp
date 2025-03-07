@@ -5,15 +5,18 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.UpsertUserDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
     private val signUpUseCase: SignUpUseCase,
-    private val signUpWithGoogleUseCase: SignUpWithGoogleUseCase
+    private val signUpWithGoogleUseCase: SignUpWithGoogleUseCase,
+    private val upsertUserDataUseCase: UpsertUserDataUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SignUpState())
@@ -96,6 +99,7 @@ class SignUpViewModel(
                                     phone = _state.value.phone
                                 )
                             )
+                            upsertUserDataUseCase(UserDataImpl(fio = _state.value.fio, phone = _state.value.phone))
                             _state.value = state.value.copy(
                                 showIndicator = false,
                                 isFirstRegistration = true

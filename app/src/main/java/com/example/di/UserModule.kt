@@ -9,10 +9,12 @@ import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCas
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetLastActivityUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetNotificationsUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataDaoUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserImageUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.SetUserImageUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.UpdateUserDataUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.UpsertUserDataUseCase
 import org.koin.dsl.module
 
 val moduleUser = module {
@@ -64,5 +66,11 @@ val moduleUser = module {
     }
     factory<ChangeNotificationStateUseCase> {
         ChangeNotificationStateUseCase(get())
+    }
+    factory<UpsertUserDataUseCase> {
+        UpsertUserDataUseCase(get())
+    }
+    factory<GetUserDataDaoUseCase> {
+        GetUserDataDaoUseCase(get())
     }
 }
