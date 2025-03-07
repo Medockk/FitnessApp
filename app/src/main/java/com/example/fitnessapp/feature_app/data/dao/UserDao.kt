@@ -13,7 +13,7 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun upsertUserData(userDataImpl: UserDataImpl)
 
-    @Query("SELECT * FROM UserDataImpl WHERE id=:id")
+    @Query("SELECT * FROM UserDataImpl WHERE userID=:id")
     fun getUserData(id: String): UserDataImpl?
 
     @Delete

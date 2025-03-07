@@ -96,12 +96,13 @@ class AuthRepositoryImpl : AuthRepository {
     override suspend fun selectPurpose(purpose: String) {
 
         val userID = getUserID()
-        client.postgrest["Purpose"].insert(
+        client.postgrest["Users"].update(
             mapOf(
-                "userID" to userID,
                 "purpose" to purpose
             )
-        )
+        ){
+            filter { eq("userID", userID) }
+        }
     }
 
     private fun getRandomHeartRate() : String{

@@ -7,6 +7,7 @@ import com.example.fitnessapp.feature_app.domain.model.NotificationData
 import com.example.fitnessapp.feature_app.domain.model.Purpose
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.model.UserStatistics
+import kotlinx.coroutines.flow.Flow
 
 interface UserDataRepository {
 
@@ -25,4 +26,7 @@ interface UserDataRepository {
     suspend fun getUserImage() : String
     suspend fun setUserImage(byteArray: ByteArray)
     suspend fun changeNotificationState(value: Boolean)
+
+    suspend fun upsertUserData(userDataImpl: UserDataImpl)
+    suspend fun getUserDataDao(userID: String) : Flow<UserDataImpl>
 }

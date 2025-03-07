@@ -43,11 +43,11 @@ val moduleViewModel = module {
     }
 
     viewModel<SignUpViewModel>{
-        SignUpViewModel(get(), get())
+        SignUpViewModel(get(), get(), get())
     }
 
     viewModel<RegisterPageViewModel>{
-        RegisterPageViewModel(get())
+        RegisterPageViewModel(get(), get())
     }
 
     viewModel<SuccessRegistrationViewModel>{
@@ -55,7 +55,7 @@ val moduleViewModel = module {
     }
 
     viewModel<CreateProfileViewModel>{
-        CreateProfileViewModel(get())
+        CreateProfileViewModel(get(), get())
     }
 
     viewModel<HomeViewModel>{
