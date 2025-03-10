@@ -12,7 +12,7 @@ class AuthTestRepoImpl : AuthRepository {
     }
 
     override suspend fun signInWithGoogle(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override suspend fun signUp(mail: String, pass: String, userData: UserData) {
@@ -23,7 +23,7 @@ class AuthTestRepoImpl : AuthRepository {
     }
 
     override suspend fun signUpWithGoogle(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override suspend fun createProfile(
@@ -32,10 +32,10 @@ class AuthTestRepoImpl : AuthRepository {
         weight: String,
         height: String
     ) {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun selectPurpose(purpose: String) {
-        TODO("Not yet implemented")
+
     }
 }

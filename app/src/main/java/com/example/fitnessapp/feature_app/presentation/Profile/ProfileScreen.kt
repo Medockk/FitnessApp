@@ -173,7 +173,7 @@ fun ProfileScreen(
                     Spacer(Modifier.height(30.dp))
 
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.Top,
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -186,11 +186,11 @@ fun ProfileScreen(
                             contentAlignment = Alignment.Center,
                         ) {
                             androidx.compose.animation.AnimatedVisibility(
-                                visible = state.userData != null,
+                                visible = state.image.isNotEmpty(),
                                 enter = fadeIn(tween(1000))
                             ) {
                                 AsyncImage(
-                                    model = state.userData?.image ?: "",
+                                    model = state.image,
                                     contentDescription = "your image",
                                     modifier = Modifier
                                         .size(35.dp)
@@ -200,7 +200,7 @@ fun ProfileScreen(
                             }
                         }
                         Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            horizontalAlignment = Alignment.Start
                         ) {
                             Text(
                                 text = state.userData?.fio ?: "",
@@ -214,6 +214,7 @@ fun ProfileScreen(
                         }
                         CustomGreenButton(
                             text = "Изменить",
+                            enabled = !state.showIndicator
                         ) {
                             selectImage.launch(
                                 "image/*"
