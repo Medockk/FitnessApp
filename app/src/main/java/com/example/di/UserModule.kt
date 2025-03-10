@@ -12,7 +12,6 @@ import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserImageUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.SetUserImageUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.User.UpdateUserDataUseCase
 import org.koin.dsl.module
 
 val moduleUser = module {
@@ -29,10 +28,6 @@ val moduleUser = module {
 
     factory<GetUserDataUseCase> {
         GetUserDataUseCase(get())
-    }
-
-    factory<UpdateUserDataUseCase> {
-        UpdateUserDataUseCase(get())
     }
 
     factory<GetUserStatisticsUseCase> {

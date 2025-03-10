@@ -1,6 +1,6 @@
 package com.example.fitnessapp.feature_app.data.repository
 
-import com.example.fitnessapp.feature_app.data.model.UserDataRepoImpl
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.model.dao.UserDataDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
@@ -28,27 +28,9 @@ class UserDataRepositoryImpl(
         val userID = getUserID()
 
         val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
-            .decodeSingle<UserDataRepoImpl>()
+            .decodeSingle<UserDataImpl>()
         userDataDao.upsertUserData(serverData)
-        return userDataDao.getUserById(userID).toUserData()
-    }
-
-    override suspend fun updateUserData(userData: UserData) {
-
-        val userID = getUserID()
-
-        client.postgrest["Users"].update({
-            set("fio", userData.fio)
-            set("phone", userData.phone)
-            set("gender", userData.gender)
-            set("birthdayData", userData.birthdayData)
-            set("weight", userData.weight)
-            set("height", userData.height)
-        }) {
-            filter {
-                eq("userID", userID)
-            }
-        }
+        return userDataDao.getUserById(userID)
     }
 
     override suspend fun getUserStatistics(): List<UserStatistics> {

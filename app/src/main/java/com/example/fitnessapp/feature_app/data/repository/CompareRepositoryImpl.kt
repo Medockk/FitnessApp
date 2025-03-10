@@ -2,6 +2,8 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.example.fitnessapp.feature_app.data.model.GalleryDataImpl
+import com.example.fitnessapp.feature_app.data.model.dao.GalleryDataDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
@@ -17,14 +19,22 @@ import kotlin.time.Duration
  * Класс для получения галлереи и статистики с сервера, и отправки фотографий на сервер
  * @author Андреев Арсений, 18.02.2025; 12:06
  */
-class CompareRepositoryImpl : CompareRepository {
+class CompareRepositoryImpl(
+    private val galleryDataDao: GalleryDataDao
+) : CompareRepository {
 
     override suspend fun getAllGallery(): List<GalleryData> {
         val userID = getUserID()
 
-        return client.postgrest["Gallery"].select {
+        val data = client.postgrest["Gallery"].select {
             filter { eq("userID", userID) }
-        }.decodeList<GalleryData>()
+        }.decodeList<GalleryDataImpl>()
+        val dataList = ArrayList<GalleryDataImpl>()
+        data.forEach {
+            galleryDataDao.upsertGalleryData(it)
+            dataList.add(it)
+        }
+        return dataList
     }
 
     override suspend fun getGalleryFromMonthToMonth(
@@ -44,7 +54,7 @@ class CompareRepositoryImpl : CompareRepository {
             }
         )
 
-        return client.postgrest["Gallery"].select {
+        val data = client.postgrest["Gallery"].select {
             filter {
                 eq("userID", userID)
                 and {
@@ -52,7 +62,14 @@ class CompareRepositoryImpl : CompareRepository {
                     lte("date", date1)
                 }
             }
-        }.decodeList<GalleryData>()
+        }.decodeList<GalleryDataImpl>()
+
+        val dataList = ArrayList<GalleryDataImpl>()
+        data.forEach {
+            galleryDataDao.upsertGalleryData(it)
+            dataList.add(it)
+        }
+        return dataList
     }
 
     override suspend fun getStatisticFromMonthToMonth(
@@ -110,7 +127,7 @@ class CompareRepositoryImpl : CompareRepository {
         return client.auth.currentUserOrNull()?.id ?: ""
     }
 
-    private fun ByteArray.toBitmap() : Bitmap{
+    private fun ByteArray.toBitmap(): Bitmap {
         return BitmapFactory.decodeByteArray(this, 0, this.size)
     }
 }

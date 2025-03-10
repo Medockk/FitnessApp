@@ -5,7 +5,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
 import kotlinx.coroutines.Dispatchers
@@ -90,11 +89,8 @@ class SignUpViewModel(
                             signUpUseCase(
                                 mail = _state.value.email,
                                 pass = _state.value.password,
-                                userData = UserData(
-                                    0, "",
-                                    fio = _state.value.fio,
-                                    phone = _state.value.phone
-                                )
+                                fio = _state.value.fio,
+                                phone = _state.value.phone
                             )
                             _state.value = state.value.copy(
                                 showIndicator = false,

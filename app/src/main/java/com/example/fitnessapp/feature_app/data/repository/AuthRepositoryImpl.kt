@@ -1,10 +1,9 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import android.util.Log
-import com.example.fitnessapp.feature_app.data.model.UserDataRepoImpl
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
-import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.repository.AuthRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
@@ -33,7 +32,7 @@ class AuthRepositoryImpl : AuthRepository {
         try {
             client.postgrest["Users"].select {
                 filter { eq("userID", userID) }
-            }.decodeSingle<UserDataRepoImpl>()
+            }.decodeSingle<UserDataImpl>()
             return true
         } catch (_: Exception) {
             Log.i("catch", userID)
@@ -42,7 +41,7 @@ class AuthRepositoryImpl : AuthRepository {
 
     }
 
-    override suspend fun signUp(mail: String, pass: String, userData: UserData) {
+    override suspend fun signUp(mail: String, pass: String, fio: String, phone: String) {
         client.auth.signUpWith(Email) {
             email = mail
             password = pass
@@ -52,8 +51,8 @@ class AuthRepositoryImpl : AuthRepository {
         client.postgrest["Users"].insert(
             mapOf(
                 "userID" to userID,
-                "fio" to userData.fio,
-                "phone" to userData.phone
+                "fio" to fio,
+                "phone" to phone
             )
         )
 
@@ -101,16 +100,16 @@ class AuthRepositoryImpl : AuthRepository {
             mapOf(
                 "purpose" to purpose
             )
-        ){
+        ) {
             filter { eq("userID", userID) }
         }
     }
 
-    private fun getRandomHeartRate() : String{
+    private fun getRandomHeartRate(): String {
 
         var heartRate = ""
 
-        for (i in 0..11){
+        for (i in 0..11) {
             heartRate += Random.nextInt(1, 6).toString() + " "
         }
 
@@ -129,53 +128,89 @@ class AuthRepositoryImpl : AuthRepository {
             )
         )
 
-        client.postgrest["Notification"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 1",
-            "image" to "https://static.mk.ru/upload/entities/2021/08/09/14/articles/facebookPicture/82/7f/7d/7b/8aeb5a415ffef24a5e5ad91cbdcc780f.jpg"
-        ))
-        client.postgrest["Notification"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 2",
-            "image" to "https://otvet.imgsmail.ru/download/192595754_616730d75f25be81a06363d434675a14.jpg"
-        ))
-        client.postgrest["Notification"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 3",
-            "image" to "https://avatars.mds.yandex.net/i?id=235372336de4205955ef50002f605c58eff716ab-10848343-images-thumbs&n=13"
-        ))
+        client.postgrest["Notification"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 1",
+                "image" to "https://static.mk.ru/upload/entities/2021/08/09/14/articles/facebookPicture/82/7f/7d/7b/8aeb5a415ffef24a5e5ad91cbdcc780f.jpg"
+            )
+        )
+        client.postgrest["Notification"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 2",
+                "image" to "https://otvet.imgsmail.ru/download/192595754_616730d75f25be81a06363d434675a14.jpg"
+            )
+        )
+        client.postgrest["Notification"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 3",
+                "image" to "https://avatars.mds.yandex.net/i?id=235372336de4205955ef50002f605c58eff716ab-10848343-images-thumbs&n=13"
+            )
+        )
 
-        client.postgrest["UserWorkoutData"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 1",
-            "image" to "https://avatars.mds.yandex.net/i?id=b423ba05961f480723da2984814eafa3a5f7b098-10895071-images-thumbs&n=13"
-        ))
-        client.postgrest["UserWorkoutData"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 2",
-            "image" to "https://avatars.mds.yandex.net/i?id=f5dcdb8d72912dcd17fd2928355c34f36ab5468b-5987336-images-thumbs&n=13",
-        ))
-        client.postgrest["UserWorkoutData"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 3",
-            "image" to "https://avatars.mds.yandex.net/i?id=afa88c37e00bdefb2e1cc8358642ae7ea6b43207-5551844-images-thumbs&n=13",
-        ))
+        client.postgrest["UserWorkoutData"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 1",
+                "image" to "https://avatars.mds.yandex.net/i?id=b423ba05961f480723da2984814eafa3a5f7b098-10895071-images-thumbs&n=13"
+            )
+        )
+        client.postgrest["UserWorkoutData"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 2",
+                "image" to "https://avatars.mds.yandex.net/i?id=f5dcdb8d72912dcd17fd2928355c34f36ab5468b-5987336-images-thumbs&n=13",
+            )
+        )
+        client.postgrest["UserWorkoutData"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 3",
+                "image" to "https://avatars.mds.yandex.net/i?id=afa88c37e00bdefb2e1cc8358642ae7ea6b43207-5551844-images-thumbs&n=13",
+            )
+        )
 
-        client.postgrest["UserStatistics"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 1",
-            "description" to "8 ч. 20 мин."
-        ))
-        client.postgrest["UserStatistics"].insert(mapOf(
-            "userID" to userID,
-            "title" to "TITLE 2",
-            "description" to "4 л."
-        ))
+        client.postgrest["UserStatistics"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 1",
+                "description" to "8 ч. 20 мин."
+            )
+        )
+        client.postgrest["UserStatistics"].insert(
+            mapOf(
+                "userID" to userID,
+                "title" to "TITLE 2",
+                "description" to "4 л."
+            )
+        )
 
-        val weight = StatisticData(LocalDate.now().toString(), userID, StatisticData.loseWeight, getRandomStatistic())
-        val height = StatisticData(LocalDate.now().toString(), userID, StatisticData.increasedGrowth, getRandomStatistic())
-        val muscleMass = StatisticData(LocalDate.now().toString(), userID, StatisticData.increaseInMuscleMass, getRandomStatistic())
-        val press = StatisticData(LocalDate.now().toString(), userID, StatisticData.press, getRandomStatistic())
+        val weight = StatisticData(
+            LocalDate.now().toString(),
+            userID,
+            StatisticData.loseWeight,
+            getRandomStatistic()
+        )
+        val height = StatisticData(
+            LocalDate.now().toString(),
+            userID,
+            StatisticData.increasedGrowth,
+            getRandomStatistic()
+        )
+        val muscleMass = StatisticData(
+            LocalDate.now().toString(),
+            userID,
+            StatisticData.increaseInMuscleMass,
+            getRandomStatistic()
+        )
+        val press = StatisticData(
+            LocalDate.now().toString(),
+            userID,
+            StatisticData.press,
+            getRandomStatistic()
+        )
         client.postgrest["UserStatistic"].insert(listOf(weight, height, muscleMass, press))
     }
 
@@ -184,7 +219,7 @@ class AuthRepositoryImpl : AuthRepository {
         return client.auth.currentUserOrNull()?.id ?: ""
     }
 
-    private fun getRandomStatistic() : String{
+    private fun getRandomStatistic(): String {
         return Random.nextInt(10, 70).toString()
     }
 }

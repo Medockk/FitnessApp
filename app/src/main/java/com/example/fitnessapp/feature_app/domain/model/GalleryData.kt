@@ -1,15 +1,13 @@
 package com.example.fitnessapp.feature_app.domain.model
 
-import kotlinx.serialization.Serializable
+interface GalleryData {
 
-@Serializable
-data class GalleryData(
-    val id: Int,
-    val userID: String,
-    val date: String,
-    val photo: String,
+    val id: Int
+    val userID: String
+    val date: String
+    val photo: String
     val category: String
-){
+
     companion object{
         const val FRONT_SIDE = "Передняя сторона"
         const val REVERS_SIDE = "Обратной стороной"

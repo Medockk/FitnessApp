@@ -10,7 +10,6 @@ import com.example.fitnessapp.feature_app.domain.model.UserStatistics
 interface UserDataRepository {
 
     suspend fun getUserData(): UserData
-    suspend fun updateUserData(userData: UserData)
 
     suspend fun getUserStatistics(): List<UserStatistics>
     suspend fun getHeartRate(): HeartRate

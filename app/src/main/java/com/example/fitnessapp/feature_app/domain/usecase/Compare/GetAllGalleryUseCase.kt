@@ -7,7 +7,7 @@ class GetAllGalleryUseCase(
     private val compareRepository: CompareRepository
 ) {
 
-    suspend operator fun invoke() : List<GalleryData>{
+    suspend operator fun invoke(): List<GalleryData> {
         return compareRepository.getAllGallery()
     }
 }

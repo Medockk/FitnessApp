@@ -5,17 +5,17 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.fitnessapp.feature_app.data.model.UserDataRepoImpl
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 
 @Dao
 interface UserDataDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsertUserData(userDataRepoImpl: UserDataRepoImpl)
+    fun upsertUserData(userDataRepoImpl: UserDataImpl)
 
-    @Query("SELECT * FROM UserDataRepoImpl WHERE userID=:userID")
-    fun getUserById(userID: String) : UserDataRepoImpl
+    @Query("SELECT * FROM UserDataImpl WHERE userID=:userID")
+    fun getUserById(userID: String) : UserDataImpl
 
     @Delete
-    fun deleteUser(userDataRepoImpl: UserDataRepoImpl)
+    fun deleteUser(userDataRepoImpl: UserDataImpl)
 }

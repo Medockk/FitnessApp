@@ -1,10 +1,11 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.model.CategoryDataImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
-import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.MealDetails
 import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
+import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
@@ -18,7 +19,7 @@ class MealRepositoryImpl : MealRepository {
 
     override suspend fun getCategories(): List<CategoryData> {
 
-        return client.postgrest["BreakfastCategories"].select().decodeList<CategoryData>()
+        return client.postgrest["BreakfastCategories"].select().decodeList<CategoryDataImpl>()
     }
 
     override suspend fun getDietaryRecommendation(): List<DietaryRecommendation> {

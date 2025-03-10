@@ -6,7 +6,6 @@ import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 class GetUserDataUseCase(
     private val userDataRepository: UserDataRepository
 ) {
-
     suspend operator fun invoke(): UserData {
         return userDataRepository.getUserData()
     }
