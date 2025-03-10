@@ -51,7 +51,7 @@ class CreateProfileViewModel(
             CreateProfileEvent.CreateProfileClick -> {
                 if (
                     _state.value.gender.isNotBlank() &&
-                    (_state.value.gender == UserData.male || _state.value.gender == UserData.female) &&
+                    (_state.value.gender == UserData.MALE || _state.value.gender == UserData.FEMALE) &&
                     _state.value.birthdayData.isNotBlank() &&
                     _state.value.weight.isNotBlank() &&
                     _state.value.height.isNotBlank()
@@ -81,7 +81,7 @@ class CreateProfileViewModel(
                         exception = "Поле Ваш Пол не может быть пустым!",
                         showIndicator = false
                     )
-                } else if (_state.value.gender != UserData.male || _state.value.gender != UserData.female) {
+                } else if (_state.value.gender != UserData.MALE || _state.value.gender != UserData.FEMALE) {
                     _state.value = state.value.copy(
                         exception = "Поле Ваш Пол не может принимать других значений:(",
                         showIndicator = false

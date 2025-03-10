@@ -11,10 +11,10 @@ data class GalleryData(
     val category: String
 ){
     companion object{
-        const val frontSide = "Передняя сторона"
-        const val reverseSide = "Обратной стороной"
-        const val leftSide = "Левая сторона"
-        const val rightSide = "Правая сторона"
+        const val FRONT_SIDE = "Передняя сторона"
+        const val REVERS_SIDE = "Обратной стороной"
+        const val LEFT_SIDE = "Левая сторона"
+        const val RIGHT_SIDE = "Правая сторона"
 
         var firstMonth = ""
         var secondMonth = ""

@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import android.util.Log
+import com.example.fitnessapp.feature_app.data.model.UserDataRepoImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
 import com.example.fitnessapp.feature_app.domain.model.UserData
@@ -32,7 +33,7 @@ class AuthRepositoryImpl : AuthRepository {
         try {
             client.postgrest["Users"].select {
                 filter { eq("userID", userID) }
-            }.decodeSingle<UserData>()
+            }.decodeSingle<UserDataRepoImpl>()
             return true
         } catch (_: Exception) {
             Log.i("catch", userID)

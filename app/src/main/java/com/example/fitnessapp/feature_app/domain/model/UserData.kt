@@ -1,8 +1,5 @@
 package com.example.fitnessapp.feature_app.domain.model
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class UserData(
     val id: Int = 0,
     val userID: String,
@@ -17,7 +14,7 @@ data class UserData(
     val purpose: String = "",
 ){
     companion object{
-        val male = "Мужской"
-        val female = "Женский"
+        const val MALE = "Мужской"
+        const val FEMALE = "Женский"
     }
 }

@@ -1,5 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.model.UserDataRepoImpl
+import com.example.fitnessapp.feature_app.data.model.dao.UserDataDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
@@ -17,15 +19,18 @@ import kotlin.time.Duration
  * Класс для работы с данными пользователя
  * @author Андреев Арсений, 18.02.2025; 12:08
  */
-class UserDataRepositoryImpl : UserDataRepository {
+class UserDataRepositoryImpl(
+    private val userDataDao: UserDataDao
+) : UserDataRepository {
 
     override suspend fun getUserData(): UserData {
 
         val userID = getUserID()
 
         val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
-            .decodeSingle<UserData>()
-        return serverData
+            .decodeSingle<UserDataRepoImpl>()
+        userDataDao.upsertUserData(serverData)
+        return userDataDao.getUserById(userID).toUserData()
     }
 
     override suspend fun updateUserData(userData: UserData) {
