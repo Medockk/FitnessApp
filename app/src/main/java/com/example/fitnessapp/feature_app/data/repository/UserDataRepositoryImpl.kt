@@ -1,5 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.model.HeartRateImpl
+import com.example.fitnessapp.feature_app.data.model.LastActivityDataImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.model.dao.UserDataDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
@@ -65,7 +67,7 @@ class UserDataRepositoryImpl(
 
         return client.postgrest["LastActivity"].select {
             filter { eq("userID", userID) }
-        }.decodeList<LastActivityData>()
+        }.decodeList<LastActivityDataImpl>()
     }
 
     override suspend fun getUserImage(): String {
@@ -106,7 +108,7 @@ class UserDataRepositoryImpl(
 
         return client.postgrest["HeartRate"].select {
             filter { eq("userID", userID) }
-        }.decodeSingle<HeartRate>()
+        }.decodeSingle<HeartRateImpl>()
     }
 
     private suspend fun getUserID(): String {

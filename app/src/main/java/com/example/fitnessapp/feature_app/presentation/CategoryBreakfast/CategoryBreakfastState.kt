@@ -1,7 +1,7 @@
 package com.example.fitnessapp.feature_app.presentation.CategoryBreakfast
 
-import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.CategoryData
+import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 
 data class CategoryBreakfastState(
 

@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.AddLastActivityUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutSprintUseCase
 import kotlinx.coroutines.Dispatchers
@@ -53,13 +52,8 @@ class WorkoutDetailViewModel(
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
                         addLastActivityUseCase(
-                            LastActivityData(
-                                0,
-                                "",
-                                event.value.title,
-                                "",
-                                event.value.image
-                            )
+                            event.value.title,
+                            event.value.image
                         )
                         _state.value = state.value.copy(isComplete = true)
                     } catch (e: Exception) {

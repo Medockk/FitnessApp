@@ -1,6 +1,5 @@
 package com.example.fitnessapp.feature_app.domain.repository
 
-import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
@@ -11,7 +10,7 @@ interface WorkoutRepository {
 
     suspend fun getUserWorkout() : List<UserWorkoutData>
     suspend fun changeUserWorkoutState(userWorkoutData: UserWorkoutData)
-    suspend fun addLastActivity(lastActivityData: LastActivityData)
+    suspend fun addLastActivity(title: String, image: String)
 
     suspend fun getAllWorkout() : List<WorkoutData>
     suspend fun getWorkoutSprint(sprintNumber: Int) : List<WorkoutSprint>

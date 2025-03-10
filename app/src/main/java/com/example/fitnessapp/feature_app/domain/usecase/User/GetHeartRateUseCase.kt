@@ -7,7 +7,7 @@ class GetHeartRateUseCase(
     private val userDataRepository: UserDataRepository
 ) {
 
-    suspend operator fun invoke() : HeartRate{
+    suspend operator fun invoke() : HeartRate {
         return userDataRepository.getHeartRate()
     }
 }

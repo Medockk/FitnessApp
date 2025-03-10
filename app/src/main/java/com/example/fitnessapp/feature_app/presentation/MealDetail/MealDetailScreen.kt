@@ -266,7 +266,7 @@ fun MealDetailScreen(
                                 bottom = (LocalConfiguration.current.screenHeightDp / 20).dp
                             )
                     ) {
-                        viewModel.onEvent(MealDetailsEvent.AddToBreakfast(meal))
+                        viewModel.onEvent(MealDetailsEvent.AddToBreakfast(meal.category, meal.id.toString()))
                     }
                 }
             }

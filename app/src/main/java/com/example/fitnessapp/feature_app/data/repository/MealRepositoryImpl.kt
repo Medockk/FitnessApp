@@ -1,11 +1,12 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.model.CategoryDataImpl
+import com.example.fitnessapp.feature_app.data.model.DietaryRecommendationImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.MealDetails
 import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
-import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
@@ -24,7 +25,7 @@ class MealRepositoryImpl : MealRepository {
 
     override suspend fun getDietaryRecommendation(): List<DietaryRecommendation> {
         return client.postgrest["DietaryRecommendation"].select()
-            .decodeList<DietaryRecommendation>()
+            .decodeList<DietaryRecommendationImpl>()
     }
 
     override suspend fun getMealDetails(id: Int): MealDetails {
@@ -36,7 +37,7 @@ class MealRepositoryImpl : MealRepository {
     override suspend fun getDietaryRecommendationByID(id: Int): DietaryRecommendation {
         return client.postgrest["DietaryRecommendation"].select {
             filter { eq("id", id) }
-        }.decodeSingle<DietaryRecommendation>()
+        }.decodeSingle<DietaryRecommendationImpl>()
     }
 
     override suspend fun getUserMealSchedule(): List<UserMealSchedule> {
@@ -67,14 +68,14 @@ class MealRepositoryImpl : MealRepository {
         }.decodeList<UserMealSchedule>()
     }
 
-    override suspend fun addMealToUserMealSchedule(meal: DietaryRecommendation) {
+    override suspend fun addMealToUserMealSchedule(category: String, mealID: String) {
 
         val userID = getUserID()
 
         client.postgrest["UserMealSchedule"].insert(mapOf(
             "userID" to userID,
-            "category" to meal.category,
-            "mealID" to meal.id.toString()
+            "category" to category,
+            "mealID" to mealID
         ))
     }
 

@@ -4,9 +4,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.AddMealToUserMealScheduleUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetMealDetailsUseCase
+import com.example.fitnessapp.feature_app.presentation.Route
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -37,7 +37,7 @@ class MealDetailsViewModel(
 
     private suspend fun getDetails() {
 
-        val details = getMealDetailsUseCase(Route.MealDetailScreen.meal.id)
+        val details = getMealDetailsUseCase(Route.MealDetailScreen.dietary!!.id)
         var receiptStep = ""
         var ingredient = ""
 
@@ -75,13 +75,13 @@ class MealDetailsViewModel(
 
         _state.value = state.value.copy(
             nutrition = _state.value.nutrition.plus(
-                Route.MealDetailScreen.meal.calories
+                Route.MealDetailScreen.dietary!!.calories
             ).plus(
-                Route.MealDetailScreen.meal.fat
+                Route.MealDetailScreen.dietary!!.fat
             ).plus(
-                Route.MealDetailScreen.meal.protein
+                Route.MealDetailScreen.dietary!!.protein
             ).plus(
-                Route.MealDetailScreen.meal.carbo
+                Route.MealDetailScreen.dietary!!.carbo
             )
         )
     }
@@ -97,7 +97,11 @@ class MealDetailsViewModel(
             is MealDetailsEvent.AddToBreakfast -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     _state.value = state.value.copy(showIndicator = true)
-                    addMealToUserMealScheduleUseCase(event.meal)
+                    try {
+                        addMealToUserMealScheduleUseCase(event.category, event.mealID)
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
                     _state.value = state.value.copy(showIndicator = false)
                 }
             }

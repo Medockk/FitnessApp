@@ -1,7 +1,8 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.model.UserWorkoutDataImpl
+import com.example.fitnessapp.feature_app.data.model.WorkoutDataImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
-import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
@@ -25,7 +26,7 @@ class WorkoutRepositoryImpl : WorkoutRepository {
 
         return client.postgrest["UserWorkoutData"].select {
             filter { eq("userID", userID) }
-        }.decodeList<UserWorkoutData>()
+        }.decodeList<UserWorkoutDataImpl>()
     }
 
     override suspend fun changeUserWorkoutState(userWorkoutData: UserWorkoutData) {
@@ -46,7 +47,7 @@ class WorkoutRepositoryImpl : WorkoutRepository {
 
     override suspend fun getAllWorkout(): List<WorkoutData> {
 
-        return client.postgrest["WorkoutData"].select().decodeList<WorkoutData>()
+        return client.postgrest["WorkoutData"].select().decodeList<WorkoutDataImpl>()
     }
 
     override suspend fun getWorkoutSprint(sprintNumber: Int): List<WorkoutSprint> {
@@ -89,14 +90,14 @@ class WorkoutRepositoryImpl : WorkoutRepository {
         )
     }
 
-    override suspend fun addLastActivity(lastActivityData: LastActivityData) {
+    override suspend fun addLastActivity(title: String, image: String) {
         val userID = getUserID()
 
         client.postgrest["LastActivity"].insert(
             mapOf(
                 "userID" to userID,
-                "title" to lastActivityData.title,
-                "image" to lastActivityData.image
+                "title" to title,
+                "image" to image
             )
         )
     }

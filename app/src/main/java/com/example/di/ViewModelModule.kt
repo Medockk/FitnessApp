@@ -101,7 +101,8 @@ val moduleViewModel = module {
     }
 
     viewModel<MealDetailsViewModel>{
-        MealDetailsViewModel(get(), get())
+        MealDetailsViewModel(get(),
+            get(),)
     }
 
     viewModel<MealScheduleViewModel>{

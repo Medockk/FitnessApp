@@ -177,7 +177,7 @@ fun CategoryBreakfastScreen(
                         DietaryCard(
                             dietary = dietary
                         ) {
-                            Route.MealDetailScreen.meal = dietary
+                            Route.MealDetailScreen.dietary = dietary
                             navController.navigate(Route.MealDetailScreen.route)
                         }
                         Spacer(Modifier.width(15.dp))
@@ -203,7 +203,7 @@ fun CategoryBreakfastScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    Route.MealDetailScreen.meal = popularMeal
+                    Route.MealDetailScreen.dietary = popularMeal
                     navController.navigate(Route.MealDetailScreen.route)
                 }
             }
