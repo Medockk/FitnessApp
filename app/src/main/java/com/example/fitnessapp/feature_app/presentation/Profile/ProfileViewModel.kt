@@ -80,13 +80,11 @@ class ProfileViewModel(
                     isNotificationTurnOn = event.value
                 )
                 viewModelScope.launch(Dispatchers.IO) {
-                    _state.value = state.value.copy(showIndicator = true)
                     try {
                         changeNotificationStateUseCase(event.value)
                     } catch (e: Exception) {
                         _state.value = state.value.copy(exception = e.message.toString())
                     }
-                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
 

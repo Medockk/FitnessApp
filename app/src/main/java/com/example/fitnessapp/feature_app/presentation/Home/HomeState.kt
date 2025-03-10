@@ -1,10 +1,10 @@
 package com.example.fitnessapp.feature_app.presentation.Home
 
-import com.example.fitnessapp.feature_app.domain.model.UserDataInter
+import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.model.UserStatistics
 
 data class HomeState(
-    val userData: UserDataInter? = null,
+    val userData: UserData? = null,
 
     val bodyMassIndex: Float = 0.0f,
     val bodyMassComments: String = "",

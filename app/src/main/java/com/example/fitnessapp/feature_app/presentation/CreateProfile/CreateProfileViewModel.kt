@@ -4,16 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.CreateProfileUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.User.UpsertUserDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreateProfileViewModel(
-    private val createProfileUseCase: CreateProfileUseCase,
-    private val upsertUserDataUseCase: UpsertUserDataUseCase
+    private val createProfileUseCase: CreateProfileUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(CreateProfileState())
@@ -67,14 +64,6 @@ class CreateProfileViewModel(
                                 birthdayData = _state.value.birthdayData,
                                 weight = _state.value.weight,
                                 height = _state.value.height
-                            )
-                            upsertUserDataUseCase(
-                                UserDataImpl(
-                                    gender = _state.value.gender,
-                                    birthdayData = _state.value.birthdayData,
-                                    weight = _state.value.weight,
-                                    height = _state.value.height
-                                )
                             )
                             _state.value = state.value.copy(
                                 showIndicator = false,

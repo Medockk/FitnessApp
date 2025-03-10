@@ -1,7 +1,5 @@
 package com.example.fitnessapp.feature_app.data.repository
 
-import com.example.fitnessapp.feature_app.data.dao.UserDao
-import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
@@ -13,37 +11,21 @@ import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
 
 /**
  * Класс для работы с данными пользователя
  * @author Андреев Арсений, 18.02.2025; 12:08
  */
-class UserDataRepositoryImpl(
-    private val userDao: UserDao
-) : UserDataRepository {
+class UserDataRepositoryImpl : UserDataRepository {
 
-    override suspend fun getUserData(): UserDataImpl {
+    override suspend fun getUserData(): UserData {
 
         val userID = getUserID()
 
         val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
-            .decodeSingle<UserDataImpl>()
-        userDao.upsertUserData(serverData)
+            .decodeSingle<UserData>()
         return serverData
-    }
-
-    override suspend fun upsertUserData(userDataImpl: UserDataImpl) {
-        val userID = getUserID()
-        val data = userDataImpl.copy(userID = userID)
-
-        userDao.upsertUserData(data)
-    }
-
-    override suspend fun getUserDataDao(userID: String): Flow<UserDataImpl> = flow {
-        userDao.getUserData(userID)
     }
 
     override suspend fun updateUserData(userData: UserData) {
