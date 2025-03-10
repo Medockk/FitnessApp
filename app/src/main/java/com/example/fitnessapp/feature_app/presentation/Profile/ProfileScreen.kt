@@ -193,7 +193,8 @@ fun ProfileScreen(
                                     model = state.image,
                                     contentDescription = "your image",
                                     modifier = Modifier
-                                        .size(35.dp)
+                                        .fillMaxSize()
+                                        .padding(5.dp)
                                         .clip(CircleShape),
                                     contentScale = ContentScale.Crop
                                 )
