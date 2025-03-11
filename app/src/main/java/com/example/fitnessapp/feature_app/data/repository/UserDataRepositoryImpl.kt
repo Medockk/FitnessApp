@@ -5,6 +5,7 @@ import com.example.fitnessapp.feature_app.data.model.LastActivityDataImpl
 import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
 import com.example.fitnessapp.feature_app.data.model.PurposeImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
+import com.example.fitnessapp.feature_app.data.model.UserStatisticsImpl
 import com.example.fitnessapp.feature_app.data.model.dao.LastActivityDataDao
 import com.example.fitnessapp.feature_app.data.model.dao.NotificationDataDao
 import com.example.fitnessapp.feature_app.data.model.dao.UserDataDao
@@ -46,7 +47,7 @@ class UserDataRepositoryImpl(
 
         return client.postgrest["UserStatistics"].select {
             filter { eq("userID", userID) }
-        }.decodeList<UserStatistics>()
+        }.decodeList<UserStatisticsImpl>()
     }
 
     override suspend fun getNotifications(): List<NotificationData> {
