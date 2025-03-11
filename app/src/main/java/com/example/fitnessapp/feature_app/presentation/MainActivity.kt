@@ -132,7 +132,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         WorkoutDetailScreen(
                             navController,
-                            workoutData = Route.WorkoutDetailScreen.workoutData
+                            workoutData = Route.WorkoutDetailScreen.workoutData!!
                         )
                     }
                     composable(Route.CategoryBreakfastScreen.route) {
@@ -151,10 +151,7 @@ class MainActivity : ComponentActivity() {
                                     slideOutVertically(tween(500, easing = LinearOutSlowInEasing))
                         }
                     ) {
-                        MealDetailScreen(
-                            navController,
-                            meal = Route.MealDetailScreen.meal
-                        )
+                        MealDetailScreen(navController, Route.MealDetailScreen.dietary!!)
                     }
                     composable(Route.MealScheduleScreen.route) {
                         MealScheduleScreen(navController)

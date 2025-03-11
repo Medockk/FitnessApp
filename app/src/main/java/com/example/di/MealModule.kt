@@ -1,5 +1,6 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.data.model.dao.database.UserMealScheduleDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.MealRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.AddMealToUserMealScheduleUseCase
@@ -13,8 +14,10 @@ import org.koin.dsl.module
 
 val moduleMeal = module {
 
+    single { UserMealScheduleDaoDatabase.createDatabase(get()) }
+    single { get<UserMealScheduleDaoDatabase>().userMealScheduleDao }
     single<MealRepository> {
-        MealRepositoryImpl()
+        MealRepositoryImpl(get())
     }
 
     factory<GetCategoriesUseCase> {

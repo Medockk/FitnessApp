@@ -159,7 +159,7 @@ fun WorkoutTrackerScreen(
                     Spacer(Modifier.height(15.dp))
                 }
 
-                items(state.userWorkoutList.sortedBy { it.isTurnOn }) { userWorkoutData ->
+                items(state.userWorkoutList) { userWorkoutData ->
                     Modifier
                         .fillParentMaxWidth()
                     UserWorkoutCard(

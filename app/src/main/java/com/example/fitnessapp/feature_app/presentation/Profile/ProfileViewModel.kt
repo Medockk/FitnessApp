@@ -34,7 +34,7 @@ class ProfileViewModel(
             } catch (e: Exception) {
                 if (state.value.image.isEmpty()) {
                     _state.value = state.value.copy(
-                        image = if (_state.value.userData?.gender == UserData.female) {
+                        image = if (_state.value.userData?.gender == UserData.FEMALE) {
                             "https://avatars.mds.yandex.net/i?id=897113eed31435614b7bd5aa7b85fbbdb49c4efb-13071285-images-thumbs&n=13"
                         } else {
                             "https://avatars.mds.yandex.net/i?id=d220f7ba1825ae3131662553c80bd138bcb0d782-5492023-images-thumbs&n=13"

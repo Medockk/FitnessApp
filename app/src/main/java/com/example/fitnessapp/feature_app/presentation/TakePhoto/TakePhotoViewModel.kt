@@ -33,25 +33,25 @@ class TakePhotoViewModel(
                                 1 -> {
                                     uploadPhotoUseCase(
                                         photo = _state.value.imageByteArray[0],
-                                        category = GalleryData.frontSide
+                                        category = GalleryData.FRONT_SIDE
                                     )
                                 }
                                 2 -> {
                                     uploadPhotoUseCase(
                                         photo = _state.value.imageByteArray[1],
-                                        category = GalleryData.leftSide
+                                        category = GalleryData.LEFT_SIDE
                                     )
                                 }
                                 3 -> {
                                     uploadPhotoUseCase(
                                         photo = _state.value.imageByteArray[2],
-                                        category = GalleryData.reverseSide
+                                        category = GalleryData.REVERS_SIDE
                                     )
                                 }
                                 4 -> {
                                     uploadPhotoUseCase(
                                         photo = _state.value.imageByteArray[3],
-                                        category = GalleryData.rightSide
+                                        category = GalleryData.RIGHT_SIDE
                                     )
                                 }
                             }

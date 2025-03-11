@@ -24,12 +24,12 @@ sealed class Route(val route: String) {
     data object WorkoutTrackerScreen : Route("WorkoutTrackerScreen")
 
     data object WorkoutDetailScreen : Route("WorkoutDetailScreen"){
-        var workoutData = WorkoutData(0,"","","","")
+        var workoutData: WorkoutData? = null
     }
     data object CategoryBreakfastScreen : Route("CategoryBreakfastScreen")
 
     data object MealDetailScreen : Route("MealDetailScreen"){
-        var meal = DietaryRecommendation(0,"","","","","","", "","","","")
+        var dietary: DietaryRecommendation? = null
     }
     data object MealScheduleScreen : Route("MealScheduleScreen")
     data object WorkoutScheduleScreen : Route("WorkoutScheduleScreen")

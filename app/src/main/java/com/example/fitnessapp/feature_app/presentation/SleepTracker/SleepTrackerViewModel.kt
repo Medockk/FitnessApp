@@ -74,15 +74,19 @@ class SleepTrackerViewModel(
             is SleepTrackerEvent.ChangeSleepWorkout -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
+                        val newSleepData = _state.value.sleepData?.apply { enabled =! enabled }
+                        newSleepData.toString()
                         _state.value = state.value.copy(
-                            sleepData = _state.value.sleepData?.copy(enabled = !event.sleepTracker.enabled)
+                            showIndicator = true,
+                            sleepData = newSleepData
                         )
-                        changeSleepEnabledUseCase(event.sleepTracker.copy(enabled = !event.sleepTracker.enabled))
+                        changeSleepEnabledUseCase(event.sleepTracker.id, newSleepData!!.enabled)
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
                             exception = e.message.toString()
                         )
                     }
+                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
             SleepTrackerEvent.ResetException -> {
@@ -94,15 +98,19 @@ class SleepTrackerViewModel(
             is SleepTrackerEvent.ChangeAlarmState -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
+                        val newAlarmData = _state.value.alarmClockTracker?.apply { enabled =! enabled }
+                        newAlarmData.toString()
                         _state.value = state.value.copy(
-                            alarmClockTracker = _state.value.alarmClockTracker?.copy(enabled = !event.alarmClockTracker.enabled)
+                            alarmClockTracker = newAlarmData,
+                            showIndicator = true
                         )
-                        changeAlarmEnabledUseCase(event.alarmClockTracker.copy(enabled = !event.alarmClockTracker.enabled))
+                        changeAlarmEnabledUseCase(newAlarmData!!.enabled, event.alarmClockTracker.id)
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
                             exception = e.message.toString()
                         )
                     }
+                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
         }

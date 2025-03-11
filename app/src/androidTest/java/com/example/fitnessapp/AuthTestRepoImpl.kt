@@ -1,7 +1,6 @@
 package com.example.fitnessapp
 
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
-import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.repository.AuthRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
@@ -15,7 +14,7 @@ class AuthTestRepoImpl : AuthRepository {
         return false
     }
 
-    override suspend fun signUp(mail: String, pass: String, userData: UserData) {
+    override suspend fun signUp(mail: String, pass: String, fio: String, phone: String) {
         client.auth.signUpWith(Email){
             email = mail
             password = pass

@@ -1,5 +1,7 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.data.model.dao.database.GalleryDaoDatabase
+import com.example.fitnessapp.feature_app.data.model.dao.database.StatisticDataDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.CompareRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.CompareRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Compare.GetAllGalleryUseCase
@@ -10,8 +12,12 @@ import org.koin.dsl.module
 
 val moduleCompare = module {
 
+    single { GalleryDaoDatabase.createDatabase(get()) }
+    single { get<GalleryDaoDatabase>().galleryDao }
+    single { StatisticDataDaoDatabase.createDatabase(get()) }
+    single { get<StatisticDataDaoDatabase>().statisticDataDao }
     single<CompareRepository> {
-        CompareRepositoryImpl()
+        CompareRepositoryImpl(get(), get())
     }
 
     factory<GetAllGalleryUseCase> {

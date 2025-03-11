@@ -245,21 +245,21 @@ fun CreateProfileScreen(
                                         .padding(10.dp)
                                 ) {
                                     Text(
-                                        text = UserData.male,
+                                        text = UserData.MALE,
                                         style = montserrat40012White,
                                         modifier = Modifier
                                             .clickable {
-                                                viewModel.onEvent(CreateProfileEvent.EnterGender(UserData.male))
+                                                viewModel.onEvent(CreateProfileEvent.EnterGender(UserData.MALE))
                                                 viewModel.onEvent(CreateProfileEvent.ChangeDropDownMenuState)
                                             }
                                     )
                                     Spacer(Modifier.height(10.dp))
                                     Text(
-                                        text = UserData.female,
+                                        text = UserData.FEMALE,
                                         style = montserrat40012White,
                                         modifier = Modifier
                                             .clickable {
-                                                viewModel.onEvent(CreateProfileEvent.EnterGender(UserData.female))
+                                                viewModel.onEvent(CreateProfileEvent.EnterGender(UserData.FEMALE))
                                                 viewModel.onEvent(CreateProfileEvent.ChangeDropDownMenuState)
                                             }
                                     )

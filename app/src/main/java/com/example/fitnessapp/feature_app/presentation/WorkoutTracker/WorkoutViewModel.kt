@@ -48,9 +48,9 @@ class WorkoutViewModel(
         val workoutBar = getHeartRateUseCase()
 
         workoutBar.heartRateList.forEach { char ->
-            if (_state.value.workoutBar.size < 7){
-                if (char.isDigit()){
-                    withContext(Dispatchers.Main){
+            if (_state.value.workoutBar.size < 7) {
+                if (char.isDigit()) {
+                    withContext(Dispatchers.Main) {
                         _state.value = state.value.copy(
                             workoutBar = _state.value.workoutBar.plus(char.toString().toFloat())
                         )
@@ -64,7 +64,7 @@ class WorkoutViewModel(
 
         val allWorkout = getAllWorkoutUseCase()
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
                 workoutList = allWorkout
             )
@@ -93,19 +93,21 @@ class WorkoutViewModel(
             is WorkoutEvent.ChangeUserWorkoutState -> {
 
                 viewModelScope.launch(Dispatchers.IO) {
-                    val index = _state.value.userWorkoutList.toMutableList().indexOf(event.userWorkoutData)
-                    val newData = _state.value.userWorkoutList[index].copy(
-                        isTurnOn = !event.userWorkoutData.isTurnOn
-                    )
+                    val newData = event.userWorkoutData.apply {
+                        this.isTurnOn = !this.isTurnOn
+                    }
+                    newData.toString()
+
                     _state.value = state.value.copy(
-                        userWorkoutList = _state.value.userWorkoutList-
-                            event.userWorkoutData + newData
+                        userWorkoutList = _state.value.userWorkoutList - event.userWorkoutData + newData
                     )
-                    changeUserWorkoutStateUseCase(
-                        userWorkoutData = event.userWorkoutData.copy(
-                            isTurnOn = !event.userWorkoutData.isTurnOn
+                    try {
+                        changeUserWorkoutStateUseCase(
+                            userWorkoutData = newData
                         )
-                    )
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
                 }
             }
         }

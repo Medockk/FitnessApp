@@ -4,6 +4,7 @@ package com.example.fitnessapp.feature_app.presentation.Profile
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
@@ -208,10 +209,14 @@ fun ProfileScreen(
                                 style = montserrat50014_1D1617
                             )
                             Spacer(Modifier.height(5.dp))
-                            Text(
-                                text = state.purpose.purpose,
-                                style = montserrat40014_B6B4C2
-                            )
+                            AnimatedVisibility(
+                                visible = state.purpose != null
+                            ) {
+                                Text(
+                                    text = state.purpose!!.purpose,
+                                    style = montserrat40014_B6B4C2
+                                )
+                            }
                         }
                         CustomGreenButton(
                             text = "Изменить",

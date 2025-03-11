@@ -21,20 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.fitnessapp.feature_app.presentation.common.CustomSwitch
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
+import com.example.fitnessapp.feature_app.presentation.common.CustomSwitch
 import com.example.fitnessapp.feature_app.presentation.ui.theme._C4C4C4
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_1D1617
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-
-}
 
 @Composable
 fun UserWorkoutCard(
@@ -49,18 +42,18 @@ fun UserWorkoutCard(
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
     ) {
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(15.dp)
-        ){
+        ) {
             Box(
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape)
                     .background(_C4C4C4, CircleShape),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 AsyncImage(
                     model = userWorkoutData.image,
                     contentDescription = "workout image",

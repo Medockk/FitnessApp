@@ -1,5 +1,13 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.model.HeartRateImpl
+import com.example.fitnessapp.feature_app.data.model.LastActivityDataImpl
+import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
+import com.example.fitnessapp.feature_app.data.model.PurposeImpl
+import com.example.fitnessapp.feature_app.data.model.UserDataImpl
+import com.example.fitnessapp.feature_app.data.model.dao.LastActivityDataDao
+import com.example.fitnessapp.feature_app.data.model.dao.NotificationDataDao
+import com.example.fitnessapp.feature_app.data.model.dao.UserDataDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
@@ -17,33 +25,20 @@ import kotlin.time.Duration
  * Класс для работы с данными пользователя
  * @author Андреев Арсений, 18.02.2025; 12:08
  */
-class UserDataRepositoryImpl : UserDataRepository {
+class UserDataRepositoryImpl(
+    private val userDataDao: UserDataDao,
+    private val notificationDataDao: NotificationDataDao,
+    private val lastActivityDataDao: LastActivityDataDao
+) : UserDataRepository {
 
     override suspend fun getUserData(): UserData {
 
         val userID = getUserID()
 
         val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
-            .decodeSingle<UserData>()
-        return serverData
-    }
-
-    override suspend fun updateUserData(userData: UserData) {
-
-        val userID = getUserID()
-
-        client.postgrest["Users"].update({
-            set("fio", userData.fio)
-            set("phone", userData.phone)
-            set("gender", userData.gender)
-            set("birthdayData", userData.birthdayData)
-            set("weight", userData.weight)
-            set("height", userData.height)
-        }) {
-            filter {
-                eq("userID", userID)
-            }
-        }
+            .decodeSingle<UserDataImpl>()
+        userDataDao.upsertUserData(serverData)
+        return userDataDao.getUserById(userID)
     }
 
     override suspend fun getUserStatistics(): List<UserStatistics> {
@@ -58,9 +53,14 @@ class UserDataRepositoryImpl : UserDataRepository {
 
         val userID = getUserID()
 
-        return client.postgrest["Notification"].select {
+        val data = client.postgrest["Notification"].select {
             filter { eq("userID", userID) }
-        }.decodeList<NotificationData>()
+        }.decodeList<NotificationDataImpl>()
+
+        data.forEach {
+            notificationDataDao.upsertNotificationData(it)
+        }
+        return notificationDataDao.getNotifications(userID)
     }
 
     override suspend fun getPurpose(): Purpose {
@@ -69,16 +69,21 @@ class UserDataRepositoryImpl : UserDataRepository {
 
         return client.postgrest["Users"].select {
             filter { eq("userID", userID) }
-        }.decodeSingle<Purpose>()
+        }.decodeSingle<PurposeImpl>()
     }
 
     override suspend fun getLastActivity(): List<LastActivityData> {
 
         val userID = getUserID()
 
-        return client.postgrest["LastActivity"].select {
+        val data = client.postgrest["LastActivity"].select {
             filter { eq("userID", userID) }
-        }.decodeList<LastActivityData>()
+        }.decodeList<LastActivityDataImpl>()
+
+        data.forEach {
+            lastActivityDataDao.upsertLastActivityData(it)
+        }
+        return lastActivityDataDao.getLastActivityData(userID)
     }
 
     override suspend fun getUserImage(): String {
@@ -119,7 +124,7 @@ class UserDataRepositoryImpl : UserDataRepository {
 
         return client.postgrest["HeartRate"].select {
             filter { eq("userID", userID) }
-        }.decodeSingle<HeartRate>()
+        }.decodeSingle<HeartRateImpl>()
     }
 
     private suspend fun getUserID(): String {

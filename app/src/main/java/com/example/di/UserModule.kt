@@ -1,5 +1,8 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.data.model.dao.database.LastActivityDaoDatabase
+import com.example.fitnessapp.feature_app.data.model.dao.database.NotificationDaoDatabase
+import com.example.fitnessapp.feature_app.data.model.dao.database.UserDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.UserDataRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase
@@ -11,21 +14,22 @@ import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserImageUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.SetUserImageUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.User.UpdateUserDataUseCase
 import org.koin.dsl.module
 
 val moduleUser = module {
 
+    single { UserDaoDatabase.createDatabase(get()) }
+    single { get<UserDaoDatabase>().userDataDao }
+    single { NotificationDaoDatabase.createDatabase(get()) }
+    single { get<NotificationDaoDatabase>().notificationDataDao }
+    single { LastActivityDaoDatabase.createDatabase(get()) }
+    single { get<LastActivityDaoDatabase>().lastActivityDataDao }
     single<UserDataRepository> {
-        UserDataRepositoryImpl()
+        UserDataRepositoryImpl(get(), get(), get())
     }
 
     factory<GetUserDataUseCase> {
         GetUserDataUseCase(get())
-    }
-
-    factory<UpdateUserDataUseCase> {
-        UpdateUserDataUseCase(get())
     }
 
     factory<GetUserStatisticsUseCase> {

@@ -7,7 +7,7 @@ class GetGalleryFromMonthToMonthUseCase(
     private val compareRepository: CompareRepository
 ) {
 
-    suspend operator fun invoke(firstMonth: String, secondMonth: String) : List<GalleryData>{
+    suspend operator fun invoke(firstMonth: String, secondMonth: String): List<GalleryData> {
         return compareRepository.getGalleryFromMonthToMonth(firstMonth, secondMonth)
     }
 }

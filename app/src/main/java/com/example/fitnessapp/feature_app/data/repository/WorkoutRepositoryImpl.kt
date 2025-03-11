@@ -1,7 +1,10 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.model.UserWorkoutDataImpl
+import com.example.fitnessapp.feature_app.data.model.WorkoutDataImpl
+import com.example.fitnessapp.feature_app.data.model.WorkoutScheduleImpl
+import com.example.fitnessapp.feature_app.data.model.dao.WorkoutScheduleDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
-import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
@@ -17,7 +20,9 @@ import java.time.LocalDateTime
  * Класс для работы с расписанием и тренировками пользователя
  * @author Андреев Арсений, 18,02,2025; 12:07
  */
-class WorkoutRepositoryImpl : WorkoutRepository {
+class WorkoutRepositoryImpl(
+    private val workoutScheduleDao: WorkoutScheduleDao
+) : WorkoutRepository {
 
     override suspend fun getUserWorkout(): List<UserWorkoutData> {
 
@@ -25,7 +30,7 @@ class WorkoutRepositoryImpl : WorkoutRepository {
 
         return client.postgrest["UserWorkoutData"].select {
             filter { eq("userID", userID) }
-        }.decodeList<UserWorkoutData>()
+        }.decodeList<UserWorkoutDataImpl>()
     }
 
     override suspend fun changeUserWorkoutState(userWorkoutData: UserWorkoutData) {
@@ -46,7 +51,7 @@ class WorkoutRepositoryImpl : WorkoutRepository {
 
     override suspend fun getAllWorkout(): List<WorkoutData> {
 
-        return client.postgrest["WorkoutData"].select().decodeList<WorkoutData>()
+        return client.postgrest["WorkoutData"].select().decodeList<WorkoutDataImpl>()
     }
 
     override suspend fun getWorkoutSprint(sprintNumber: Int): List<WorkoutSprint> {
@@ -61,18 +66,25 @@ class WorkoutRepositoryImpl : WorkoutRepository {
         val userID = getUserID()
         val date = LocalDate.now().toString()
 
-        return client.postgrest["WorkoutSchedule"].select {
+        val data = client.postgrest["WorkoutSchedule"].select {
             filter {
                 and {
                     eq("userID", userID)
                     eq("date", date)
                 }
             }
-        }.decodeList<WorkoutSchedule>()
+        }.decodeList<WorkoutScheduleImpl>()
+        workoutScheduleDao.clearWorkoutSchedule()
+
+        data.forEach {
+            workoutScheduleDao.upsertWorkoutSchedule(it)
+        }
+
+        return workoutScheduleDao.getWorkoutSchedule(userID)
     }
 
     override suspend fun setWorkoutSchedule(
-        workoutSchedule: WorkoutSchedule,
+        title: String,
         hour: Int,
         minute: Int
     ) {
@@ -83,20 +95,20 @@ class WorkoutRepositoryImpl : WorkoutRepository {
         client.postgrest["WorkoutSchedule"].insert(
             mapOf(
                 "userID" to userID,
-                "title" to workoutSchedule.title,
+                "title" to title,
                 "time" to time.toString()
             )
         )
     }
 
-    override suspend fun addLastActivity(lastActivityData: LastActivityData) {
+    override suspend fun addLastActivity(title: String, image: String) {
         val userID = getUserID()
 
         client.postgrest["LastActivity"].insert(
             mapOf(
                 "userID" to userID,
-                "title" to lastActivityData.title,
-                "image" to lastActivityData.image
+                "title" to title,
+                "image" to image
             )
         )
     }
@@ -108,14 +120,20 @@ class WorkoutRepositoryImpl : WorkoutRepository {
     ): List<WorkoutSchedule> {
         val userID = getUserID()
 
-        return client.postgrest["WorkoutSchedule"].select {
+        val data = client.postgrest["WorkoutSchedule"].select {
             filter {
                 and {
                     eq("userID", userID)
                     eq("date", "$year-$month-$day")
                 }
             }
-        }.decodeList<WorkoutSchedule>()
+        }.decodeList<WorkoutScheduleImpl>()
+        workoutScheduleDao.clearWorkoutSchedule()
+
+        data.forEach {
+            workoutScheduleDao.upsertWorkoutSchedule(it)
+        }
+        return workoutScheduleDao.getWorkoutSchedule(userID)
     }
 
     override suspend fun getWorkoutDetails(workoutSprintID: Int): List<WorkoutDetails> {

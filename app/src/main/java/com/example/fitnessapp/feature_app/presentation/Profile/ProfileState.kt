@@ -6,7 +6,7 @@ import com.example.fitnessapp.feature_app.domain.model.UserData
 data class ProfileState(
 
     val userData: UserData? = null,
-    val purpose: Purpose = Purpose(0, "", ""),
+    val purpose: Purpose? = null,
     val image: String = "",
 
     val isNotificationTurnOn: Boolean = false,

@@ -14,6 +14,6 @@ interface MealRepository {
     suspend fun getDietaryRecommendationByID(id: Int) : DietaryRecommendation
 
     suspend fun getUserMealSchedule() : List<UserMealSchedule>
-    suspend fun addMealToUserMealSchedule(meal: DietaryRecommendation)
+    suspend fun addMealToUserMealSchedule(category: String, mealID: String)
     suspend fun getUserMealScheduleByDate(year: Int, month: Int,day: Int) : List<UserMealSchedule>
 }
