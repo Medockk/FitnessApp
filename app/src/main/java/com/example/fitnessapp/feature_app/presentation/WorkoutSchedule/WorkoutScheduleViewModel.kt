@@ -54,19 +54,20 @@ class WorkoutScheduleViewModel(
                 viewModelScope.launch(Dispatchers.IO) {
                     _state.value = state.value.copy(showIndicator = true)
                     val date = event.value
-                    withContext(Dispatchers.Main) {
-                        try {
+                    val workoutSchedule = getWorkoutScheduleByDateUseCase(
+                        date.year,
+                        date.month.value,
+                        date.dayOfMonth
+                    )
+                    try {
+                        withContext(Dispatchers.Main) {
                             _state.value = state.value.copy(
-                                workoutSchedule = getWorkoutScheduleByDateUseCase(
-                                    date.year,
-                                    date.month.value,
-                                    date.dayOfMonth
-                                ),
-                                currentDay = date.dayOfMonth
+                                currentDay = date.dayOfMonth,
+                                workoutSchedule = workoutSchedule
                             )
-                        } catch (e: Exception) {
-                            _state.value = state.value.copy(exception = e.message.toString())
                         }
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
                     }
                     _state.value = state.value.copy(showIndicator = false)
                 }

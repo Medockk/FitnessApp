@@ -1,5 +1,7 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.data.model.dao.database.LastActivityDaoDatabase
+import com.example.fitnessapp.feature_app.data.model.dao.database.NotificationDaoDatabase
 import com.example.fitnessapp.feature_app.data.model.dao.database.UserDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.UserDataRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
@@ -16,14 +18,14 @@ import org.koin.dsl.module
 
 val moduleUser = module {
 
-    single {
-        UserDaoDatabase.createDatabase(get())
-    }
-    single {
-        get<UserDaoDatabase>().userDataDao
-    }
+    single { UserDaoDatabase.createDatabase(get()) }
+    single { get<UserDaoDatabase>().userDataDao }
+    single { NotificationDaoDatabase.createDatabase(get()) }
+    single { get<NotificationDaoDatabase>().notificationDataDao }
+    single { LastActivityDaoDatabase.createDatabase(get()) }
+    single { get<LastActivityDaoDatabase>().lastActivityDataDao }
     single<UserDataRepository> {
-        UserDataRepositoryImpl(get())
+        UserDataRepositoryImpl(get(), get(), get())
     }
 
     factory<GetUserDataUseCase> {

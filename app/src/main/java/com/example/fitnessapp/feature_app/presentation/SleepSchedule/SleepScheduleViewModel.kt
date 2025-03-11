@@ -63,18 +63,17 @@ class SleepScheduleViewModel(
 
             is SleepScheduleEvent.ChangeSleepEnabled -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val index = _state.value.sleepData.indexOf(event.sleepTracker)
-                    val sleep = event.sleepTracker.copy(enabled = !event.sleepTracker.enabled)
+                    val newSleepData = event.sleepTracker.apply { enabled =! enabled }
+                    newSleepData.toString()
                     _state.value = state.value.copy(
                         showIndicator = true,
-                        sleepData = _state.value.sleepData - _state.value.sleepData[index] + sleep
+                        sleepData = _state.value.sleepData - event.sleepTracker + newSleepData
                     )
                     try {
-                        changeSleepEnabledUseCase(event.sleepTracker.copy(enabled = !event.sleepTracker.enabled))
+                        changeSleepEnabledUseCase(event.sleepTracker.id, newSleepData.enabled)
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
-                            exception = e.message.toString(),
-                            showIndicator = false
+                            exception = e.message.toString()
                         )
                     }
                     _state.value = state.value.copy(showIndicator = false)
@@ -83,19 +82,17 @@ class SleepScheduleViewModel(
 
             is SleepScheduleEvent.ChangeAlarmEnabled -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val index = _state.value.alarmClockTracker.indexOf(event.alarmClockTracker)
-                    val alarm =
-                        event.alarmClockTracker.copy(enabled = !event.alarmClockTracker.enabled)
+                    val newAlarmData = event.alarmClockTracker.apply { enabled =! enabled }
+                    newAlarmData.toString()
                     _state.value = state.value.copy(
                         showIndicator = true,
-                        alarmClockTracker = _state.value.alarmClockTracker - _state.value.alarmClockTracker[index] + alarm
+                        alarmClockTracker = _state.value.alarmClockTracker - event.alarmClockTracker + newAlarmData
                     )
                     try {
-                        changeAlarmEnabledUseCase(event.alarmClockTracker.copy(enabled = !event.alarmClockTracker.enabled))
+                        changeAlarmEnabledUseCase(newAlarmData.enabled, event.alarmClockTracker.id)
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
                             exception = e.message.toString(),
-                            showIndicator = false
                         )
                     }
                     _state.value = state.value.copy(showIndicator = false)

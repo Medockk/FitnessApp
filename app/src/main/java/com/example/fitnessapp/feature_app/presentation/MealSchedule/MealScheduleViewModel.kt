@@ -57,7 +57,7 @@ class MealScheduleViewModel(
             withContext(Dispatchers.Main) {
 
                 when (it.category) {
-                    UserMealSchedule.categoryBreakfast -> {
+                    UserMealSchedule.CATEGORY_BREAKFAST -> {
                         _state.value = state.value.copy(
                             breakfastMeal = _state.value.breakfastMeal + MealScheduleItem(
                                 image = meal.image,
@@ -65,9 +65,7 @@ class MealScheduleViewModel(
                                 time = it.time
                             ),
                             breakfastCalories = if (_state.value.breakfastCalories.isNotEmpty()) {
-                                (
-                                        _state.value.breakfastCalories.toInt() + meal.calories.toInt()
-                                        )
+                                (_state.value.breakfastCalories.toInt() + meal.calories.toInt())
                                     .toString()
                             } else {
                                 meal.calories
@@ -75,7 +73,7 @@ class MealScheduleViewModel(
                         )
                     }
 
-                    UserMealSchedule.categoryLunch -> {
+                    UserMealSchedule.CATEGORY_LUNCH -> {
                         _state.value = state.value.copy(
                             launchMeal = _state.value.launchMeal + MealScheduleItem(
                                 image = meal.image,
@@ -93,7 +91,7 @@ class MealScheduleViewModel(
                         )
                     }
 
-                    UserMealSchedule.categoryAfternoonSnack -> {
+                    UserMealSchedule.CATEGORY_AFTERNOON_SNACK -> {
                         _state.value = state.value.copy(
                             afternoonMeal = _state.value.afternoonMeal + MealScheduleItem(
                                 image = meal.image,
@@ -111,7 +109,7 @@ class MealScheduleViewModel(
                         )
                     }
 
-                    UserMealSchedule.categoryDinner -> {
+                    UserMealSchedule.CATEGORY_DINNER -> {
                         _state.value = state.value.copy(
                             dinnerMeal = _state.value.dinnerMeal + MealScheduleItem(
                                 image = meal.image,

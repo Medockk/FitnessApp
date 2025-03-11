@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import android.util.Log
+import com.example.fitnessapp.feature_app.data.model.StatisticDataImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
@@ -187,28 +188,28 @@ class AuthRepositoryImpl : AuthRepository {
             )
         )
 
-        val weight = StatisticData(
+        val weight = StatisticDataImpl(
             LocalDate.now().toString(),
             userID,
-            StatisticData.loseWeight,
+            StatisticData.LOSE_WEIGHT,
             getRandomStatistic()
         )
-        val height = StatisticData(
+        val height = StatisticDataImpl(
             LocalDate.now().toString(),
             userID,
-            StatisticData.increasedGrowth,
+            StatisticData.INCREASED_GROWTH,
             getRandomStatistic()
         )
-        val muscleMass = StatisticData(
+        val muscleMass = StatisticDataImpl(
             LocalDate.now().toString(),
             userID,
-            StatisticData.increaseInMuscleMass,
+            StatisticData.INCREASE_IN_MUSCLE_MASS,
             getRandomStatistic()
         )
-        val press = StatisticData(
+        val press = StatisticDataImpl(
             LocalDate.now().toString(),
             userID,
-            StatisticData.press,
+            StatisticData.PRESS,
             getRandomStatistic()
         )
         client.postgrest["UserStatistic"].insert(listOf(weight, height, muscleMass, press))

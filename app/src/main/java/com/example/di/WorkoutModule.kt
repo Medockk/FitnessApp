@@ -1,5 +1,6 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.data.model.dao.database.WorkoutScheduleDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.WorkoutRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.AddLastActivityUseCase
@@ -15,8 +16,10 @@ import org.koin.dsl.module
 
 val moduleWorkout = module {
 
+    single { WorkoutScheduleDaoDatabase.createDatabase(get()) }
+    single { get<WorkoutScheduleDaoDatabase>().workoutScheduleDao }
     single<WorkoutRepository> {
-        WorkoutRepositoryImpl()
+        WorkoutRepositoryImpl(get())
     }
 
     factory<GetUserWorkoutUseCase> {

@@ -3,7 +3,9 @@ package com.example.fitnessapp.feature_app.data.repository
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.example.fitnessapp.feature_app.data.model.GalleryDataImpl
+import com.example.fitnessapp.feature_app.data.model.StatisticDataImpl
 import com.example.fitnessapp.feature_app.data.model.dao.GalleryDataDao
+import com.example.fitnessapp.feature_app.data.model.dao.StatisticDataDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
@@ -20,7 +22,8 @@ import kotlin.time.Duration
  * @author Андреев Арсений, 18.02.2025; 12:06
  */
 class CompareRepositoryImpl(
-    private val galleryDataDao: GalleryDataDao
+    private val galleryDataDao: GalleryDataDao,
+    private val statisticDataDao: StatisticDataDao
 ) : CompareRepository {
 
     override suspend fun getAllGallery(): List<GalleryData> {
@@ -88,7 +91,7 @@ class CompareRepositoryImpl(
             if (currentTime.year % 4 == 0) month1.maxLength() else month1.maxLength() - 1
         )
 
-        return client.postgrest["UserStatistic"].select {
+        val data = client.postgrest["UserStatistic"].select {
             filter {
                 eq("userID", userID)
                 and {
@@ -96,7 +99,13 @@ class CompareRepositoryImpl(
                     lte("date", date2)
                 }
             }
-        }.decodeList<StatisticData>()
+        }.decodeList<StatisticDataImpl>()
+        statisticDataDao.clearUserStatisticData()
+
+        data.forEach {
+            statisticDataDao.upsertStatisticData(it)
+        }
+        return statisticDataDao.getUserStatisticData(userID)
     }
 
     override suspend fun uploadPhoto(photo: ByteArray, category: String) {

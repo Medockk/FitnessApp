@@ -39,12 +39,10 @@ class AddWorkoutScheduleViewModel(
             AddWorkoutScheduleEvent.AddWorkout -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     _state.value = state.value.copy(showIndicator = true)
-                    if (_state.value.hour.toIntOrNull().isNotNull() && _state.value.minute.toIntOrNull().isNotNull()){
+                    if (_state.value.hour.toIntOrNull() != null && _state.value.minute.toIntOrNull() != null){
                         try {
                             setWorkoutScheduleUseCase(
-                                WorkoutSchedule(
-                                    0, "", _state.value.title, "",""
-                                ), _state.value.hour.toInt(), _state.value.minute.toInt()
+                                _state.value.title, _state.value.hour.toInt(), _state.value.minute.toInt()
                             )
                         } catch (e: Exception) {
                             _state.value = state.value.copy(exception = e.message.toString())

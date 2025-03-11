@@ -2,7 +2,11 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.model.HeartRateImpl
 import com.example.fitnessapp.feature_app.data.model.LastActivityDataImpl
+import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
+import com.example.fitnessapp.feature_app.data.model.PurposeImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
+import com.example.fitnessapp.feature_app.data.model.dao.LastActivityDataDao
+import com.example.fitnessapp.feature_app.data.model.dao.NotificationDataDao
 import com.example.fitnessapp.feature_app.data.model.dao.UserDataDao
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
@@ -22,7 +26,9 @@ import kotlin.time.Duration
  * @author Андреев Арсений, 18.02.2025; 12:08
  */
 class UserDataRepositoryImpl(
-    private val userDataDao: UserDataDao
+    private val userDataDao: UserDataDao,
+    private val notificationDataDao: NotificationDataDao,
+    private val lastActivityDataDao: LastActivityDataDao
 ) : UserDataRepository {
 
     override suspend fun getUserData(): UserData {
@@ -47,9 +53,14 @@ class UserDataRepositoryImpl(
 
         val userID = getUserID()
 
-        return client.postgrest["Notification"].select {
+        val data = client.postgrest["Notification"].select {
             filter { eq("userID", userID) }
-        }.decodeList<NotificationData>()
+        }.decodeList<NotificationDataImpl>()
+
+        data.forEach {
+            notificationDataDao.upsertNotificationData(it)
+        }
+        return notificationDataDao.getNotifications(userID)
     }
 
     override suspend fun getPurpose(): Purpose {
@@ -58,16 +69,21 @@ class UserDataRepositoryImpl(
 
         return client.postgrest["Users"].select {
             filter { eq("userID", userID) }
-        }.decodeSingle<Purpose>()
+        }.decodeSingle<PurposeImpl>()
     }
 
     override suspend fun getLastActivity(): List<LastActivityData> {
 
         val userID = getUserID()
 
-        return client.postgrest["LastActivity"].select {
+        val data = client.postgrest["LastActivity"].select {
             filter { eq("userID", userID) }
         }.decodeList<LastActivityDataImpl>()
+
+        data.forEach {
+            lastActivityDataDao.upsertLastActivityData(it)
+        }
+        return lastActivityDataDao.getLastActivityData(userID)
     }
 
     override suspend fun getUserImage(): String {

@@ -1,6 +1,7 @@
 package com.example.fitnessapp.feature_app.data.repository
 
-import android.util.Log
+import com.example.fitnessapp.feature_app.data.model.AlarmClockTrackerImpl
+import com.example.fitnessapp.feature_app.data.model.SleepTrackerImpl
 import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
 import com.example.fitnessapp.feature_app.domain.model.SleepTracker
@@ -27,7 +28,7 @@ class SleepRepositoryImpl : SleepRepository {
                     eq("date", currentDate)
                 }
             }
-        }.decodeList<SleepTracker>()
+        }.decodeList<SleepTrackerImpl>()
     }
 
     override suspend fun getSleepDataByDate(year: Int, month: Int, day: Int): List<SleepTracker> {
@@ -40,7 +41,7 @@ class SleepRepositoryImpl : SleepRepository {
                     eq("date", "${year}-${month}-$day")
                 }
             }
-        }.decodeList<SleepTracker>()
+        }.decodeList<SleepTrackerImpl>()
     }
 
     override suspend fun getAlarmClockData(): List<AlarmClockTracker> {
@@ -48,19 +49,21 @@ class SleepRepositoryImpl : SleepRepository {
         val userID = getUserID()
         val currentData = LocalDate.now().toString()
 
-        val t  = client.postgrest["AlarmClockTracker"].select {
+        return client.postgrest["AlarmClockTracker"].select {
             filter {
                 and {
                     eq("userID", userID)
                     eq("date", currentData)
                 }
             }
-        }.decodeList<AlarmClockTracker>()
-        Log.e("t", t.toString())
-        return t
+        }.decodeList<AlarmClockTrackerImpl>()
     }
 
-    override suspend fun getAlarmClockDataByDate(year: Int, month: Int, day: Int): List<AlarmClockTracker> {
+    override suspend fun getAlarmClockDataByDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ): List<AlarmClockTracker> {
         val userID = getUserID()
 
         return client.postgrest["AlarmClockTracker"].select {
@@ -70,61 +73,64 @@ class SleepRepositoryImpl : SleepRepository {
                     eq("date", "${year}-${month}-$day")
                 }
             }
-        }.decodeList<AlarmClockTracker>()
+        }.decodeList<AlarmClockTrackerImpl>()
     }
 
-    override suspend fun changeSleepEnabled(sleepTracker: SleepTracker) {
+    override suspend fun changeSleepEnabled(sleepTrackerId: Int, sleepTrackerEnabled: Boolean) {
 
         val userID = getUserID()
 
         client.postgrest["SleepTracker"].update({
-            set("enabled", sleepTracker.enabled)
-        }){
+            set("enabled", sleepTrackerEnabled)
+        }) {
             filter {
                 and {
                     eq("userID", userID)
-                    eq("id", sleepTracker.id)
+                    eq("id", sleepTrackerId)
                 }
             }
         }
     }
 
-    override suspend fun changeAlarmEnabled(alarmClockTracker: AlarmClockTracker) {
+    override suspend fun changeAlarmEnabled(
+        alarmClockTrackerEnabled: Boolean,
+        alarmClockTrackerId: Int
+    ) {
 
         val userID = getUserID()
 
         client.postgrest["AlarmClockTracker"].update({
-            set("enabled", alarmClockTracker.enabled)
-        }){
+            set("enabled", alarmClockTrackerEnabled)
+        }) {
             filter {
                 and {
                     eq("userID", userID)
-                    eq("id", alarmClockTracker.id)
+                    eq("id", alarmClockTrackerId)
                 }
             }
         }
     }
 
-    override suspend fun addAlarm(sleepTracker: SleepTracker, alarmClockTracker: AlarmClockTracker) {
+    override suspend fun addAlarm(sleepTrackerTime: String, alarmClockTrackerTime: String) {
 
         val userID = getUserID()
 
         client.postgrest["SleepTracker"].insert(
             mapOf(
                 "userID" to userID,
-                "time" to sleepTracker.time
+                "time" to sleepTrackerTime
             )
         )
 
         client.postgrest["AlarmClockTracker"].insert(
             mapOf(
                 "userID" to userID,
-                "time" to alarmClockTracker.time
+                "time" to alarmClockTrackerTime
             )
         )
     }
 
-    private suspend fun getUserID() : String{
+    private suspend fun getUserID(): String {
         client.auth.awaitInitialization()
         return client.auth.currentUserOrNull()?.id ?: ""
     }

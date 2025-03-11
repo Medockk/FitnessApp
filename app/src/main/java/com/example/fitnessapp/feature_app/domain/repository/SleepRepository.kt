@@ -9,8 +9,8 @@ interface SleepRepository {
     suspend fun getSleepDataByDate(year: Int, month: Int, day: Int) : List<SleepTracker>
     suspend fun getAlarmClockData() : List<AlarmClockTracker>
     suspend fun getAlarmClockDataByDate(year: Int, month: Int, day: Int) : List<AlarmClockTracker>
-    suspend fun changeSleepEnabled(sleepTracker: SleepTracker)
-    suspend fun changeAlarmEnabled(alarmClockTracker: AlarmClockTracker)
+    suspend fun changeSleepEnabled(sleepTrackerId: Int, sleepTrackerEnabled: Boolean)
+    suspend fun changeAlarmEnabled(alarmClockTrackerEnabled: Boolean, alarmClockTrackerId: Int)
 
-    suspend fun addAlarm(sleepTracker: SleepTracker, alarmClockTracker: AlarmClockTracker)
+    suspend fun addAlarm(sleepTrackerTime: String, alarmClockTrackerTime: String)
 }

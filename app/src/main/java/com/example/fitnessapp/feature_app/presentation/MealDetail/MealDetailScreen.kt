@@ -240,10 +240,14 @@ fun MealDetailScreen(
                             style = montserrat60016_1D1617
                         )
                         Spacer(Modifier.weight(1f))
-                        Text(
-                            text = state.details.stepSize + " шагов",
-                            style = montserrat40012_B6B4C2
-                        )
+                        AnimatedVisibility(
+                            visible = state.details != null
+                        ) {
+                            Text(
+                                text = state.details!!.stepSize + " шагов",
+                                style = montserrat40012_B6B4C2
+                            )
+                        }
                     }
                     Spacer(Modifier.height(20.dp))
                 }
