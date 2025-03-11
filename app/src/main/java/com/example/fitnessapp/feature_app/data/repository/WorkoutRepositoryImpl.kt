@@ -2,9 +2,11 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.model.UserWorkoutDataImpl
 import com.example.fitnessapp.feature_app.data.model.WorkoutDataImpl
+import com.example.fitnessapp.feature_app.data.model.WorkoutDetailsImpl
 import com.example.fitnessapp.feature_app.data.model.WorkoutScheduleImpl
-import com.example.fitnessapp.feature_app.data.model.dao.WorkoutScheduleDao
-import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.data.model.WorkoutSprintImpl
+import com.example.fitnessapp.feature_app.data.data_source.local.WorkoutScheduleDao
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
@@ -58,7 +60,7 @@ class WorkoutRepositoryImpl(
 
         return client.postgrest["WorkoutSprint"].select {
             filter { eq("sprintNumber", sprintNumber) }
-        }.decodeList<WorkoutSprint>()
+        }.decodeList<WorkoutSprintImpl>()
     }
 
     override suspend fun getWorkoutSchedule(): List<WorkoutSchedule> {
@@ -140,7 +142,7 @@ class WorkoutRepositoryImpl(
 
         return client.postgrest["WorkoutDetails"].select {
             filter { eq("workoutSprintID", workoutSprintID) }
-        }.decodeList<WorkoutDetails>()
+        }.decodeList<WorkoutDetailsImpl>()
     }
 
     private suspend fun getUserID(): String {

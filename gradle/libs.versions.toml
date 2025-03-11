@@ -26,6 +26,8 @@ serialization = "1.7.3"
 room = "2.6.1"
 video = "1.5.1"
 
+retrofit = "2.9.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -76,6 +78,9 @@ video-ui = {module = "androidx.media3:media3-ui", version.ref="video"}
 #room
 room = { module = "androidx.room:room-ktx", version.ref = "room"}
 room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
+
+retrofit-retrofit = {module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit"}
+retrofit-scalars = {module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

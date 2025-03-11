@@ -26,11 +26,11 @@ class StartWorkoutViewModel(
     }
 
     private suspend fun getWorkoutDetails() {
-        val details = getWorkoutDetailsUseCase(Route.StartWorkoutScreen.workout.workoutSprintID)
+        val details = getWorkoutDetailsUseCase(Route.StartWorkoutScreen.sprintId)
 
         withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
-                workoutDescription = Route.StartWorkoutScreen.workout.description,
+                workoutDescription = Route.StartWorkoutScreen.workoutDescription,
             )
         }
         if (details.isNotEmpty()) {

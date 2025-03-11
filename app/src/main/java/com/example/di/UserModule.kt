@@ -1,8 +1,8 @@
 package com.example.di
 
-import com.example.fitnessapp.feature_app.data.model.dao.database.LastActivityDaoDatabase
-import com.example.fitnessapp.feature_app.data.model.dao.database.NotificationDaoDatabase
-import com.example.fitnessapp.feature_app.data.model.dao.database.UserDaoDatabase
+import com.example.fitnessapp.feature_app.data.data_source.local.database.LastActivityDaoDatabase
+import com.example.fitnessapp.feature_app.data.data_source.local.database.NotificationDaoDatabase
+import com.example.fitnessapp.feature_app.data.data_source.local.database.UserDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.UserDataRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase

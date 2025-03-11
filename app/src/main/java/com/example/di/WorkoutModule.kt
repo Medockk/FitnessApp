@@ -1,6 +1,6 @@
 package com.example.di
 
-import com.example.fitnessapp.feature_app.data.model.dao.database.WorkoutScheduleDaoDatabase
+import com.example.fitnessapp.feature_app.data.data_source.local.database.WorkoutScheduleDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.WorkoutRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.AddLastActivityUseCase

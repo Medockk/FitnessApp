@@ -41,7 +41,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
-import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomSprintCard
 import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.components.CustomWorkoutInfo
@@ -296,7 +295,8 @@ fun WorkoutDetailScreen(
                         .padding(horizontal = 30.dp)
                 ) {
                     Route.StartWorkoutScreen.title = sprint.title
-                    Route.StartWorkoutScreen.workout = WorkoutDetails(0, sprint.id, "","")
+                    Route.StartWorkoutScreen.workoutDescription = sprint.description
+                    Route.StartWorkoutScreen.sprintId = sprint.id
                     navController.navigate(Route.StartWorkoutScreen.route)
                 }
             }
@@ -330,7 +330,8 @@ fun WorkoutDetailScreen(
                         .padding(horizontal = 30.dp)
                 ) {
                     Route.StartWorkoutScreen.title = workoutSprint.title
-                    Route.StartWorkoutScreen.workout = WorkoutDetails(0, workoutSprint.id, "","")
+                    Route.StartWorkoutScreen.workoutDescription = workoutSprint.description
+                    Route.StartWorkoutScreen.sprintId = workoutSprint.id
                     navController.navigate(Route.StartWorkoutScreen.route)
                 }
             }

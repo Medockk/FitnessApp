@@ -4,8 +4,8 @@ import com.example.fitnessapp.feature_app.data.model.CategoryDataImpl
 import com.example.fitnessapp.feature_app.data.model.DietaryRecommendationImpl
 import com.example.fitnessapp.feature_app.data.model.MealDetailsImpl
 import com.example.fitnessapp.feature_app.data.model.UserMealScheduleImpl
-import com.example.fitnessapp.feature_app.data.model.dao.UserMealScheduleDao
-import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.data.data_source.local.UserMealScheduleDao
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.MealDetails

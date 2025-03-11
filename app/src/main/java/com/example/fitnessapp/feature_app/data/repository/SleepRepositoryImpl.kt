@@ -2,7 +2,7 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.model.AlarmClockTrackerImpl
 import com.example.fitnessapp.feature_app.data.model.SleepTrackerImpl
-import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
 import com.example.fitnessapp.feature_app.domain.model.SleepTracker
 import com.example.fitnessapp.feature_app.domain.repository.SleepRepository
