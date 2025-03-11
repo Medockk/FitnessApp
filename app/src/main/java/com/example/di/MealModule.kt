@@ -1,6 +1,6 @@
 package com.example.di
 
-import com.example.fitnessapp.feature_app.data.model.dao.database.UserMealScheduleDaoDatabase
+import com.example.fitnessapp.feature_app.data.data_source.local.database.UserMealScheduleDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.MealRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.AddMealToUserMealScheduleUseCase

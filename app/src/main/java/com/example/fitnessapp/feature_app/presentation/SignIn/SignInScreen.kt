@@ -38,7 +38,7 @@ import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTextField
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40016_1D1617

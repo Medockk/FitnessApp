@@ -79,6 +79,10 @@ dependencies {
     implementation(libs.room)
     ksp(libs.room.compiler)
 
+    //retrofit
+    implementation(libs.retrofit.retrofit)
+    implementation(libs.retrofit.scalars)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

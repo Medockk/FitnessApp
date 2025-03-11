@@ -6,10 +6,10 @@ import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
 import com.example.fitnessapp.feature_app.data.model.PurposeImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.model.UserStatisticsImpl
-import com.example.fitnessapp.feature_app.data.model.dao.LastActivityDataDao
-import com.example.fitnessapp.feature_app.data.model.dao.NotificationDataDao
-import com.example.fitnessapp.feature_app.data.model.dao.UserDataDao
-import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.data.data_source.local.LastActivityDataDao
+import com.example.fitnessapp.feature_app.data.data_source.local.NotificationDataDao
+import com.example.fitnessapp.feature_app.data.data_source.local.UserDataDao
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData

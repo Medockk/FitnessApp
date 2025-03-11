@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.data.network
+package com.example.fitnessapp.feature_app.data.data_source.network
 
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.compose.auth.ComposeAuth

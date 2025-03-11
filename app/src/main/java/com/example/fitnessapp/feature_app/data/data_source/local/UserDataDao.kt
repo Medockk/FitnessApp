@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.data.model.dao
+package com.example.fitnessapp.feature_app.data.data_source.local
 
 import androidx.room.Dao
 import androidx.room.Delete

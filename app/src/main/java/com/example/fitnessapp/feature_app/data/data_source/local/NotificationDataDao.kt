@@ -1,11 +1,10 @@
-package com.example.fitnessapp.feature_app.data.model.dao
+package com.example.fitnessapp.feature_app.data.data_source.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
-import com.example.fitnessapp.feature_app.domain.model.NotificationData
 
 @Dao
 interface NotificationDataDao {
