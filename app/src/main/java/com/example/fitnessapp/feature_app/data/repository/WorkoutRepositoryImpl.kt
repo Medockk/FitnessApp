@@ -7,6 +7,7 @@ import com.example.fitnessapp.feature_app.data.model.WorkoutScheduleImpl
 import com.example.fitnessapp.feature_app.data.model.WorkoutSprintImpl
 import com.example.fitnessapp.feature_app.data.data_source.local.WorkoutScheduleDao
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails
@@ -15,6 +16,8 @@ import com.example.fitnessapp.feature_app.domain.model.WorkoutSprint
 import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -63,10 +66,12 @@ class WorkoutRepositoryImpl(
         }.decodeList<WorkoutSprintImpl>()
     }
 
-    override suspend fun getWorkoutSchedule(): List<WorkoutSchedule> {
+    override suspend fun getWorkoutSchedule() = flow<NetworkResult<List<WorkoutSchedule>>> {
 
+        emit(NetworkResult.Loading())
         val userID = getUserID()
         val date = LocalDate.now().toString()
+        emit(NetworkResult.Success(workoutScheduleDao.getWorkoutSchedule(userID)))
 
         val data = client.postgrest["WorkoutSchedule"].select {
             filter {
@@ -76,13 +81,15 @@ class WorkoutRepositoryImpl(
                 }
             }
         }.decodeList<WorkoutScheduleImpl>()
+        emit(NetworkResult.Success(data))
         workoutScheduleDao.clearWorkoutSchedule()
 
         data.forEach {
             workoutScheduleDao.upsertWorkoutSchedule(it)
         }
 
-        return workoutScheduleDao.getWorkoutSchedule(userID)
+    }.catch {
+        emit(NetworkResult.Error(it.localizedMessage))
     }
 
     override suspend fun setWorkoutSchedule(

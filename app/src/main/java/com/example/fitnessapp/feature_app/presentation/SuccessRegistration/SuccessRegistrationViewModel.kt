@@ -77,12 +77,22 @@ class SuccessRegistrationViewModel(
 
     private suspend fun getUserData() {
 
-        val userData = getUserDataUseCase()
-
-        withContext(Dispatchers.Main){
-            _state.value = state.value.copy(
-                userData = userData
-            )
+        getUserDataUseCase().collect { userData ->
+            when (userData){
+                is NetworkResult.Error<*> -> {
+                    _state.value = state.value.copy(exception = userData.message.toString(), showIndicator = false)
+                }
+                is NetworkResult.Loading<*> -> {
+                    _state.value = state.value.copy(showIndicator = true)
+                }
+                is NetworkResult.Success<*> -> {
+                    withContext(Dispatchers.Main){
+                        _state.value = state.value.copy(
+                            userData = userData.data
+                        )
+                    }
+                }
+            }
         }
     }
 

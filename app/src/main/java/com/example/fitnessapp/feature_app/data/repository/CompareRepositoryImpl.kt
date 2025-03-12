@@ -2,17 +2,20 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.example.fitnessapp.feature_app.data.model.GalleryDataImpl
-import com.example.fitnessapp.feature_app.data.model.StatisticDataImpl
 import com.example.fitnessapp.feature_app.data.data_source.local.GalleryDataDao
 import com.example.fitnessapp.feature_app.data.data_source.local.StatisticDataDao
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.data.model.GalleryDataImpl
+import com.example.fitnessapp.feature_app.data.model.StatisticDataImpl
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
 import com.example.fitnessapp.feature_app.domain.repository.CompareRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Month
 import java.time.LocalDate
 import kotlin.time.Duration
@@ -26,18 +29,22 @@ class CompareRepositoryImpl(
     private val statisticDataDao: StatisticDataDao
 ) : CompareRepository {
 
-    override suspend fun getAllGallery(): List<GalleryData> {
+    override suspend fun getAllGallery() = flow<NetworkResult<List<GalleryData>>> {
+
+        emit(NetworkResult.Loading())
         val userID = getUserID()
+        emit(NetworkResult.Success(galleryDataDao.getGalleryByID(userID)))
 
         val data = client.postgrest["Gallery"].select {
             filter { eq("userID", userID) }
         }.decodeList<GalleryDataImpl>()
-        val dataList = ArrayList<GalleryDataImpl>()
+        emit(NetworkResult.Success(data))
+
         data.forEach {
             galleryDataDao.upsertGalleryData(it)
-            dataList.add(it)
         }
-        return dataList
+    }.catch {
+        emit(NetworkResult.Error(it.localizedMessage))
     }
 
     override suspend fun getGalleryFromMonthToMonth(
@@ -78,12 +85,15 @@ class CompareRepositoryImpl(
     override suspend fun getStatisticFromMonthToMonth(
         firstMonth: String,
         secondMonth: String
-    ): List<StatisticData> {
+    ) = flow<NetworkResult<List<StatisticData>>> {
+
+        emit(NetworkResult.Loading())
         val userID = getUserID()
+        emit(NetworkResult.Success(statisticDataDao.getUserStatisticData(userID)))
+
+
         val currentTime = LocalDate.now()
-
         val month1 = Month(firstMonth.toInt())
-
         val date1 = kotlinx.datetime.LocalDate(currentTime.year, month1, 1)
         val date2 = kotlinx.datetime.LocalDate(
             currentTime.year,
@@ -100,12 +110,12 @@ class CompareRepositoryImpl(
                 }
             }
         }.decodeList<StatisticDataImpl>()
-        statisticDataDao.clearUserStatisticData()
+        emit(NetworkResult.Success(data))
 
+        statisticDataDao.clearUserStatisticData()
         data.forEach {
             statisticDataDao.upsertStatisticData(it)
         }
-        return statisticDataDao.getUserStatisticData(userID)
     }
 
     override suspend fun uploadPhoto(photo: ByteArray, category: String) {

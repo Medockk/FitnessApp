@@ -10,6 +10,7 @@ import com.example.fitnessapp.feature_app.data.data_source.local.LastActivityDat
 import com.example.fitnessapp.feature_app.data.data_source.local.NotificationDataDao
 import com.example.fitnessapp.feature_app.data.data_source.local.UserDataDao
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData
@@ -20,6 +21,9 @@ import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
 
 /**
@@ -32,14 +36,22 @@ class UserDataRepositoryImpl(
     private val lastActivityDataDao: LastActivityDataDao
 ) : UserDataRepository {
 
-    override suspend fun getUserData(): UserData {
-
+    override suspend fun getUserData(): Flow<NetworkResult<UserData>> {
         val userID = getUserID()
 
-        val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
-            .decodeSingle<UserDataImpl>()
-        userDataDao.upsertUserData(serverData)
-        return userDataDao.getUserById(userID)
+        return flow<NetworkResult<UserData>> {
+
+            emit(NetworkResult.Loading())
+            emit(NetworkResult.Success(userDataDao.getUserById(userID)))
+
+            val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
+                .decodeSingle<UserDataImpl>()
+            emit(NetworkResult.Success(serverData))
+
+            userDataDao.upsertUserData(serverData)
+        }.catch {
+            emit(NetworkResult.Error(it.localizedMessage))
+        }
     }
 
     override suspend fun getUserStatistics(): List<UserStatistics> {
@@ -50,18 +62,22 @@ class UserDataRepositoryImpl(
         }.decodeList<UserStatisticsImpl>()
     }
 
-    override suspend fun getNotifications(): List<NotificationData> {
+    override suspend fun getNotifications() = flow<NetworkResult<List<NotificationData>>> {
 
+        emit(NetworkResult.Loading())
         val userID = getUserID()
+        emit(NetworkResult.Success(notificationDataDao.getNotifications(userID)))
 
         val data = client.postgrest["Notification"].select {
             filter { eq("userID", userID) }
         }.decodeList<NotificationDataImpl>()
+        emit(NetworkResult.Success(data))
+
 
         data.forEach {
             notificationDataDao.upsertNotificationData(it)
         }
-        return notificationDataDao.getNotifications(userID)
+
     }
 
     override suspend fun getPurpose(): Purpose {
@@ -73,18 +89,23 @@ class UserDataRepositoryImpl(
         }.decodeSingle<PurposeImpl>()
     }
 
-    override suspend fun getLastActivity(): List<LastActivityData> {
+    override suspend fun getLastActivity() = flow<NetworkResult<List<LastActivityData>>> {
 
+        emit(NetworkResult.Loading())
         val userID = getUserID()
+        emit(NetworkResult.Success(lastActivityDataDao.getLastActivityData(userID)))
 
         val data = client.postgrest["LastActivity"].select {
             filter { eq("userID", userID) }
         }.decodeList<LastActivityDataImpl>()
 
+        emit(NetworkResult.Success(data))
+
         data.forEach {
             lastActivityDataDao.upsertLastActivityData(it)
         }
-        return lastActivityDataDao.getLastActivityData(userID)
+    }.catch {
+        emit(NetworkResult.Error(it.localizedMessage))
     }
 
     override suspend fun getUserImage(): String {

@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleUseCase
 import kotlinx.coroutines.Dispatchers
@@ -33,13 +34,20 @@ class WorkoutScheduleViewModel(
 
     private suspend fun getSchedule() {
 
-        val schedule = getWorkoutScheduleUseCase()
-
-        withContext(Dispatchers.Main) {
-            _state.value = state.value.copy(
-                workoutSchedule = schedule
-            )
+        getWorkoutScheduleUseCase().collect {
+            when (it){
+                is NetworkResult.Error<*> -> {_state.value = state.value.copy(exception = it.message ?: "unknown error", showIndicator = false)}
+                is NetworkResult.Loading<*> -> {_state.value =state.value.copy(showIndicator = true)}
+                is NetworkResult.Success<*> -> {
+                    withContext(Dispatchers.Main) {
+                        _state.value = state.value.copy(
+                            workoutSchedule = it.data ?: emptyList()
+                        )
+                    }
+                }
+            }
         }
+
     }
 
     fun onEvent(event: WorkoutScheduleEvent) {

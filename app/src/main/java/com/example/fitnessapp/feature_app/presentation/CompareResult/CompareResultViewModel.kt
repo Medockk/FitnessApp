@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.usecase.Compare.GetGalleryFromMonthToMonthUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetStatisticFromMonthToMonthUseCase
@@ -45,17 +46,29 @@ class CompareResultViewModel(
             )
         }
 
-        val statistic = getStatisticFromMonthToMonthUseCase(
-            firstMonthNumber, secondMonthNumber
-        )
-
-        statistic.sortedBy { it.type }.forEach {
-            withContext(Dispatchers.Main){
-                _state.value = state.value.copy(
-                    statistic = _state.value.statistic+it
-                )
+        getStatisticFromMonthToMonthUseCase(firstMonthNumber, secondMonthNumber).collect{
+            when (it){
+                is NetworkResult.Error<*> -> {
+                    _state.value = state.value.copy(
+                        exception = it.message ?: "Unknown error...",
+                        showIndicator = false
+                    )
+                }
+                is NetworkResult.Loading<*> -> {
+                    _state.value = state.value.copy(showIndicator = true)
+                }
+                is NetworkResult.Success<*> -> {
+                    it.data?.sortedBy {data-> data.type }?.forEach {
+                        withContext(Dispatchers.Main){
+                            _state.value = state.value.copy(
+                                statistic = _state.value.statistic+it
+                            )
+                        }
+                    }
+                }
             }
         }
+
     }
 
     fun onEvent(event: CompareResultEvent) {
