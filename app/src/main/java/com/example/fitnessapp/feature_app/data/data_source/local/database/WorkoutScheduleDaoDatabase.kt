@@ -1,11 +1,11 @@
-package com.example.fitnessapp.feature_app.data.model.dao.database
+package com.example.fitnessapp.feature_app.data.data_source.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.fitnessapp.feature_app.data.data_source.local.WorkoutScheduleDao
 import com.example.fitnessapp.feature_app.data.model.WorkoutScheduleImpl
-import com.example.fitnessapp.feature_app.data.model.dao.WorkoutScheduleDao
 
 @Database(entities = [WorkoutScheduleImpl::class], version = 1)
 abstract class WorkoutScheduleDaoDatabase : RoomDatabase(){

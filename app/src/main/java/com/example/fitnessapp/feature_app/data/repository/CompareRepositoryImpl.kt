@@ -4,9 +4,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.example.fitnessapp.feature_app.data.model.GalleryDataImpl
 import com.example.fitnessapp.feature_app.data.model.StatisticDataImpl
-import com.example.fitnessapp.feature_app.data.model.dao.GalleryDataDao
-import com.example.fitnessapp.feature_app.data.model.dao.StatisticDataDao
-import com.example.fitnessapp.feature_app.data.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.data.data_source.local.GalleryDataDao
+import com.example.fitnessapp.feature_app.data.data_source.local.StatisticDataDao
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
 import com.example.fitnessapp.feature_app.domain.repository.CompareRepository
