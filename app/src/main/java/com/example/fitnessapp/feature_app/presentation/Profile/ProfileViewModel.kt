@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.usecase.User.ChangeNotificationStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
@@ -54,18 +55,33 @@ class ProfileViewModel(
 
     private suspend fun getUserData() {
 
-        val userData = getUserDataUseCase()
-        val purpose = getPurposeUseCase()
+        getUserDataUseCase().collect { userData ->
+            when (userData){
+                is NetworkResult.Error<*> -> {
+                    _state.value = state.value.copy(exception = userData.message.toString(), showIndicator = false)
+                }
+                is NetworkResult.Loading<*> -> {
+                    _state.value = state.value.copy(showIndicator = true)
+                }
+                is NetworkResult.Success<*> -> {
+                    withContext(Dispatchers.Main) {
+                        _state.value = state.value.copy(
+                            userData = userData.data,
+                            showIndicator = false
+                        )
+                    }
+                }
+            }
+        }
 
+        val purpose = getPurposeUseCase()
         withContext(Dispatchers.Main) {
             _state.value = state.value.copy(
-                userData = userData,
                 purpose = purpose
             )
         }
 
         val userImage = getUserImageUseCase()
-
         withContext(Dispatchers.IO) {
             _state.value = state.value.copy(
                 image = userImage

@@ -81,7 +81,7 @@ dependencies {
 
     //retrofit
     implementation(libs.retrofit.retrofit)
-    implementation(libs.retrofit.scalars)
+    implementation(libs.retrofit.gson)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

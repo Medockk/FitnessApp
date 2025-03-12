@@ -51,7 +51,7 @@ val moduleViewModel = module {
     }
 
     viewModel<SuccessRegistrationViewModel>{
-        SuccessRegistrationViewModel(get())
+        SuccessRegistrationViewModel(get(), get(), get())
     }
 
     viewModel<CreateProfileViewModel>{

@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetDietaryRecommendationByIDUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetUserMealScheduleByDateUseCase
@@ -38,15 +39,26 @@ class MealScheduleViewModel(
 
     private suspend fun getUserMealSchedule() {
 
-        val userMealSchedule = getUserMealScheduleUseCase()
+        getUserMealScheduleUseCase().collect {
+            when (it){
+                is NetworkResult.Error<*> -> {
+                    _state.value = state.value.copy(exception = it.message ?: "unknown error", showIndicator = false)
+                }
+                is NetworkResult.Loading<*> -> {
+                    _state.value = state.value.copy(showIndicator = true)
+                }
+                is NetworkResult.Success<*> -> {
+                    getMealDetail(it.data ?: emptyList())
 
-        getMealDetail(userMealSchedule)
-
-        withContext(Dispatchers.Main) {
-            _state.value = state.value.copy(
-                mealSchedule = userMealSchedule
-            )
+                    withContext(Dispatchers.Main) {
+                        _state.value = state.value.copy(
+                            mealSchedule = it.data ?: emptyList()
+                        )
+                    }
+                }
+            }
         }
+
     }
 
     private suspend fun getMealDetail(userMealSchedule: List<UserMealSchedule>) {

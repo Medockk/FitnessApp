@@ -1,11 +1,12 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.data_source.local.UserMealScheduleDao
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.data.model.CategoryDataImpl
 import com.example.fitnessapp.feature_app.data.model.DietaryRecommendationImpl
 import com.example.fitnessapp.feature_app.data.model.MealDetailsImpl
 import com.example.fitnessapp.feature_app.data.model.UserMealScheduleImpl
-import com.example.fitnessapp.feature_app.data.data_source.local.UserMealScheduleDao
-import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.MealDetails
@@ -13,6 +14,8 @@ import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
 
 /**
@@ -45,11 +48,13 @@ class MealRepositoryImpl(
         }.decodeSingle<DietaryRecommendationImpl>()
     }
 
-    override suspend fun getUserMealSchedule(): List<UserMealSchedule> {
+    override suspend fun getUserMealSchedule() = flow<NetworkResult<List<UserMealSchedule>>> {
 
+        emit(NetworkResult.Loading())
         val userID = getUserID()
-        val date = LocalDate.now().toString()
+        emit(NetworkResult.Success(userMealScheduleDao.getUserMealSchedule(userID)))
 
+        val date = LocalDate.now().toString()
         val data = client.postgrest["UserMealSchedule"].select {
             filter {
                 and {
@@ -58,11 +63,13 @@ class MealRepositoryImpl(
                 }
             }
         }.decodeList<UserMealScheduleImpl>()
+        emit(NetworkResult.Success(data))
 
         data.forEach {
             userMealScheduleDao.upsertUserMealSchedule(it)
         }
-        return userMealScheduleDao.getUserMealSchedule(userID)
+    }.catch {
+        emit(NetworkResult.Error(it.localizedMessage))
     }
 
     override suspend fun getUserMealScheduleByDate(year: Int, month: Int,day: Int): List<UserMealSchedule> {

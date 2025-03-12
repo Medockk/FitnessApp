@@ -14,7 +14,7 @@ interface GalleryDataDao {
     fun upsertGalleryData(galleryDataRepoImpl: GalleryDataImpl)
 
     @Query("SELECT * FROM GalleryDataImpl WHERE id = :id")
-    fun getGalleryByID(id: String) : GalleryDataImpl
+    fun getGalleryByID(id: String) : List<GalleryDataImpl>
 
     @Delete
     fun deleteGallery(galleryDataRepoImpl: GalleryDataImpl)

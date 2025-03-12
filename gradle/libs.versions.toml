@@ -80,7 +80,7 @@ room = { module = "androidx.room:room-ktx", version.ref = "room"}
 room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
 
 retrofit-retrofit = {module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit"}
-retrofit-scalars = {module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit"}
+retrofit-gson = {module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

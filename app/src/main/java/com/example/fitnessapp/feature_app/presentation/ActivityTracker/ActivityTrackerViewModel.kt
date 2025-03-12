@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetLastActivityUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,13 +34,22 @@ class ActivityTrackerViewModel(
 
     private suspend fun getLastActivity() {
 
-        val activity = getLastActivityUseCase()
-
-        withContext(Dispatchers.Main){
-            _state.value = state.value.copy(
-                lastActivity = activity
-            )
+        getLastActivityUseCase().collect{activity ->
+            when (activity){
+                is NetworkResult.Error<*> -> {
+                    _state.value = state.value.copy(exception = activity.message ?: "unknown error :(", showIndicator = false)
+                }
+                is NetworkResult.Loading<*> -> {_state.value = state.value.copy(showIndicator = true)}
+                is NetworkResult.Success<*> -> {
+                    withContext(Dispatchers.Main){
+                        _state.value = state.value.copy(
+                            lastActivity = activity.data ?: emptyList()
+                        )
+                    }
+                }
+            }
         }
+
     }
 
     fun onEvent(event: ActivityTrackerEvent){
