@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface UserDataRetrofitRepository {
 
     suspend fun getUserById(id: Int) : Flow<NetworkResult<UserRetrofitData>>
+    suspend fun postUser(userId: Int, name: String, status: String) : Flow<NetworkResult<UserRetrofitData>>
 }
