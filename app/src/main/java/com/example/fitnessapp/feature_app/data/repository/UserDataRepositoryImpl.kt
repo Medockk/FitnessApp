@@ -1,16 +1,16 @@
 package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.data_source.local.HeartRateDataDao
+import com.example.fitnessapp.feature_app.data.data_source.local.LastActivityDataDao
+import com.example.fitnessapp.feature_app.data.data_source.local.NotificationDataDao
+import com.example.fitnessapp.feature_app.data.data_source.local.UserDataDao
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.data.model.HeartRateImpl
 import com.example.fitnessapp.feature_app.data.model.LastActivityDataImpl
 import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
 import com.example.fitnessapp.feature_app.data.model.PurposeImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.model.UserStatisticsImpl
-import com.example.fitnessapp.feature_app.data.data_source.local.LastActivityDataDao
-import com.example.fitnessapp.feature_app.data.data_source.local.NotificationDataDao
-import com.example.fitnessapp.feature_app.data.data_source.local.UserDataDao
-import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
@@ -22,7 +22,6 @@ import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.storage
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
@@ -38,22 +37,20 @@ class UserDataRepositoryImpl(
     private val heartRateDataDao: HeartRateDataDao
 ) : UserDataRepository {
 
-    override suspend fun getUserData(): Flow<NetworkResult<UserData>> {
+    override suspend fun getUserData() = flow<NetworkResult<UserData>> {
+
+        emit(NetworkResult.Loading())
         val userID = getUserID()
+        emit(NetworkResult.Success(userDataDao.getUserById(userID)))
 
-        return flow<NetworkResult<UserData>> {
+        val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
+            .decodeSingle<UserDataImpl>()
+        emit(NetworkResult.Success(serverData))
 
-            emit(NetworkResult.Loading())
-            emit(NetworkResult.Success(userDataDao.getUserById(userID)))
+        userDataDao.upsertUserData(serverData)
 
-            val serverData = client.postgrest["Users"].select { filter { eq("userID", userID) } }
-                .decodeSingle<UserDataImpl>()
-            emit(NetworkResult.Success(serverData))
-
-            userDataDao.upsertUserData(serverData)
-        }.catch {
-            emit(NetworkResult.Error(it.localizedMessage))
-        }
+    }.catch {
+        emit(NetworkResult.Error(it.localizedMessage))
     }
 
     override suspend fun getUserStatistics(): List<UserStatistics> {
