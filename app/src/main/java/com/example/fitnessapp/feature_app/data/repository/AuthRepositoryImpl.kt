@@ -1,9 +1,8 @@
 package com.example.fitnessapp.feature_app.data.repository
 
-import android.util.Log
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.data.model.StatisticDataImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
-import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
 import com.example.fitnessapp.feature_app.domain.repository.AuthRepository
 import io.github.jan.supabase.auth.auth
@@ -28,7 +27,6 @@ class AuthRepositoryImpl : AuthRepository {
 
     override suspend fun signInWithGoogle(): Boolean {
 
-        Log.e("sign in google", "use case")
         val userID = getUserID()
         try {
             client.postgrest["Users"].select {
@@ -36,7 +34,6 @@ class AuthRepositoryImpl : AuthRepository {
             }.decodeSingle<UserDataImpl>()
             return true
         } catch (_: Exception) {
-            Log.i("catch", userID)
             return false
         }
 

@@ -41,7 +41,8 @@ class WorkoutScheduleViewModel(
                 is NetworkResult.Success<*> -> {
                     withContext(Dispatchers.Main) {
                         _state.value = state.value.copy(
-                            workoutSchedule = it.data ?: emptyList()
+                            workoutSchedule = it.data ?: emptyList(),
+                            showIndicator = false
                         )
                     }
                 }

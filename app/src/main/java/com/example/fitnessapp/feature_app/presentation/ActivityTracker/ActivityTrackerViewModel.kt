@@ -43,7 +43,8 @@ class ActivityTrackerViewModel(
                 is NetworkResult.Success<*> -> {
                     withContext(Dispatchers.Main){
                         _state.value = state.value.copy(
-                            lastActivity = activity.data ?: emptyList()
+                            lastActivity = activity.data ?: emptyList(),
+                            showIndicator = false
                         )
                     }
                 }

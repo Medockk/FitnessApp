@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import com.example.fitnessapp.feature_app.data.data_source.local.HeartRateDataDao
 import com.example.fitnessapp.feature_app.data.model.HeartRateImpl
 import com.example.fitnessapp.feature_app.data.model.LastActivityDataImpl
 import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
@@ -33,7 +34,8 @@ import kotlin.time.Duration
 class UserDataRepositoryImpl(
     private val userDataDao: UserDataDao,
     private val notificationDataDao: NotificationDataDao,
-    private val lastActivityDataDao: LastActivityDataDao
+    private val lastActivityDataDao: LastActivityDataDao,
+    private val heartRateDataDao: HeartRateDataDao
 ) : UserDataRepository {
 
     override suspend fun getUserData(): Flow<NetworkResult<UserData>> {
@@ -140,13 +142,19 @@ class UserDataRepositoryImpl(
         }
     }
 
-    override suspend fun getHeartRate(): HeartRate {
+    override suspend fun getHeartRate() = flow<NetworkResult<HeartRate>> {
 
+        emit(NetworkResult.Loading())
         val userID = getUserID()
+        emit(NetworkResult.Success(heartRateDataDao.getHeartRateData(userID)))
 
-        return client.postgrest["HeartRate"].select {
+        val data = client.postgrest["HeartRate"].select {
             filter { eq("userID", userID) }
         }.decodeSingle<HeartRateImpl>()
+        emit(NetworkResult.Success(data))
+
+    }.catch {
+        emit(NetworkResult.Error(it.localizedMessage))
     }
 
     private suspend fun getUserID(): String {

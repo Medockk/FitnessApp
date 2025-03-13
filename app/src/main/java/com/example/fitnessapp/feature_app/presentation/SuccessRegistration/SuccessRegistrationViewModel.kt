@@ -27,7 +27,7 @@ class SuccessRegistrationViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                getUserRetrofitData()
+//                getUserRetrofitData()
                 getUserData()
             } catch (e: Exception) {
                 _state.value = state.value.copy(
@@ -37,43 +37,36 @@ class SuccessRegistrationViewModel(
         }
     }
 
-    private suspend fun getUserRetrofitData() {
-
-        Log.e("retrofit", "start")
-        postUserUseCase(3, "userName", "userStatus").onEach {
-            when (it){
-                is NetworkResult.Error<*> -> {
-                    Log.e("retrofitVM1", "error1")
-                    _state.value = state.value.copy(exception = it.message.toString(), showIndicator = false)
-                }
-                is NetworkResult.Loading<*> -> {
-                    Log.e("retrofitVM1", "loading1")
-                    _state.value = state.value.copy(showIndicator = true)
-                }
-                is NetworkResult.Success<*> -> {
-                    Log.e("retrofitVM1", it.data.toString())
-                    getUserByIdUseCase(3).onEach { getResult ->
-                        when (getResult){
-                            is NetworkResult.Error<*> -> {
-                                Log.e("retrofitVM2", "error")
-                                _state.value = state.value.copy(exception = getResult.message ?: "unknown error", showIndicator = false)
-                            }
-                            is NetworkResult.Loading<*> -> {
-                                Log.e("retrofitVM2", "loading")
-                                _state.value = state.value.copy(showIndicator = true)
-                            }
-                            is NetworkResult.Success<*> -> {
-                                Log.e("retrofitVM2", getResult.data.toString())
-                                _state.value = state.value.copy(
-                                    showIndicator = false
-                                )
-                            }
-                        }
-                    }.stateIn(viewModelScope)
-                }
-            }
-        }.stateIn(viewModelScope)
-    }
+//    private suspend fun getUserRetrofitData() {
+//
+//        postUserUseCase(3, "userName", "userStatus").onEach {
+//            when (it){
+//                is NetworkResult.Error<*> -> {
+//                    _state.value = state.value.copy(exception = it.message.toString(), showIndicator = false)
+//                }
+//                is NetworkResult.Loading<*> -> {
+//                    _state.value = state.value.copy(showIndicator = true)
+//                }
+//                is NetworkResult.Success<*> -> {
+//                    getUserByIdUseCase(3).onEach { getResult ->
+//                        when (getResult){
+//                            is NetworkResult.Error<*> -> {
+//                                _state.value = state.value.copy(exception = getResult.message ?: "unknown error", showIndicator = false)
+//                            }
+//                            is NetworkResult.Loading<*> -> {
+//                                _state.value = state.value.copy(showIndicator = true)
+//                            }
+//                            is NetworkResult.Success<*> -> {
+//                                _state.value = state.value.copy(
+//                                    showIndicator = false
+//                                )
+//                            }
+//                        }
+//                    }.stateIn(viewModelScope)
+//                }
+//            }
+//        }.stateIn(viewModelScope)
+//    }
 
     private suspend fun getUserData() {
 
@@ -88,7 +81,8 @@ class SuccessRegistrationViewModel(
                 is NetworkResult.Success<*> -> {
                     withContext(Dispatchers.Main){
                         _state.value = state.value.copy(
-                            userData = userData.data
+                            userData = userData.data,
+                            showIndicator = false
                         )
                     }
                 }

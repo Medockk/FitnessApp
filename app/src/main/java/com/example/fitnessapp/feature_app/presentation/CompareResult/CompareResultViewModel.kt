@@ -61,7 +61,8 @@ class CompareResultViewModel(
                     it.data?.sortedBy {data-> data.type }?.forEach {
                         withContext(Dispatchers.Main){
                             _state.value = state.value.copy(
-                                statistic = _state.value.statistic+it
+                                statistic = _state.value.statistic+it,
+                                showIndicator = false
                             )
                         }
                     }
