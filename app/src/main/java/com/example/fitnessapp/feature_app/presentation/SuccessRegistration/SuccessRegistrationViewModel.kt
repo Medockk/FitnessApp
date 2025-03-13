@@ -1,6 +1,5 @@
 package com.example.fitnessapp.feature_app.presentation.SuccessRegistration
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
