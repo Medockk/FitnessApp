@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.ChangeAlarmEnabledUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.ChangeSleepEnabledUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetAlarmClockDataUseCase
@@ -43,7 +44,31 @@ class SleepTrackerViewModel(
 
     private suspend fun getSleepData() {
 
-        val barList = getHeartRateUseCase()
+        getHeartRateUseCase().collect {
+            when(it){
+                is NetworkResult.Error<*> -> {
+                    _state.value = state.value.copy(
+                        exception = it.message ?: "Unknown error",
+                        showIndicator = false
+                    )
+                }
+                is NetworkResult.Loading<*> -> {_state.value = state.value.copy(showIndicator = true)}
+                is NetworkResult.Success<*> -> {
+                    _state.value = state.value.copy(showIndicator = false)
+                    var count = 0
+                    it.data?.heartRateList?.forEach { char ->
+                        if (char.isDigit() && count<8){
+                            count++
+                            withContext(Dispatchers.Main){
+                                _state.value = state.value.copy(
+                                    barList = _state.value.barList.plus(char.toString().toFloat())
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
         val sleep = getSleepDataUseCase()
         val alarmClock = getAlarmClockDataUseCase()
 
@@ -54,18 +79,6 @@ class SleepTrackerViewModel(
                 lastSleep = if (sleep.isNotEmpty()) sleep.first().lastSleep else "Ничего нет :(",
                 currentTime = LocalDateTime.parse(Clock.System.now().toString().dropLast(1))
             )
-        }
-
-        var count = 0
-        barList.heartRateList.forEach {
-            if (it.isDigit() && count<8){
-                count++
-                withContext(Dispatchers.Main){
-                    _state.value = state.value.copy(
-                        barList = _state.value.barList.plus(it.toString().toFloat())
-                    )
-                }
-            }
         }
     }
 

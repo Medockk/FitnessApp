@@ -41,7 +41,7 @@ class ProgressPhotoViewModel(
                 }
                 is NetworkResult.Success<*> -> {
                     withContext(Dispatchers.Main){
-                        _state.value = state.value.copy(gallery = it.data ?: emptyList())
+                        _state.value = state.value.copy(gallery = it.data ?: emptyList(), showIndicator = false)
                     }
                 }
             }

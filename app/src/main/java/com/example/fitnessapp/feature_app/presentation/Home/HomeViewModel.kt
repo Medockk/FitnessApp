@@ -62,13 +62,28 @@ class HomeViewModel(
             }
         }
 
-        val heartRate = getHeartRateUseCase()
-        heartRate.heartRateList.forEach { char ->
-            if (char.toString() != " "){
-                withContext(Dispatchers.Main){
+        getHeartRateUseCase().collect {
+            when (it){
+                is NetworkResult.Error<*> -> {
                     _state.value = state.value.copy(
-                        barChartList = state.value.barChartList.plus(char.toString().toFloat())
+                        exception = it.message ?: "unknown error",
+                        showIndicator = false
                     )
+                }
+                is NetworkResult.Loading<*> -> {
+                    _state.value = state.value.copy(showIndicator = true)
+                }
+                is NetworkResult.Success<*> -> {
+                    _state.value = state.value.copy(showIndicator = false)
+                    it.data?.heartRateList?.forEach { char ->
+                        if (char.toString() != " "){
+                            withContext(Dispatchers.Main){
+                                _state.value = state.value.copy(
+                                    barChartList = state.value.barChartList.plus(char.toString().toFloat())
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }

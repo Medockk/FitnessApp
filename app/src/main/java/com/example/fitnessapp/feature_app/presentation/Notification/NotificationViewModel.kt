@@ -43,7 +43,8 @@ class NotificationViewModel(
                 is NetworkResult.Success<*> -> {
                     withContext(Dispatchers.Main){
                         _state.value = state.value.copy(
-                            notifications = notifications.data ?: emptyList()
+                            notifications = notifications.data ?: emptyList(),
+                            showIndicator = false
                         )
                     }
                 }

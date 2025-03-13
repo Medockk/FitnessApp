@@ -14,7 +14,7 @@ interface UserDataRepository {
     suspend fun getUserData(): Flow<NetworkResult<UserData>>
 
     suspend fun getUserStatistics(): List<UserStatistics>
-    suspend fun getHeartRate(): HeartRate
+    suspend fun getHeartRate(): Flow<NetworkResult<HeartRate>>
 
     suspend fun getNotifications(): Flow<NetworkResult<List<NotificationData>>>
 

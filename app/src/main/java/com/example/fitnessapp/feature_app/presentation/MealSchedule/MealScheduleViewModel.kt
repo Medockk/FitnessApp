@@ -52,7 +52,8 @@ class MealScheduleViewModel(
 
                     withContext(Dispatchers.Main) {
                         _state.value = state.value.copy(
-                            mealSchedule = it.data ?: emptyList()
+                            mealSchedule = it.data ?: emptyList(),
+                            showIndicator = false
                         )
                     }
                 }

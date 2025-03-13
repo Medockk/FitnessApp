@@ -1,5 +1,6 @@
 package com.example.di
 
+import com.example.fitnessapp.feature_app.data.data_source.local.database.HeartRateDaoDatabase
 import com.example.fitnessapp.feature_app.data.data_source.local.database.LastActivityDaoDatabase
 import com.example.fitnessapp.feature_app.data.data_source.local.database.NotificationDaoDatabase
 import com.example.fitnessapp.feature_app.data.data_source.local.database.UserDaoDatabase
@@ -24,8 +25,10 @@ val moduleUser = module {
     single { get<NotificationDaoDatabase>().notificationDataDao }
     single { LastActivityDaoDatabase.createDatabase(get()) }
     single { get<LastActivityDaoDatabase>().lastActivityDataDao }
+    single { HeartRateDaoDatabase.createDatabase(get()) }
+    single { get<HeartRateDaoDatabase>().heartRateDataDao }
     single<UserDataRepository> {
-        UserDataRepositoryImpl(get(), get(), get())
+        UserDataRepositoryImpl(get(), get(), get(), get())
     }
 
     factory<GetUserDataUseCase> {
