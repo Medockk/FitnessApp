@@ -75,8 +75,6 @@ fun ProgressPhotoScreen(
         }
     }
 
-    CustomIndicator(state.showIndicator)
-
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -277,4 +275,5 @@ fun ProgressPhotoScreen(
             }
         }
     }
+    CustomIndicator(state.showIndicator)
 }

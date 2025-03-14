@@ -73,7 +73,7 @@ val moduleViewModel = module {
     viewModel<ProfileViewModel>{
         ProfileViewModel(
             get(), get(),
-            get(), get(), get()
+            get(), get()
         )
     }
 

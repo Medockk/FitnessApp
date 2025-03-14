@@ -2,8 +2,6 @@ package com.example.fitnessapp.feature_app.presentation.WorkoutTracker
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
@@ -25,10 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.AllWorkoutCard
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.UserWorkoutCard
@@ -44,12 +40,6 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010W
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    WorkoutTrackerScreen(rememberNavController())
-}
 
 @Composable
 fun WorkoutTrackerScreen(
@@ -160,18 +150,10 @@ fun WorkoutTrackerScreen(
                 }
 
                 items(state.userWorkoutList) { userWorkoutData ->
-                    Modifier
-                        .fillParentMaxWidth()
                     UserWorkoutCard(
                         userWorkoutData = userWorkoutData,
-                        modifier = Modifier.animateItem(
-                            fadeInSpec = spring(Spring.DampingRatioMediumBouncy),
-                            fadeOutSpec = spring(Spring.DampingRatioMediumBouncy),
-                            placementSpec = spring(
-                                dampingRatio = Spring.DampingRatioMediumBouncy,
-                                stiffness = Spring.StiffnessLow
-                            )
-                        ),
+                        modifier = Modifier
+                            .fillParentMaxWidth()
                     ) {
                         viewModel.onEvent(WorkoutEvent.ChangeUserWorkoutState(userWorkoutData))
                     }

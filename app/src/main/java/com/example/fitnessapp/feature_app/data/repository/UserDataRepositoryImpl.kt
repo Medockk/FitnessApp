@@ -15,7 +15,6 @@ import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData
-import com.example.fitnessapp.feature_app.domain.model.Purpose
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.model.UserStatistics
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
@@ -79,13 +78,18 @@ class UserDataRepositoryImpl(
 
     }
 
-    override suspend fun getPurpose(): Purpose {
+    override suspend fun getPurpose() = flow<NetworkResult<String>> {
 
+        emit(NetworkResult.Loading())
         val userID = getUserID()
+        emit(NetworkResult.Success(userDataDao.getUserById(userID).purpose))
 
-        return client.postgrest["Users"].select {
+        val data = client.postgrest["Users"].select {
             filter { eq("userID", userID) }
         }.decodeSingle<PurposeImpl>()
+        emit(NetworkResult.Success(data.purpose))
+    }.catch {
+        emit(NetworkResult.Error(it.localizedMessage))
     }
 
     override suspend fun getLastActivity() = flow<NetworkResult<List<LastActivityData>>> {
@@ -107,15 +111,6 @@ class UserDataRepositoryImpl(
         emit(NetworkResult.Error(it.localizedMessage))
     }
 
-    override suspend fun getUserImage(): String {
-
-        val userID = getUserID()
-        val bucket = client.storage.from("avatars")
-        val url = bucket.createSignedUrl("$userID.png", Duration.INFINITE)
-
-        return url
-    }
-
     override suspend fun setUserImage(byteArray: ByteArray) {
 
         val userID = getUserID()
@@ -128,6 +123,7 @@ class UserDataRepositoryImpl(
         }
 
         val url = client.storage.from("avatars").createSignedUrl("$userID.png", Duration.INFINITE)
+        userDataDao.upsertUserData(userDataDao.getUserById(userID).copy(image = url))
         client.postgrest["Users"].update(mapOf("image" to url)) { filter { eq("userID", userID) } }
     }
 
