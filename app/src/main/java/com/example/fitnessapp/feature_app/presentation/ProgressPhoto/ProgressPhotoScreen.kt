@@ -1,7 +1,7 @@
 package com.example.fitnessapp.feature_app.presentation.ProgressPhoto
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -33,10 +33,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.BottomBar
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
@@ -63,11 +64,11 @@ import java.time.LocalDate
 @Composable
 fun ProgressPhotoScreen(
     navController: NavController,
-    viewModel: ProgressPhotoViewModel = koinViewModel()
+    viewModel: ProgressPhotoViewModel = koinViewModel(),
 ) {
 
     val state = viewModel.state.value
-    val lazyState = rememberLazyGridState()
+    val lazyState = rememberLazyStaggeredGridState()
 
     if (state.exception.isNotEmpty()) {
         CustomAlertDialog(description = state.exception) {
@@ -233,7 +234,7 @@ fun ProgressPhotoScreen(
                     )
                     Spacer(Modifier.weight(1f))
                     Text(
-                        text = "Больше",
+                        "Больше",
                         style = montserrat50012_A5A3B0
                     )
                 }
@@ -241,13 +242,12 @@ fun ProgressPhotoScreen(
             }
 
             item {
-                LazyHorizontalGrid(
-                    rows = GridCells.Fixed(3),
+                LazyHorizontalStaggeredGrid(
+                    rows = StaggeredGridCells.Adaptive(130.dp),
                     modifier = Modifier
                         .fillParentMaxSize(),
                     state = lazyState,
-                    verticalArrangement = Arrangement.spacedBy(with(LocalDensity.current){-(70).dp.toPx().dp}),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalItemSpacing = 10.dp,
                 ) {
                     itemsIndexed(state.gallery.sortedBy { item ->
                         LocalDate.parse(item.date).month.value
