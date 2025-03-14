@@ -26,19 +26,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.fitnessapp.R
+import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
+import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomAssistChip
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomHorizontalDivider
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTextField
-import com.example.fitnessapp.R
-import com.example.fitnessapp.feature_app.presentation.Route
-import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40016_1D1617
@@ -50,12 +48,6 @@ import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Prev() {
-    SignInScreen(rememberNavController())
-}
 
 @Composable
 fun SignInScreen(
@@ -106,9 +98,11 @@ fun SignInScreen(
         }
     }
 
-    Box(Modifier
-        .fillMaxSize()
-        .background(Color.White))
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
 
     LazyColumn(
         modifier = Modifier
