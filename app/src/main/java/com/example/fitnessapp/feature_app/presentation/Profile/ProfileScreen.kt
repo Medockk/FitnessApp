@@ -4,7 +4,6 @@ package com.example.fitnessapp.feature_app.presentation.Profile
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
@@ -38,10 +37,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Profile.components.UserAccountCard
@@ -62,12 +59,6 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
 import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    ProfileScreen(rememberNavController())
-}
 
 @Composable
 fun ProfileScreen(
@@ -209,14 +200,10 @@ fun ProfileScreen(
                                 style = montserrat50014_1D1617
                             )
                             Spacer(Modifier.height(5.dp))
-                            AnimatedVisibility(
-                                visible = state.purpose != null
-                            ) {
-                                Text(
-                                    text = state.purpose!!.purpose,
-                                    style = montserrat40014_B6B4C2
-                                )
-                            }
+                            Text(
+                                text = state.purpose,
+                                style = montserrat40014_B6B4C2
+                            )
                         }
                         CustomGreenButton(
                             text = "Изменить",

@@ -42,6 +42,7 @@ import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.ui.theme._07856E
 import com.example.fitnessapp.feature_app.presentation.ui.theme._5DDDC7
 import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
+import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010_42D742
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
@@ -90,7 +91,8 @@ fun SleepTrackerScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(140.dp)
-                    .background(Color.Transparent)
+                    .background(Color.Transparent),
+                lineColor = _A5A3B0
             )
             Spacer(Modifier.height(15.dp))
         }

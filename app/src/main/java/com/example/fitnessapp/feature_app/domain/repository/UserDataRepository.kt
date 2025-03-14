@@ -4,7 +4,6 @@ import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData
-import com.example.fitnessapp.feature_app.domain.model.Purpose
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.domain.model.UserStatistics
 import kotlinx.coroutines.flow.Flow
@@ -18,11 +17,10 @@ interface UserDataRepository {
 
     suspend fun getNotifications(): Flow<NetworkResult<List<NotificationData>>>
 
-    suspend fun getPurpose(): Purpose
+    suspend fun getPurpose(): Flow<NetworkResult<String>>
 
     suspend fun getLastActivity(): Flow<NetworkResult<List<LastActivityData>>>
 
-    suspend fun getUserImage(): String
     suspend fun setUserImage(byteArray: ByteArray)
     suspend fun changeNotificationState(value: Boolean)
 }

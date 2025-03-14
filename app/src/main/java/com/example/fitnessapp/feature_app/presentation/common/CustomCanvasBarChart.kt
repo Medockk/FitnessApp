@@ -29,6 +29,7 @@ fun CustomCanvasBarChart(
     height: Dp,
     textStyle: TextStyle,
     indexToDarkBarColor: Int = -1,
+    lineColor: Color = Color.White,
     modifier: Modifier = Modifier
 ) {
 
@@ -49,11 +50,11 @@ fun CustomCanvasBarChart(
             ) {
                 val barWidth = (20.dp).toPx()
 
-                list.forEachIndexed { index, i ->
+                repeat(7) { index ->
                     val linePadding = index * (size.height / 6)
 
                     drawLine(
-                        color = Color.White,
+                        color = lineColor,
                         start = Offset(0f, linePadding),
                         end = Offset(size.width, linePadding),
                         strokeWidth = (1.dp).toPx()

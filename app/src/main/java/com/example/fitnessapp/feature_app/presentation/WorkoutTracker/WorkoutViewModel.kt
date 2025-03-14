@@ -105,11 +105,10 @@ class WorkoutViewModel(
 
             is WorkoutEvent.ChangeUserWorkoutState -> {
 
+                val newData = event.userWorkoutData.also {
+                    it.isTurnOn = !it.isTurnOn
+                }
                 viewModelScope.launch(Dispatchers.IO) {
-                    val newData = event.userWorkoutData.apply {
-                        this.isTurnOn = !this.isTurnOn
-                    }
-                    newData.toString()
 
                     _state.value = state.value.copy(
                         userWorkoutList = _state.value.userWorkoutList - event.userWorkoutData + newData
