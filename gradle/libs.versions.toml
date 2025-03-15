@@ -16,7 +16,6 @@ supabase = "3.0.3"
 ktor = "3.0.3"
 
 coil = "2.6.0"
-koin = "3.5.6"
 
 yCharts = "2.1.0"
 
@@ -64,11 +63,6 @@ ktor-core = {module = "io.ktor:ktor-client-core", version.ref = "ktor"}
 
 #coil
 coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
-
-##koin
-io-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
-io-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-io-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
 #yCharts
 ycharts = {module = "co.yml:ycharts", version.ref = "yCharts"}

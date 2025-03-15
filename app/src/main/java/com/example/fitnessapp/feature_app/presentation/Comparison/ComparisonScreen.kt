@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Route
@@ -32,13 +33,12 @@ import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.ui.theme._1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
-import org.koin.androidx.compose.koinViewModel
 
 @Suppress("UNCHECKED_CAST")
 @Composable
 fun ComparisonScreen(
     navController: NavController,
-    viewModel: ComparisonViewModel = koinViewModel()
+    viewModel: ComparisonViewModel = viewModel()
 ) {
     val state = viewModel.state.value
 

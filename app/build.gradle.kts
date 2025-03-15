@@ -55,11 +55,6 @@ dependencies {
     implementation(libs.ktor.core)
     implementation(libs.ktor.cio)
 
-    //koin
-    implementation(libs.io.koin.compose)
-    implementation(libs.io.koin.core)
-    implementation(libs.io.koin.android)
-
     //coil
     implementation(libs.coil)
 
