@@ -15,22 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.Route
+import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_7B6F72
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020Bold_1D1617
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    CongratulationsScreen(rememberNavController())
-}
 
 @Composable
 fun CongratulationsScreen(
