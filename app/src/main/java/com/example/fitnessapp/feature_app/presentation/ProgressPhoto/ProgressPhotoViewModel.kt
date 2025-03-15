@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.Compare.GetAllGalleryUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ProgressPhotoViewModel(
+@HiltViewModel
+class ProgressPhotoViewModel @Inject constructor(
     private val getAllGalleryUseCase: GetAllGalleryUseCase
 ) : ViewModel() {
 

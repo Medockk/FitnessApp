@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.components.AllWorkoutCard
@@ -39,12 +40,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40010White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun WorkoutTrackerScreen(
     navController: NavController,
-    viewModel: WorkoutViewModel = koinViewModel()
+    viewModel: WorkoutViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

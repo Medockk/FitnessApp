@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.R
@@ -45,12 +46,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme._81CCBF
 import com.example.fitnessapp.feature_app.presentation.ui.theme._9CEEDF
 import com.example.fitnessapp.feature_app.presentation.ui.theme._B6B4C2
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TakePhotoScreen(
     navController: NavController,
-    viewModel: TakePhotoViewModel = koinViewModel()
+    viewModel: TakePhotoViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val photo = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) {

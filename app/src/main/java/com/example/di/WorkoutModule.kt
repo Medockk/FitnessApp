@@ -1,5 +1,7 @@
 package com.example.di
 
+import android.content.Context
+import com.example.fitnessapp.feature_app.data.data_source.local.WorkoutScheduleDao
 import com.example.fitnessapp.feature_app.data.data_source.local.database.WorkoutScheduleDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.WorkoutRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.WorkoutRepository
@@ -12,46 +14,88 @@ import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutSched
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutSprintUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.SetWorkoutScheduleUseCase
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val moduleWorkout = module {
+@Module
+@InstallIn(SingletonComponent::class)
+object WorkoutModule {
 
-    single { WorkoutScheduleDaoDatabase.createDatabase(get()) }
-    single { get<WorkoutScheduleDaoDatabase>().workoutScheduleDao }
-    single<WorkoutRepository> {
-        WorkoutRepositoryImpl(get())
-    }
-
-    factory<GetUserWorkoutUseCase> {
-        GetUserWorkoutUseCase(get())
-    }
-
-    factory<ChangeUserWorkoutStateUseCase> {
-        ChangeUserWorkoutStateUseCase(get())
-    }
-
-    factory<GetAllWorkoutUseCase> {
-        GetAllWorkoutUseCase(get())
+    @Provides
+    @Singleton
+    fun createWorkoutScheduleDatabase(@ApplicationContext context: Context): WorkoutScheduleDaoDatabase {
+        return WorkoutScheduleDaoDatabase.createDatabase(context)
     }
 
-    factory<GetWorkoutSprintUseCase> {
-        GetWorkoutSprintUseCase(get())
+    @Provides
+    @Singleton
+    fun createWorkoutScheduleDao(workoutScheduleDaoDatabase: WorkoutScheduleDaoDatabase): WorkoutScheduleDao {
+        return workoutScheduleDaoDatabase.workoutScheduleDao
     }
 
-    factory<GetWorkoutScheduleUseCase> {
-        GetWorkoutScheduleUseCase(get())
+    @Provides
+    @Singleton
+    fun getWorkoutRepository(workoutScheduleDao: WorkoutScheduleDao): WorkoutRepository {
+        return WorkoutRepositoryImpl(workoutScheduleDao)
     }
 
-    factory<SetWorkoutScheduleUseCase> {
-        SetWorkoutScheduleUseCase(get())
+    //FACTORIES
+    @Provides
+    @Singleton
+    fun addLastActivityUseCase(workoutRepository: WorkoutRepository): AddLastActivityUseCase {
+        return AddLastActivityUseCase(workoutRepository)
     }
-    factory<AddLastActivityUseCase> {
-        AddLastActivityUseCase(get())
+
+    @Provides
+    @Singleton
+    fun changeUserWorkoutStateUseCase(workoutRepository: WorkoutRepository): ChangeUserWorkoutStateUseCase {
+        return ChangeUserWorkoutStateUseCase(workoutRepository)
     }
-    factory<GetWorkoutScheduleByDateUseCase> {
-        GetWorkoutScheduleByDateUseCase(get())
+
+    @Provides
+    @Singleton
+    fun getAllWorkoutUseCase(workoutRepository: WorkoutRepository): GetAllWorkoutUseCase {
+        return GetAllWorkoutUseCase(workoutRepository)
     }
-    factory<GetWorkoutDetailsUseCase> {
-        GetWorkoutDetailsUseCase(get())
+
+    @Provides
+    @Singleton
+    fun getUserWorkoutUseCase(workoutRepository: WorkoutRepository): GetUserWorkoutUseCase {
+        return GetUserWorkoutUseCase(workoutRepository)
     }
+
+    @Provides
+    @Singleton
+    fun getWorkoutDetailsUseCase(workoutRepository: WorkoutRepository): GetWorkoutDetailsUseCase {
+        return GetWorkoutDetailsUseCase(workoutRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun getWorkoutScheduleUseCase(workoutRepository: WorkoutRepository): GetWorkoutScheduleUseCase {
+        return GetWorkoutScheduleUseCase(workoutRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun getWorkoutScheduleByDateUseCase(workoutRepository: WorkoutRepository): GetWorkoutScheduleByDateUseCase {
+        return GetWorkoutScheduleByDateUseCase(workoutRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun getWorkoutSprintUseCase(workoutRepository: WorkoutRepository): GetWorkoutSprintUseCase {
+        return GetWorkoutSprintUseCase(workoutRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun setWorkoutScheduleUseCase(workoutRepository: WorkoutRepository): SetWorkoutScheduleUseCase {
+        return SetWorkoutScheduleUseCase(workoutRepository)
+    }
+
 }

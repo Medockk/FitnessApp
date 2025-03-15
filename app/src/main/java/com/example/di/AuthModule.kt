@@ -8,35 +8,45 @@ import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInWithGoogleUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val moduleAuth = module {
+@Module
+@InstallIn(SingletonComponent::class)
+object AuthModule {
 
-    single<AuthRepository> {
-        AuthRepositoryImpl()
+    @Provides
+    @Singleton
+    fun getAuthRepository() : AuthRepository{
+        return AuthRepositoryImpl()
     }
 
-    factory<SignInUseCase> {
-        SignInUseCase(get())
+    //FACTORIES
+    @Singleton @Provides
+    fun createProfileUseCase(authRepository: AuthRepository) : CreateProfileUseCase{
+        return CreateProfileUseCase(authRepository)
     }
-
-    factory<SignInWithGoogleUseCase> {
-        SignInWithGoogleUseCase(get())
+    @Singleton @Provides
+    fun selectPurposeUseCase(authRepository: AuthRepository) : SelectPurposeUseCase{
+        return SelectPurposeUseCase(authRepository)
     }
-
-    factory<SignUpUseCase> {
-        SignUpUseCase(get())
+    @Singleton @Provides
+    fun signInUseCase(authRepository: AuthRepository) : SignInUseCase{
+        return SignInUseCase(authRepository)
     }
-
-    factory<SignUpWithGoogleUseCase> {
-        SignUpWithGoogleUseCase(get())
+    @Singleton @Provides
+    fun signUpUseCase(authRepository: AuthRepository) : SignUpUseCase {
+        return SignUpUseCase(authRepository)
     }
-
-    factory<SelectPurposeUseCase> {
-        SelectPurposeUseCase(get())
+    @Singleton @Provides
+    fun signInWithGoogleUseCase(authRepository: AuthRepository) : SignInWithGoogleUseCase{
+        return SignInWithGoogleUseCase(authRepository)
     }
-
-    factory<CreateProfileUseCase> {
-        CreateProfileUseCase(get())
+    @Singleton @Provides
+    fun signUpWithGoogleUseCase(authRepository: AuthRepository) : SignUpWithGoogleUseCase {
+        return SignUpWithGoogleUseCase(authRepository)
     }
 }

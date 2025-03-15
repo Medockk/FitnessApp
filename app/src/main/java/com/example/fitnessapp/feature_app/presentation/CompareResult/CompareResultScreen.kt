@@ -52,6 +52,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.feature_app.presentation.CompareResult.compontns.CustomStatisticBar
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
@@ -74,12 +75,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_B6B4C2
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70016_1D1617
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CompareResultScreen(
     navController: NavController,
-    viewModel: CompareResultViewModel = koinViewModel()
+    viewModel: CompareResultViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

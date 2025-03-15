@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.presentation.Route
@@ -42,12 +43,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50010White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SleepScheduleScreen(
     navController: NavController,
-    viewModel: SleepScheduleViewModel = koinViewModel()
+    viewModel: SleepScheduleViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetLastActivityUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ActivityTrackerViewModel(
+@HiltViewModel
+class ActivityTrackerViewModel @Inject constructor(
     private val getLastActivityUseCase: GetLastActivityUseCase
 ) : ViewModel() {
 

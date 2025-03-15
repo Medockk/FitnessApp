@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutDetailsUseCase
 import com.example.fitnessapp.feature_app.presentation.Route
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class StartWorkoutViewModel(
+@HiltViewModel
+class StartWorkoutViewModel @Inject constructor(
     private val getWorkoutDetailsUseCase: GetWorkoutDetailsUseCase
 ) : ViewModel() {
 

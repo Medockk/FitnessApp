@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.serialization)
 //    alias(libs.plugins.ksp)
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -82,6 +83,11 @@ dependencies {
     //retrofit
     implementation(libs.retrofit.retrofit)
     implementation(libs.retrofit.gson)
+
+    //hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Route
@@ -31,12 +32,11 @@ import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_7B6F72
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020Bold_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SuccessRegistrationScreen(
     navController: NavController,
-    viewModel: SuccessRegistrationViewModel = koinViewModel()
+    viewModel: SuccessRegistrationViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

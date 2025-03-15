@@ -37,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.R
@@ -61,13 +62,12 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016B
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70016Bold_1D1617
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun WorkoutDetailScreen(
     navController: NavController,
     workoutData: WorkoutData,
-    viewModel: WorkoutDetailViewModel = koinViewModel()
+    viewModel: WorkoutDetailViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

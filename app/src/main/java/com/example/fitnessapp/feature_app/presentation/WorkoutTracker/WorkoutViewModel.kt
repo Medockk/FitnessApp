@@ -9,11 +9,14 @@ import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCas
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.ChangeUserWorkoutStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetAllWorkoutUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetUserWorkoutUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class WorkoutViewModel(
+@HiltViewModel
+class WorkoutViewModel @Inject constructor(
     private val getUserWorkoutUseCase: GetUserWorkoutUseCase,
     private val changeUserWorkoutStateUseCase: ChangeUserWorkoutStateUseCase,
     private val getAllWorkoutUseCase: GetAllWorkoutUseCase,

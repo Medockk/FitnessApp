@@ -5,11 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.AddAlarmUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalTime
+import javax.inject.Inject
 
-class AddAlarmViewModel(
+@HiltViewModel
+class AddAlarmViewModel @Inject constructor(
     private val addAlarmUseCase: AddAlarmUseCase
 ) : ViewModel() {
 

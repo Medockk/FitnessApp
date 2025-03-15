@@ -34,10 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.presentation.Route
@@ -58,19 +57,12 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020B
 import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
-import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Prev() {
-    SignUpScreen(rememberNavController())
-}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SignUpScreen(
     navController: NavController,
-    viewModel: SignUpViewModel = koinViewModel(),
+    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
 
     val state = viewModel.state.value

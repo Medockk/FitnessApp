@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.domain.usecase.Statistic
+package com.example.fitnessapp.feature_app.domain.usecase.User
 
 import com.example.fitnessapp.feature_app.domain.model.UserStatistics
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository

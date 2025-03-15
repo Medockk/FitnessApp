@@ -7,11 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.AddMealToUserMealScheduleUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetMealDetailsUseCase
 import com.example.fitnessapp.feature_app.presentation.Route
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MealDetailsViewModel(
+@HiltViewModel
+class MealDetailsViewModel @Inject constructor(
     private val getMealDetailsUseCase: GetMealDetailsUseCase,
     private val addMealToUserMealScheduleUseCase: AddMealToUserMealScheduleUseCase
 ) : ViewModel() {

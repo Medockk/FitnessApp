@@ -7,11 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.usecase.Compare.UploadPhotoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
-class TakePhotoViewModel(
+@HiltViewModel
+class TakePhotoViewModel @Inject constructor(
     private val uploadPhotoUseCase: UploadPhotoUseCase
 ) : ViewModel() {
 

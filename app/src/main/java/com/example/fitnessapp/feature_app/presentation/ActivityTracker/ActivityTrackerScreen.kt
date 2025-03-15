@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.presentation.ActivityTracker.components.ActivityBarChart
@@ -62,12 +63,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60014_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ActivityTrackerScreen(
     navController: NavController,
-    viewModel: ActivityTrackerViewModel = koinViewModel()
+    viewModel: ActivityTrackerViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

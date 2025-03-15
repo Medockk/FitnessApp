@@ -30,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.feature_app.presentation.Route
@@ -49,12 +50,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50016White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SleepTrackerScreen(
     navController: NavController,
-    viewModel: SleepTrackerViewModel = koinViewModel()
+    viewModel: SleepTrackerViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

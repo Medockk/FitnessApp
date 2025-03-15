@@ -4,8 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.fitnessapp.feature_app.domain.usecase.Queue.QueueUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class OnBoardViewModel(
+@HiltViewModel
+class OnBoardViewModel @Inject constructor(
     private val queueUseCase: QueueUseCase
 ) : ViewModel() {
 

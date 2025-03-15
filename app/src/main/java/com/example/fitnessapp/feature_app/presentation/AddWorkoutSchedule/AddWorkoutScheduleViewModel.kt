@@ -4,15 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.yml.charts.common.extensions.isNotNull
-import com.example.fitnessapp.feature_app.domain.model.WorkoutSchedule
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.SetWorkoutScheduleUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
+import javax.inject.Inject
 
-class AddWorkoutScheduleViewModel(
+@HiltViewModel
+class AddWorkoutScheduleViewModel @Inject constructor(
     private val setWorkoutScheduleUseCase: SetWorkoutScheduleUseCase
 ) : ViewModel() {
 

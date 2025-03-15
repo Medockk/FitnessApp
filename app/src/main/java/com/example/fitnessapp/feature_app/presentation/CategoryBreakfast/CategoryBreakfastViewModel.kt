@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetCategoriesUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetDietaryRecommendationUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class CategoryBreakfastViewModel(
+@HiltViewModel
+class CategoryBreakfastViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getDietaryRecommendationUseCase: GetDietaryRecommendationUseCase
 ) : ViewModel() {

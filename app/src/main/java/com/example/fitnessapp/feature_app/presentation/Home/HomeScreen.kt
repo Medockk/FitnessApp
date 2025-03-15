@@ -37,10 +37,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import co.yml.charts.common.model.PlotType
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
@@ -70,18 +69,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60014_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60014_228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020Bold_1D1617
-import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    HomeScreen(rememberNavController())
-}
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = koinViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
 
     val state = viewModel.state.value

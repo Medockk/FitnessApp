@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.CustomProductMassCard
 import com.example.fitnessapp.feature_app.presentation.MealSchedule.components.MealCard
@@ -31,12 +32,11 @@ import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MealScheduleScreen(
     navController: NavController,
-    viewModel: MealScheduleViewModel = koinViewModel()
+    viewModel: MealScheduleViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

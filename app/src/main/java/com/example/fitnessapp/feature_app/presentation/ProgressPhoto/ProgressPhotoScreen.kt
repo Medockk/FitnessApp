@@ -1,6 +1,5 @@
 package com.example.fitnessapp.feature_app.presentation.ProgressPhoto
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,11 +32,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.common.BottomBar
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
@@ -58,13 +56,12 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016_1D1617
-import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 
 @Composable
 fun ProgressPhotoScreen(
     navController: NavController,
-    viewModel: ProgressPhotoViewModel = koinViewModel(),
+    viewModel: ProgressPhotoViewModel = hiltViewModel(),
 ) {
 
     val state = viewModel.state.value

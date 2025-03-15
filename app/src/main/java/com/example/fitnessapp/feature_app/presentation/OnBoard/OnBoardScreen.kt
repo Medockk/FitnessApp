@@ -6,15 +6,15 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.feature_app.presentation.OnBoard.componets.OnBoardDefaultScreen
 import com.example.fitnessapp.feature_app.presentation.Route
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun OnBoardScreen(
     navController: NavController,
-    viewModel: OnBoardViewModel = koinViewModel()
+    viewModel: OnBoardViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

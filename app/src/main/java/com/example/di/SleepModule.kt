@@ -9,37 +9,49 @@ import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetAlarmClockData
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetAlarmClockDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetSleepDataByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetSleepDataUseCase
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val moduleSleep = module {
+@Module
+@InstallIn(SingletonComponent::class)
+object SleepModule {
 
-    single<SleepRepository> {
-        SleepRepositoryImpl()
+    @Provides
+    @Singleton
+    fun getSleepRepository() : SleepRepository{
+        return SleepRepositoryImpl()
     }
 
-    factory<GetSleepDataUseCase> {
-        GetSleepDataUseCase(get())
+    //factories
+    @Provides @Singleton
+    fun addAlarmUseCase(sleepRepository: SleepRepository) : AddAlarmUseCase{
+        return AddAlarmUseCase(sleepRepository)
     }
-
-    factory<ChangeSleepEnabledUseCase> {
-        ChangeSleepEnabledUseCase(get())
+    @Provides @Singleton
+    fun changeAlarmEnabledUseCase(sleepRepository: SleepRepository) : ChangeAlarmEnabledUseCase{
+        return ChangeAlarmEnabledUseCase(sleepRepository)
     }
-
-    factory<AddAlarmUseCase> {
-        AddAlarmUseCase(get())
+    @Provides @Singleton
+    fun changeSleepEnabledUseCase(sleepRepository: SleepRepository) : ChangeSleepEnabledUseCase{
+        return ChangeSleepEnabledUseCase(sleepRepository)
     }
-
-    factory<GetAlarmClockDataUseCase> {
-        GetAlarmClockDataUseCase(get())
+    @Provides @Singleton
+    fun getAlarmClockDataByDateUseCase(sleepRepository: SleepRepository) : GetAlarmClockDataByDateUseCase{
+        return GetAlarmClockDataByDateUseCase(sleepRepository)
     }
-
-    factory<ChangeAlarmEnabledUseCase> {
-        ChangeAlarmEnabledUseCase(get())
+    @Provides @Singleton
+    fun getAlarmClockDataUseCase(sleepRepository: SleepRepository) : GetAlarmClockDataUseCase{
+        return GetAlarmClockDataUseCase(sleepRepository)
     }
-    factory<GetSleepDataByDateUseCase> {
-        GetSleepDataByDateUseCase(get())
+    @Provides @Singleton
+    fun getSleepDataByDateUseCase(sleepRepository: SleepRepository) : GetSleepDataByDateUseCase{
+        return GetSleepDataByDateUseCase(sleepRepository)
     }
-    factory<GetAlarmClockDataByDateUseCase> {
-        GetAlarmClockDataByDateUseCase(get())
+    @Provides @Singleton
+    fun getSleepDataUseCase(sleepRepository: SleepRepository) : GetSleepDataUseCase{
+        return GetSleepDataUseCase(sleepRepository)
     }
 }
