@@ -42,10 +42,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.domain.model.UserData
 import com.example.fitnessapp.feature_app.presentation.Route
@@ -62,19 +61,12 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_ADA4A5
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012White
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70020_1D1617
-import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    CreateProfileScreen(rememberNavController())
-}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CreateProfileScreen(
     navController: NavController,
-    viewModel: CreateProfileViewModel = koinViewModel()
+    viewModel: CreateProfileViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

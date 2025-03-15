@@ -38,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.fitnessapp.R
@@ -58,12 +59,11 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_B6B4C2
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    viewModel: ProfileViewModel = koinViewModel()
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

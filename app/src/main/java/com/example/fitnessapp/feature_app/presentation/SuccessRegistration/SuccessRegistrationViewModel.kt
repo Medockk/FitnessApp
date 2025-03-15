@@ -8,13 +8,16 @@ import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.GetUserByIdUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.PostUserUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SuccessRegistrationViewModel(
+@HiltViewModel
+class SuccessRegistrationViewModel @Inject constructor(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val postUserUseCase: PostUserUseCase

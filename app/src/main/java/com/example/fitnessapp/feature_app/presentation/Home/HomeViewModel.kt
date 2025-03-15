@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.UserData
-import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetUserStatisticsUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserStatisticsUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val getUserStatisticsUseCase: GetUserStatisticsUseCase,
     private val getHeartRateUseCase: GetHeartRateUseCase

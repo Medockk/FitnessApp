@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.usecase.Compare.GetGalleryFromMonthToMonthUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.Statistic.GetStatisticFromMonthToMonthUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Compare.GetStatisticFromMonthToMonthUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class CompareResultViewModel(
+@HiltViewModel
+class CompareResultViewModel @Inject constructor(
     private val getGalleryFromMonthToMonthUseCase: GetGalleryFromMonthToMonthUseCase,
     private val getStatisticFromMonthToMonthUseCase: GetStatisticFromMonthToMonthUseCase
 ) : ViewModel() {

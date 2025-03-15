@@ -1,5 +1,7 @@
 package com.example.di
 
+import android.content.Context
+import com.example.fitnessapp.feature_app.data.data_source.local.UserMealScheduleDao
 import com.example.fitnessapp.feature_app.data.data_source.local.database.UserMealScheduleDaoDatabase
 import com.example.fitnessapp.feature_app.data.repository.MealRepositoryImpl
 import com.example.fitnessapp.feature_app.domain.repository.MealRepository
@@ -10,40 +12,60 @@ import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetDietaryRecommen
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetMealDetailsUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetUserMealScheduleByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetUserMealScheduleUseCase
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val moduleMeal = module {
+@Module
+@InstallIn(SingletonComponent::class)
+object MealModule {
 
-    single { UserMealScheduleDaoDatabase.createDatabase(get()) }
-    single { get<UserMealScheduleDaoDatabase>().userMealScheduleDao }
-    single<MealRepository> {
-        MealRepositoryImpl(get())
+    @Provides
+    @Singleton
+    fun createMealScheduleDatabase(@ApplicationContext context: Context) : UserMealScheduleDaoDatabase{
+        return UserMealScheduleDaoDatabase.createDatabase(context)
+    }
+    @Provides
+    @Singleton
+    fun createMealScheduleDao(userMealScheduleDaoDatabase: UserMealScheduleDaoDatabase) : UserMealScheduleDao{
+        return userMealScheduleDaoDatabase.userMealScheduleDao
+    }
+    @Provides
+    @Singleton
+    fun getMealRepository(userMealScheduleDao: UserMealScheduleDao) : MealRepository{
+        return MealRepositoryImpl(userMealScheduleDao)
     }
 
-    factory<GetCategoriesUseCase> {
-        GetCategoriesUseCase(get())
+    //FACTORIES
+    @Provides @Singleton
+    fun addMealToUserMealScheduleUseCase(mealRepository: MealRepository) : AddMealToUserMealScheduleUseCase{
+        return AddMealToUserMealScheduleUseCase(mealRepository)
     }
-
-    factory<GetDietaryRecommendationUseCase> {
-        GetDietaryRecommendationUseCase(get())
+    @Provides @Singleton
+    fun getCategoriesUseCase(mealRepository: MealRepository) : GetCategoriesUseCase{
+        return GetCategoriesUseCase(mealRepository)
     }
-
-    factory<GetMealDetailsUseCase> {
-        GetMealDetailsUseCase(get())
+    @Provides @Singleton
+    fun getDietaryRecommendationByIDUseCase(mealRepository: MealRepository) : GetDietaryRecommendationByIDUseCase{
+        return GetDietaryRecommendationByIDUseCase(mealRepository)
     }
-
-    factory<GetDietaryRecommendationByIDUseCase> {
-        GetDietaryRecommendationByIDUseCase(get())
+    @Provides @Singleton
+    fun getDietaryRecommendationUseCase(mealRepository: MealRepository) : GetDietaryRecommendationUseCase{
+        return GetDietaryRecommendationUseCase(mealRepository)
     }
-
-    factory<GetUserMealScheduleUseCase> {
-        GetUserMealScheduleUseCase(get())
+    @Provides @Singleton
+    fun getMealDetailsUseCase(mealRepository: MealRepository) : GetMealDetailsUseCase{
+        return GetMealDetailsUseCase(mealRepository)
     }
-
-    factory<AddMealToUserMealScheduleUseCase> {
-        AddMealToUserMealScheduleUseCase(get())
+    @Provides @Singleton
+    fun getUserMealScheduleByDateUseCase(mealRepository: MealRepository) : GetUserMealScheduleByDateUseCase{
+        return GetUserMealScheduleByDateUseCase(mealRepository)
     }
-    factory<GetUserMealScheduleByDateUseCase> {
-        GetUserMealScheduleByDateUseCase(get())
+    @Provides @Singleton
+    fun getUserMealScheduleUseCase(mealRepository: MealRepository) : GetUserMealScheduleUseCase{
+        return GetUserMealScheduleUseCase(mealRepository)
     }
 }

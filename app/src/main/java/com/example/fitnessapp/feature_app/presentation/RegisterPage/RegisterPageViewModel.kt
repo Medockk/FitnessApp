@@ -5,10 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.usecase.Auth.SelectPurposeUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterPageViewModel(
+@HiltViewModel
+class RegisterPageViewModel @Inject constructor(
     private val selectPurposeUseCase: SelectPurposeUseCase
 ) : ViewModel() {
 

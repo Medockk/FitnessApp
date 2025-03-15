@@ -26,7 +26,6 @@ class AuthRepositoryImpl : AuthRepository {
     }
 
     override suspend fun signInWithGoogle(): Boolean {
-
         val userID = getUserID()
         try {
             client.postgrest["Users"].select {

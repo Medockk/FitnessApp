@@ -10,13 +10,16 @@ import com.example.fitnessapp.feature_app.domain.usecase.Sleep.ChangeSleepEnable
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetAlarmClockDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Sleep.GetSleepDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
+import javax.inject.Inject
 
-class SleepTrackerViewModel(
+@HiltViewModel
+class SleepTrackerViewModel @Inject constructor(
     private val getSleepDataUseCase: GetSleepDataUseCase,
     private val changeSleepEnabledUseCase: ChangeSleepEnabledUseCase,
     private val getHeartRateUseCase: GetHeartRateUseCase,

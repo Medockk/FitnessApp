@@ -9,11 +9,14 @@ import com.example.fitnessapp.feature_app.domain.model.UserMealSchedule
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetDietaryRecommendationByIDUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetUserMealScheduleByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Meal.GetUserMealScheduleUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MealScheduleViewModel(
+@HiltViewModel
+class MealScheduleViewModel @Inject constructor(
     private val getUserMealScheduleUseCase: GetUserMealScheduleUseCase,
     private val getDietaryRecommendationByIDUseCase: GetDietaryRecommendationByIDUseCase,
     private val getUserMealScheduleByDateUseCase: GetUserMealScheduleByDateUseCase,

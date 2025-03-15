@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
@@ -47,12 +48,11 @@ import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SignInScreen(
     navController: NavController,
-    viewModel: SignInViewModel = koinViewModel()
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

@@ -1,15 +1,15 @@
 [versions]
 agp = "8.8.2"
-kotlin = "2.0.0"
+kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2025.02.00"
+composeBom = "2025.03.00"
 
-navigation = "2.8.8"
+navigation = "2.8.9"
 viewModel = "2.8.7"
 
 supabase = "3.0.3"
@@ -27,6 +27,8 @@ room = "2.6.1"
 video = "1.5.1"
 
 retrofit = "2.9.0"
+hilt = "2.55"
+hiltNavigation = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -79,8 +81,14 @@ video-ui = {module = "androidx.media3:media3-ui", version.ref="video"}
 room = { module = "androidx.room:room-ktx", version.ref = "room"}
 room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
 
+#retrofit
 retrofit-retrofit = {module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit"}
 retrofit-gson = {module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit"}
+
+#hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

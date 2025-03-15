@@ -7,11 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitnessapp.feature_app.domain.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleByDateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetWorkoutScheduleUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class WorkoutScheduleViewModel(
+@HiltViewModel
+class WorkoutScheduleViewModel @Inject constructor(
     private val getWorkoutScheduleUseCase: GetWorkoutScheduleUseCase,
     private val getWorkoutScheduleByDateUseCase: GetWorkoutScheduleByDateUseCase
 ) : ViewModel() {

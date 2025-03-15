@@ -12,27 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.fitnessapp.feature_app.presentation.Notification.components.NotificationCard
 import com.example.fitnessapp.feature_app.presentation.common.CustomAlertDialog
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
-import com.example.fitnessapp.feature_app.presentation.Notification.components.NotificationCard
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
-import org.koin.androidx.compose.koinViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    NotificationScreen(rememberNavController())
-}
 
 @Composable
 fun NotificationScreen(
     navController: NavController,
-    viewModel: NotificationViewModel = koinViewModel()
+    viewModel: NotificationViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

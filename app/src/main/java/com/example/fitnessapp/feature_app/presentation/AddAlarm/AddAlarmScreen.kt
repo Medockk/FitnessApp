@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Route
@@ -39,12 +40,11 @@ import com.example.fitnessapp.feature_app.presentation.common.CustomGreenButton
 import com.example.fitnessapp.feature_app.presentation.common.CustomIndicator
 import com.example.fitnessapp.feature_app.presentation.common.CustomTopAppBar
 import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AddAlarmScreen(
     navController: NavController,
-    viewModel: AddAlarmViewModel = koinViewModel()
+    viewModel: AddAlarmViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

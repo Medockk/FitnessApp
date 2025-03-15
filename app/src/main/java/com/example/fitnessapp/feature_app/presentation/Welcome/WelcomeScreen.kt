@@ -15,27 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.feature_app.presentation.Route
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40018_CFCFCF
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70036_1D1617
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70036_52B09F
-import org.koin.androidx.compose.koinViewModel
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-private fun Prev() {
-    WelcomeScreen(rememberNavController())
-}
 
 @Composable
 fun WelcomeScreen(
     navController: NavController,
-    viewModel: WelcomeViewModel = koinViewModel()
+    viewModel: WelcomeViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

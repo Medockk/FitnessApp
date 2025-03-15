@@ -49,7 +49,9 @@ import com.example.fitnessapp.feature_app.presentation.WorkoutDetail.WorkoutDeta
 import com.example.fitnessapp.feature_app.presentation.WorkoutSchedule.WorkoutScheduleScreen
 import com.example.fitnessapp.feature_app.presentation.WorkoutTracker.WorkoutTrackerScreen
 import com.example.fitnessapp.feature_app.presentation.ui.theme.FitnessAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

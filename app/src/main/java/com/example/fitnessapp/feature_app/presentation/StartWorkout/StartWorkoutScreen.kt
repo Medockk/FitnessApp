@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -48,13 +49,12 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme._F7F8F8
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50012_A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat60016Bold_1D1617
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(UnstableApi::class)
 @Composable
 fun StartWorkoutScreen(
     navController: NavController,
-    viewModel: StartWorkoutViewModel = koinViewModel()
+    viewModel: StartWorkoutViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

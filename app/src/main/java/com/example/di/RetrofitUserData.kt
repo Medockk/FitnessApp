@@ -5,26 +5,41 @@ import com.example.fitnessapp.feature_app.data.repository.UserDataRetrofitReposi
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRetrofitRepository
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.GetUserByIdUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.PostUserUseCase
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
-val moduleRetrofitUserData = module {
+@Module
+@InstallIn(SingletonComponent::class)
+object RetrofitUserData {
 
-    single<RetrofitApi> {
-        Retrofit.Builder()
+    @Provides
+    @Singleton
+    fun getRetrofitApi() : RetrofitApi{
+        return Retrofit.Builder()
             .baseUrl("https://petstore.swagger.io/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RetrofitApi::class.java)
     }
-    single<UserDataRetrofitRepository> {
-        UserDataRetrofitRepositoryImpl(get())
+
+    @Provides
+    @Singleton
+    fun getUserDataRetrofitRepository(retrofitApi: RetrofitApi) : UserDataRetrofitRepository{
+        return UserDataRetrofitRepositoryImpl(retrofitApi)
     }
-    factory<GetUserByIdUseCase> {
-        GetUserByIdUseCase(get())
+
+    //factories
+    @Provides @Singleton
+    fun getUserByIdUseCase(userDataRetrofitRepository: UserDataRetrofitRepository) : GetUserByIdUseCase{
+        return GetUserByIdUseCase(userDataRetrofitRepository)
     }
-    factory<PostUserUseCase> {
-        PostUserUseCase(get())
+    @Provides @Singleton
+    fun postUserUseCase(userDataRetrofitRepository: UserDataRetrofitRepository) : PostUserUseCase{
+        return PostUserUseCase(userDataRetrofitRepository)
     }
 }
