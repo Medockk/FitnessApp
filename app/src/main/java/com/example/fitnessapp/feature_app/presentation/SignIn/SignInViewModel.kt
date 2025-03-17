@@ -1,6 +1,5 @@
 package com.example.fitnessapp.feature_app.presentation.SignIn
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -95,7 +94,6 @@ class SignInViewModel @Inject constructor(
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
                         val result = signInWithGoogleUseCase()
-                        Log.e("res", result.toString())
 
                         if (result){
                             _state.value = state.value.copy(

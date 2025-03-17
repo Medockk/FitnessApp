@@ -4,10 +4,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.GetUserByIdUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.PostUserUseCase
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ class SuccessRegistrationViewModel @Inject constructor(
 
 //    private suspend fun getUserRetrofitData() {
 //
-//        postUserUseCase(3, "userName", "userStatus").onEach {
+//        postUserUseCase(3, "userName", "userStatus").collect {
 //            when (it){
 //                is NetworkResult.Error<*> -> {
 //                    _state.value = state.value.copy(exception = it.message.toString(), showIndicator = false)
@@ -48,7 +48,7 @@ class SuccessRegistrationViewModel @Inject constructor(
 //                    _state.value = state.value.copy(showIndicator = true)
 //                }
 //                is NetworkResult.Success<*> -> {
-//                    getUserByIdUseCase(3).onEach { getResult ->
+//                    getUserByIdUseCase(3).collect { getResult ->
 //                        when (getResult){
 //                            is NetworkResult.Error<*> -> {
 //                                _state.value = state.value.copy(exception = getResult.message ?: "unknown error", showIndicator = false)
@@ -58,14 +58,15 @@ class SuccessRegistrationViewModel @Inject constructor(
 //                            }
 //                            is NetworkResult.Success<*> -> {
 //                                _state.value = state.value.copy(
-//                                    showIndicator = false
+//                                    showIndicator = false,
 //                                )
+//                                Log.e("retrofit", getResult.data.toString())
 //                            }
 //                        }
-//                    }.stateIn(viewModelScope)
+//                    }
 //                }
 //            }
-//        }.stateIn(viewModelScope)
+//        }
 //    }
 
     private suspend fun getUserData() {

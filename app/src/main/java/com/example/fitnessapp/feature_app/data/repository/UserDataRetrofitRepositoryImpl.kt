@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.data.repository
 
+import android.util.Log
 import com.example.fitnessapp.feature_app.data.data_source.services.RetrofitApi
 import com.example.fitnessapp.feature_app.data.model.UserRetrofitDataImpl
 import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
@@ -18,6 +19,7 @@ class UserDataRetrofitRepositoryImpl(
             emit(NetworkResult.Loading())
 
             with(retrofitApi.getUserById(id)){
+                Log.e("codeGET", code().toString())
                 if (isSuccessful){
                     emit(NetworkResult.Success(this.body()))
                     this.headers()
@@ -39,6 +41,7 @@ class UserDataRetrofitRepositoryImpl(
         emit(NetworkResult.Loading())
 
         with(retrofitApi.postUser(UserRetrofitDataImpl(userId, name, status))){
+            Log.e("codePOST", code().toString())
             if (isSuccessful){
                 emit(NetworkResult.Success(this.body()))
             }else{
