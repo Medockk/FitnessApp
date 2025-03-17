@@ -11,7 +11,7 @@ import com.example.fitnessapp.feature_app.data.model.NotificationDataImpl
 import com.example.fitnessapp.feature_app.data.model.PurposeImpl
 import com.example.fitnessapp.feature_app.data.model.UserDataImpl
 import com.example.fitnessapp.feature_app.data.model.UserStatisticsImpl
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.HeartRate
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.model.NotificationData

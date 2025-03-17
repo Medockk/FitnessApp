@@ -6,7 +6,7 @@ import com.example.fitnessapp.feature_app.data.model.CategoryDataImpl
 import com.example.fitnessapp.feature_app.data.model.DietaryRecommendationImpl
 import com.example.fitnessapp.feature_app.data.model.MealDetailsImpl
 import com.example.fitnessapp.feature_app.data.model.UserMealScheduleImpl
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.MealDetails

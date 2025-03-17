@@ -48,10 +48,12 @@ fun OnBoardScreen(
                 onBoardItem = state.onBoardItem[pagerState.currentPage],
                 modifier = Modifier
             ) {
+                if (it+1 < pagerState.pageCount){
+                    pagerState.requestScrollToPage(
+                        it+1
+                    )
+                }
                 viewModel.onEvent(OnBoardEvent.NextPage(pagerState.currentPage + 1))
-                pagerState.requestScrollToPage(
-                    state.currentPage
-                )
             }
         }
     }

@@ -7,7 +7,7 @@ import com.example.fitnessapp.feature_app.data.model.WorkoutScheduleImpl
 import com.example.fitnessapp.feature_app.data.model.WorkoutSprintImpl
 import com.example.fitnessapp.feature_app.data.data_source.local.WorkoutScheduleDao
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.UserWorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutData
 import com.example.fitnessapp.feature_app.domain.model.WorkoutDetails

@@ -25,13 +25,9 @@ object MealModule {
 
     @Provides
     @Singleton
-    fun createMealScheduleDatabase(@ApplicationContext context: Context) : UserMealScheduleDaoDatabase{
-        return UserMealScheduleDaoDatabase.createDatabase(context)
-    }
-    @Provides
-    @Singleton
-    fun createMealScheduleDao(userMealScheduleDaoDatabase: UserMealScheduleDaoDatabase) : UserMealScheduleDao{
-        return userMealScheduleDaoDatabase.userMealScheduleDao
+    fun getMealScheduleDataDao(@ApplicationContext context: Context) : UserMealScheduleDao{
+        val database = UserMealScheduleDaoDatabase.createDatabase(context)
+        return database.userMealScheduleDao
     }
     @Provides
     @Singleton

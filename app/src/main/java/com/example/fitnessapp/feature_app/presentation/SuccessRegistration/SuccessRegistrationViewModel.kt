@@ -4,14 +4,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.GetUserByIdUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.UserRetrofit.PostUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
