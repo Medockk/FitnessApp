@@ -2,7 +2,7 @@ package com.example.fitnessapp.feature_app.data.repository
 
 import com.example.fitnessapp.feature_app.data.data_source.services.RetrofitApi
 import com.example.fitnessapp.feature_app.data.model.UserRetrofitDataImpl
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.UserRetrofitData
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRetrofitRepository
 import kotlinx.coroutines.flow.Flow

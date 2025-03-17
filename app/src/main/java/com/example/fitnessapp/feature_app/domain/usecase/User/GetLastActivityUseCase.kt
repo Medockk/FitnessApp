@@ -1,6 +1,6 @@
 package com.example.fitnessapp.feature_app.domain.usecase.User
 
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.LastActivityData
 import com.example.fitnessapp.feature_app.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,6 @@
 package com.example.fitnessapp.feature_app.domain.repository
 
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.CategoryData
 import com.example.fitnessapp.feature_app.domain.model.DietaryRecommendation
 import com.example.fitnessapp.feature_app.domain.model.MealDetails

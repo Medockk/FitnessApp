@@ -27,14 +27,9 @@ object WorkoutModule {
 
     @Provides
     @Singleton
-    fun createWorkoutScheduleDatabase(@ApplicationContext context: Context): WorkoutScheduleDaoDatabase {
-        return WorkoutScheduleDaoDatabase.createDatabase(context)
-    }
-
-    @Provides
-    @Singleton
-    fun createWorkoutScheduleDao(workoutScheduleDaoDatabase: WorkoutScheduleDaoDatabase): WorkoutScheduleDao {
-        return workoutScheduleDaoDatabase.workoutScheduleDao
+    fun getWorkoutScheduleDao(@ApplicationContext context: Context): WorkoutScheduleDao {
+        val database = WorkoutScheduleDaoDatabase.createDatabase(context)
+        return database.workoutScheduleDao
     }
 
     @Provides

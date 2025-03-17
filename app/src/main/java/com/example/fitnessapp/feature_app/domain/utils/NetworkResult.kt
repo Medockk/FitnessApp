@@ -1,4 +1,4 @@
-package com.example.fitnessapp.feature_app.domain
+package com.example.fitnessapp.feature_app.domain.utils
 
 sealed class NetworkResult<T>(val data: T? = null, val message: String? = null) {
 

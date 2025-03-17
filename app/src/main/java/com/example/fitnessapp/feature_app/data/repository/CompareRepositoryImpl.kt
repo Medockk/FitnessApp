@@ -7,7 +7,7 @@ import com.example.fitnessapp.feature_app.data.data_source.local.StatisticDataDa
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
 import com.example.fitnessapp.feature_app.data.model.GalleryDataImpl
 import com.example.fitnessapp.feature_app.data.model.StatisticDataImpl
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.model.GalleryData
 import com.example.fitnessapp.feature_app.domain.model.StatisticData
 import com.example.fitnessapp.feature_app.domain.repository.CompareRepository

@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.NetworkResult
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.User.ChangeNotificationStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetPurposeUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetUserDataUseCase

@@ -23,20 +23,14 @@ import javax.inject.Singleton
 object CompareModule{
 
     @Provides @Singleton
-    fun createGalleryDatabase(@ApplicationContext context: Context) : GalleryDaoDatabase{
-        return GalleryDaoDatabase.createDatabase(context)
+    fun getGalleryDao(@ApplicationContext context: Context) : GalleryDataDao{
+        val database = GalleryDaoDatabase.createDatabase(context)
+        return database.galleryDao
     }
     @Provides @Singleton
-    fun getGalleryDao(galleryDaoDatabase: GalleryDaoDatabase) : GalleryDataDao{
-        return galleryDaoDatabase.galleryDao
-    }
-    @Provides @Singleton
-    fun createStatisticDatabase(@ApplicationContext context: Context) : StatisticDataDaoDatabase{
-        return StatisticDataDaoDatabase.createDatabase(context)
-    }
-    @Provides @Singleton
-    fun getStatisticDao(statisticDataDaoDatabase: StatisticDataDaoDatabase) : StatisticDataDao{
-        return statisticDataDaoDatabase.statisticDataDao
+    fun getStatisticDao(@ApplicationContext context: Context) : StatisticDataDao{
+        val database = StatisticDataDaoDatabase.createDatabase(context)
+        return database.statisticDataDao
     }
     @Provides @Singleton
     fun getCompareRepository(galleryDataDao: GalleryDataDao, statisticDataDao: StatisticDataDao) : CompareRepository{

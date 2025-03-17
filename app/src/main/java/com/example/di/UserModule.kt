@@ -31,37 +31,26 @@ import javax.inject.Singleton
 object UserModule {
 
     @Provides @Singleton
-    fun createUserDatabase(@ApplicationContext context: Context): UserDaoDatabase {
-        return UserDaoDatabase.createDatabase(context)
+    fun getUserDataDao(@ApplicationContext context: Context): UserDataDao {
+        val database = UserDaoDatabase.createDatabase(context)
+        return database.userDataDao
     }
     @Provides @Singleton
-    fun createUserDao(userDaoDatabase: UserDaoDatabase): UserDataDao {
-        return userDaoDatabase.userDataDao
+    fun getNotificationDataDao(@ApplicationContext context: Context): NotificationDataDao {
+        val database = NotificationDaoDatabase.createDatabase(context)
+        return database.notificationDataDao
     }
     @Provides @Singleton
-    fun createNotificationDatabase(@ApplicationContext context: Context): NotificationDaoDatabase {
-        return NotificationDaoDatabase.createDatabase(context)
+    fun getLastActivityDao(@ApplicationContext context: Context): LastActivityDataDao {
+        val database = LastActivityDaoDatabase.createDatabase(context)
+        return database.lastActivityDataDao
     }
     @Provides @Singleton
-    fun createNotificationDao(notificationDaoDatabase: NotificationDaoDatabase): NotificationDataDao {
-        return notificationDaoDatabase.notificationDataDao
+    fun getHeartRateDao(@ApplicationContext context: Context): HeartRateDataDao {
+        val database = HeartRateDaoDatabase.createDatabase(context)
+        return database.heartRateDataDao
     }
-    @Provides @Singleton
-    fun createLastActivityDatabase(@ApplicationContext context: Context): LastActivityDaoDatabase {
-        return LastActivityDaoDatabase.createDatabase(context)
-    }
-    @Provides @Singleton
-    fun createLastActivityDao(lastActivityDaoDatabase: LastActivityDaoDatabase): LastActivityDataDao {
-        return lastActivityDaoDatabase.lastActivityDataDao
-    }
-    @Provides @Singleton
-    fun createHeartRateDatabase(@ApplicationContext context: Context): HeartRateDaoDatabase {
-        return HeartRateDaoDatabase.createDatabase(context)
-    }
-    @Provides @Singleton
-    fun createHeartRateDao(heartRateDaoDatabase: HeartRateDaoDatabase): HeartRateDataDao {
-        return heartRateDaoDatabase.heartRateDataDao
-    }
+
     @Provides @Singleton
     fun getUserDataRepository(
         userDataDao: UserDataDao,
