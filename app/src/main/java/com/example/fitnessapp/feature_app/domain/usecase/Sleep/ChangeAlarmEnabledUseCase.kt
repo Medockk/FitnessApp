@@ -6,7 +6,7 @@ class ChangeAlarmEnabledUseCase(
     private val sleepRepository: SleepRepository
 ) {
 
-    suspend operator fun invoke(alarmClockTrackerEnabled: Boolean, alarmClockTrackerId: Int) {
-        sleepRepository.changeAlarmEnabled(alarmClockTrackerEnabled, alarmClockTrackerId)
+    suspend operator fun invoke(alarmClockTrackerId: Int, alarmClockTrackerEnabled: Boolean, ) {
+        sleepRepository.changeAlarmEnabled(alarmClockTrackerId, alarmClockTrackerEnabled,)
     }
 }

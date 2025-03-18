@@ -18,17 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitnessapp.feature_app.presentation.ui.theme._228F7D
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_ADA4A5
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat70036_52B09F
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    CustomAlertDialog("qweqwe") { }
-}
 
 @Composable
 fun CustomAlertDialog(

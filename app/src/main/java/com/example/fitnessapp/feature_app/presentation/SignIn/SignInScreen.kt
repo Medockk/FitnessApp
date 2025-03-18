@@ -141,7 +141,8 @@ fun SignInScreen(
                 hint = "Почта",
                 modifier = Modifier
                     .fillMaxWidth(),
-                enabled = !state.showIndicator
+                enabled = !state.showIndicator,
+                tag = "Почта"
             )
             Spacer(Modifier.height(15.dp))
 
@@ -152,6 +153,7 @@ fun SignInScreen(
                 },
                 icon = ImageVector.vectorResource(R.drawable.password_icon),
                 hint = "Пароль",
+                tag = "Пароль",
                 modifier = Modifier
                     .fillMaxWidth(),
                 isPassword = true,
@@ -191,7 +193,8 @@ fun SignInScreen(
                     isSignInScreen = true,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    enabled = !state.showIndicator
+                    enabled = !state.showIndicator,
+                    tag = "btn"
                 ) {
                     viewModel.onEvent(SignInEvent.SignInClick)
                 }

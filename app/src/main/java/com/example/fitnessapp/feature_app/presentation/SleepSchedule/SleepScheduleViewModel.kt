@@ -66,10 +66,8 @@ class SleepScheduleViewModel @Inject constructor(
 
             is SleepScheduleEvent.ChangeSleepEnabled -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val newSleepData = event.sleepTracker.apply { enabled =! enabled }
-                    newSleepData.toString()
+                    val newSleepData = event.sleepTracker.copy(enabled = !event.sleepTracker.enabled)
                     _state.value = state.value.copy(
-                        showIndicator = true,
                         sleepData = _state.value.sleepData - event.sleepTracker + newSleepData
                     )
                     try {
@@ -79,26 +77,22 @@ class SleepScheduleViewModel @Inject constructor(
                             exception = e.message.toString()
                         )
                     }
-                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
 
             is SleepScheduleEvent.ChangeAlarmEnabled -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val newAlarmData = event.alarmClockTracker.apply { enabled =! enabled }
-                    newAlarmData.toString()
+                    val newAlarmData = event.alarmClockTracker.copy(enabled = !event.alarmClockTracker.enabled)
                     _state.value = state.value.copy(
-                        showIndicator = true,
                         alarmClockTracker = _state.value.alarmClockTracker - event.alarmClockTracker + newAlarmData
                     )
                     try {
-                        changeAlarmEnabledUseCase(newAlarmData.enabled, event.alarmClockTracker.id)
+                        changeAlarmEnabledUseCase(event.alarmClockTracker.id, newAlarmData.enabled)
                     } catch (e: Exception) {
                         _state.value = state.value.copy(
                             exception = e.message.toString(),
                         )
                     }
-                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
 

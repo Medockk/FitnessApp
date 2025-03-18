@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
-import com.example.fitnessapp.feature_app.domain.model.SleepTracker
+import com.example.fitnessapp.feature_app.domain.model.AlarmClockTrackerModel
+import com.example.fitnessapp.feature_app.domain.model.SleepTrackerModel
 import com.example.fitnessapp.feature_app.presentation.ui.theme._A5A3B0
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40012_B6B4C2
 import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat40014_B6B4C2
@@ -30,7 +30,7 @@ import com.example.fitnessapp.feature_app.presentation.ui.theme.montserrat50014_
 
 @Composable
 fun CustomSleepCard(
-    sleep: SleepTracker,
+    sleep: SleepTrackerModel,
     icon: String,
     sleepEnd: String,
     modifier: Modifier = Modifier,
@@ -95,7 +95,7 @@ fun CustomSleepCard(
 
 @Composable
 fun CustomSleepCard(
-    alarmClockTracker: AlarmClockTracker,
+    alarmClockTracker: AlarmClockTrackerModel,
     icon: String,
     alarmEnd: String,
     modifier: Modifier = Modifier,
