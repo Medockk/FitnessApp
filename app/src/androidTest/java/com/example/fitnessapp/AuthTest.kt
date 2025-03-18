@@ -8,10 +8,10 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpUseCase
-import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignUpWithGoogleUseCase
-import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpScreen
-import com.example.fitnessapp.feature_app.presentation.SignUp.SignUpViewModel
+import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInUseCase
+import com.example.fitnessapp.feature_app.domain.usecase.Auth.SignInWithGoogleUseCase
+import com.example.fitnessapp.feature_app.presentation.SignIn.SignInScreen
+import com.example.fitnessapp.feature_app.presentation.SignIn.SignInViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,8 +21,8 @@ import org.junit.runner.RunWith
 class AuthTest {
 
     private lateinit var authRepository: AuthTestRepoImpl
-    private lateinit var signUpUseCase: SignUpUseCase
-    private lateinit var signUpWithGoogleUseCase: SignUpWithGoogleUseCase
+    private lateinit var signInUseCase: SignInUseCase
+    private lateinit var signInWithGoogleUseCase: SignInWithGoogleUseCase
 
     @get:Rule
     val rule = createAndroidComposeRule<ComponentActivity>()
@@ -30,17 +30,14 @@ class AuthTest {
     @Before
     fun clientInit() {
         authRepository = AuthTestRepoImpl()
-        signUpUseCase = SignUpUseCase(authRepository)
-        signUpWithGoogleUseCase = SignUpWithGoogleUseCase(authRepository)
+        signInUseCase = SignInUseCase(authRepository)
+        signInWithGoogleUseCase = SignInWithGoogleUseCase(authRepository)
     }
 
     @Test
     fun emailValidateFailed() {
         rule.setContent {
-            SignUpScreen(
-                rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
-            )
+            SignInScreen(rememberNavController(), SignInViewModel(signInUseCase, signInWithGoogleUseCase))
         }
 
         rule.onAllNodesWithTag("Почта")
@@ -53,10 +50,10 @@ class AuthTest {
     @Test
     fun emailValidateSuccessful() {
         rule.setContent {
-            SignUpScreen(
+            SignInScreen(
                 rememberNavController(),
-                SignUpViewModel(
-                    signUpUseCase, signUpWithGoogleUseCase
+                SignInViewModel(
+                    signInUseCase, signInWithGoogleUseCase
                 )
             )
         }
@@ -68,10 +65,7 @@ class AuthTest {
     @Test
     fun passwordValidateFailed() {
         rule.setContent {
-            SignUpScreen(
-                rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
-            )
+            SignInScreen(rememberNavController(), SignInViewModel(signInUseCase, signInWithGoogleUseCase))
         }
         rule.onAllNodesWithTag("Пароль")
             .onFirst().performTextInput("qwerty")
@@ -84,10 +78,7 @@ class AuthTest {
     @Test
     fun passwordValidateSuccessful() {
         rule.setContent {
-            SignUpScreen(
-                rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
-            )
+            SignInScreen(rememberNavController(), SignInViewModel(signInUseCase, signInWithGoogleUseCase))
         }
         rule.onAllNodesWithTag("Пароль")
             .onFirst().performTextInput("qW3eRt6Y")
@@ -98,10 +89,7 @@ class AuthTest {
     @Test
     fun authSuccessful() {
         rule.setContent {
-            SignUpScreen(
-                rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
-            )
+            SignInScreen(rememberNavController(), SignInViewModel(signInUseCase, signInWithGoogleUseCase))
         }
         rule.onAllNodesWithTag("Почта")
             .onFirst().performTextInput("test2@gmail.com")
@@ -114,10 +102,7 @@ class AuthTest {
     @Test
     fun authFailed() {
         rule.setContent {
-            SignUpScreen(
-                rememberNavController(),
-                SignUpViewModel(signUpUseCase, signUpWithGoogleUseCase)
-            )
+            SignInScreen(rememberNavController(), SignInViewModel(signInUseCase, signInWithGoogleUseCase))
         }
         rule.onAllNodesWithTag("Почта")
             .onFirst().performTextInput("test1")

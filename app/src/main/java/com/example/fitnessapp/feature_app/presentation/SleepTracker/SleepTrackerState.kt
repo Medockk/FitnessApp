@@ -1,7 +1,7 @@
 package com.example.fitnessapp.feature_app.presentation.SleepTracker
 
-import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
-import com.example.fitnessapp.feature_app.domain.model.SleepTracker
+import com.example.fitnessapp.feature_app.domain.model.AlarmClockTrackerModel
+import com.example.fitnessapp.feature_app.domain.model.SleepTrackerModel
 import kotlinx.datetime.LocalDateTime
 
 data class SleepTrackerState(
@@ -11,9 +11,9 @@ data class SleepTrackerState(
     val lastSleep: String = "",
     val currentTime: LocalDateTime = LocalDateTime(1,1,1,1,1),
 
-    val sleepData: SleepTracker? = null,
+    val sleepData: SleepTrackerModel? = null,
     val sleepEnd: String = "",
-    val alarmClockTracker: AlarmClockTracker? = null,
+    val alarmClockTracker: AlarmClockTrackerModel? = null,
     val alarmEnd: String = "",
 
     val showIndicator: Boolean = false,

@@ -37,7 +37,7 @@ fun CustomGreenButton(
     isSignInScreen: Boolean = false,
     isNextButton: Boolean = false,
     enabled: Boolean = true,
-    tag: String = "tag",
+    tag: String = "btn",
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {

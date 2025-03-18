@@ -1,10 +1,10 @@
 package com.example.fitnessapp.feature_app.data.repository
 
-import com.example.fitnessapp.feature_app.data.model.AlarmClockTrackerImpl
-import com.example.fitnessapp.feature_app.data.model.SleepTrackerImpl
 import com.example.fitnessapp.feature_app.data.data_source.network.SupabaseClient.client
-import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
-import com.example.fitnessapp.feature_app.domain.model.SleepTracker
+import com.example.fitnessapp.feature_app.data.model.AlarmClockTrackerModelDto
+import com.example.fitnessapp.feature_app.data.model.SleepTrackerModelDto
+import com.example.fitnessapp.feature_app.domain.model.AlarmClockTrackerModel
+import com.example.fitnessapp.feature_app.domain.model.SleepTrackerModel
 import com.example.fitnessapp.feature_app.domain.repository.SleepRepository
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
@@ -16,64 +16,81 @@ import java.time.LocalDate
  */
 class SleepRepositoryImpl : SleepRepository {
 
-    override suspend fun getSleepData(): List<SleepTracker> {
+    override suspend fun getSleepData(): List<SleepTrackerModel> {
 
         val userID = getUserID()
         val currentDate = LocalDate.now().toString()
 
-        return client.postgrest["SleepTracker"].select {
+        val data = ArrayList<SleepTrackerModel>()
+        client.postgrest["SleepTracker"].select {
             filter {
                 and {
                     eq("userID", userID)
                     eq("date", currentDate)
                 }
             }
-        }.decodeList<SleepTrackerImpl>()
+        }.decodeList<SleepTrackerModelDto>().forEach {
+            data.add(it.toSleepTracker())
+        }
+        return data
     }
 
-    override suspend fun getSleepDataByDate(year: Int, month: Int, day: Int): List<SleepTracker> {
+    override suspend fun getSleepDataByDate(year: Int, month: Int, day: Int): List<SleepTrackerModel> {
         val userID = getUserID()
 
-        return client.postgrest["SleepTracker"].select {
+        val data = ArrayList<SleepTrackerModel>()
+        client.postgrest["SleepTracker"].select {
             filter {
                 and {
                     eq("userID", userID)
                     eq("date", "${year}-${month}-$day")
                 }
             }
-        }.decodeList<SleepTrackerImpl>()
+        }.decodeList<SleepTrackerModelDto>().forEach {
+            data.add(it.toSleepTracker())
+        }
+        return data
     }
 
-    override suspend fun getAlarmClockData(): List<AlarmClockTracker> {
+    override suspend fun getAlarmClockData(): List<AlarmClockTrackerModel> {
 
         val userID = getUserID()
         val currentData = LocalDate.now().toString()
 
-        return client.postgrest["AlarmClockTracker"].select {
+        val data = ArrayList<AlarmClockTrackerModel>()
+        client.postgrest["AlarmClockTracker"].select {
             filter {
                 and {
                     eq("userID", userID)
                     eq("date", currentData)
                 }
             }
-        }.decodeList<AlarmClockTrackerImpl>()
+        }.decodeList<AlarmClockTrackerModelDto>().forEach {
+            data.add(it.toAlarmClockTracker())
+        }
+        return data
     }
 
     override suspend fun getAlarmClockDataByDate(
         year: Int,
         month: Int,
         day: Int
-    ): List<AlarmClockTracker> {
+    ): List<AlarmClockTrackerModel> {
         val userID = getUserID()
 
-        return client.postgrest["AlarmClockTracker"].select {
+        val data = ArrayList<AlarmClockTrackerModel>()
+        client.postgrest["AlarmClockTracker"].select {
             filter {
                 and {
                     eq("userID", userID)
                     eq("date", "${year}-${month}-$day")
                 }
             }
-        }.decodeList<AlarmClockTrackerImpl>()
+        }.decodeList<AlarmClockTrackerModelDto>().forEach {
+            data.add(it.toAlarmClockTracker())
+        }
+
+        return data
     }
 
     override suspend fun changeSleepEnabled(sleepTrackerId: Int, sleepTrackerEnabled: Boolean) {
@@ -93,8 +110,8 @@ class SleepRepositoryImpl : SleepRepository {
     }
 
     override suspend fun changeAlarmEnabled(
-        alarmClockTrackerEnabled: Boolean,
-        alarmClockTrackerId: Int
+        alarmClockTrackerId: Int,
+        alarmClockTrackerEnabled: Boolean
     ) {
 
         val userID = getUserID()

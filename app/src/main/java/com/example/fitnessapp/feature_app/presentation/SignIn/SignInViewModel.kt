@@ -1,5 +1,6 @@
 package com.example.fitnessapp.feature_app.presentation.SignIn
 
+import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -20,23 +21,26 @@ class SignInViewModel @Inject constructor(
     private val _state = mutableStateOf(SignInState())
     val state: State<SignInState> = _state
 
-    fun onEvent(event: SignInEvent){
-        when (event){
+    fun onEvent(event: SignInEvent) {
+        when (event) {
             is SignInEvent.EnterEmail -> {
                 _state.value = state.value.copy(
                     email = event.value
                 )
             }
+
             is SignInEvent.EnterPassword -> {
                 _state.value = state.value.copy(
                     password = event.value
                 )
             }
+
             SignInEvent.ResetException -> {
                 _state.value = state.value.copy(
                     exception = ""
                 )
             }
+
             SignInEvent.ShowHidePassword -> {
                 _state.value = state.value.copy(
                     showHidePasswordState = !state.value.showHidePasswordState
@@ -45,41 +49,43 @@ class SignInViewModel @Inject constructor(
 
             SignInEvent.SignInClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    try {
-                        if (
-                            _state.value.email.isNotBlank() &&
-                            _state.value.password.isNotBlank()
-                        ){
-                            _state.value = state.value.copy(
-                                showIndicator = true
-                            )
+                    if (
+                        Patterns.EMAIL_ADDRESS.matcher(_state.value.email).matches() &&
+                        _state.value.password.length > 6
+                    ) {
+                        _state.value = state.value.copy(
+                            showIndicator = true
+                        )
+                        try {
                             signInUseCase(
                                 _state.value.email,
                                 state.value.password
                             )
+
+                        } catch (e: Exception) {
                             _state.value = state.value.copy(
-                                showIndicator = false,
-                                isRegistered = true
-                            )
-                        }else if (_state.value.email.isBlank()){
-                            _state.value = state.value.copy(
-                                exception = "Поле Почта не может быть пустым!",
-                                showIndicator = false
-                            )
-                        }else if (_state.value.password.isBlank()){
-                            _state.value = state.value.copy(
-                                exception = "Поле Пароль не может быть пустым!",
+                                exception = e.message.toString(),
                                 showIndicator = false
                             )
                         }
-                    } catch (e: Exception) {
                         _state.value = state.value.copy(
-                            exception = e.message.toString(),
+                            showIndicator = false,
+                            isRegistered = true
+                        )
+                    } else if (!Patterns.EMAIL_ADDRESS.matcher(_state.value.email).matches()) {
+                        _state.value = state.value.copy(
+                            exception = "Почта не соответствует патерну!",
+                            showIndicator = false
+                        )
+                    } else if (_state.value.password.length < 6) {
+                        _state.value = state.value.copy(
+                            exception = "Поле Пароль не может быть пустым!",
                             showIndicator = false
                         )
                     }
                 }
             }
+
             SignInEvent.ForgotPassword -> {
 
             }
@@ -95,11 +101,11 @@ class SignInViewModel @Inject constructor(
                     try {
                         val result = signInWithGoogleUseCase()
 
-                        if (result){
+                        if (result) {
                             _state.value = state.value.copy(
                                 isRegistered = true
                             )
-                        }else{
+                        } else {
                             _state.value = state.value.copy(
                                 exception = "Пользователь не зарегистрирован"
                             )

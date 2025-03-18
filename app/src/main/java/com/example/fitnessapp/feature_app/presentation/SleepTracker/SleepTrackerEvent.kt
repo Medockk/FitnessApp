@@ -1,12 +1,12 @@
 package com.example.fitnessapp.feature_app.presentation.SleepTracker
 
-import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
-import com.example.fitnessapp.feature_app.domain.model.SleepTracker
+import com.example.fitnessapp.feature_app.domain.model.AlarmClockTrackerModel
+import com.example.fitnessapp.feature_app.domain.model.SleepTrackerModel
 
 sealed class SleepTrackerEvent {
 
     data object ResetException : SleepTrackerEvent()
 
-    data class ChangeSleepWorkout(val sleepTracker: SleepTracker) : SleepTrackerEvent()
-    data class ChangeAlarmState(val alarmClockTracker: AlarmClockTracker) : SleepTrackerEvent()
+    data class ChangeSleepWorkout(val sleepTracker: SleepTrackerModel) : SleepTrackerEvent()
+    data class ChangeAlarmState(val alarmClockTracker: AlarmClockTrackerModel) : SleepTrackerEvent()
 }

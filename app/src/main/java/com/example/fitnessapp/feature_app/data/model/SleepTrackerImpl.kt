@@ -1,23 +1,31 @@
 package com.example.fitnessapp.feature_app.data.model
 
-import com.example.fitnessapp.feature_app.domain.model.AlarmClockTracker
-import com.example.fitnessapp.feature_app.domain.model.SleepTracker
+import com.example.fitnessapp.feature_app.domain.model.AlarmClockTrackerModel
+import com.example.fitnessapp.feature_app.domain.model.SleepTrackerModel
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SleepTrackerImpl(
-    override val id: Int,
-    override val userID: String,
-    override val time: String,
-    override var enabled: Boolean,
-    override val lastSleep: String
-) : SleepTracker
+data class SleepTrackerModelDto(
+    val id: Int,
+    val userID: String,
+    val time: String,
+    var enabled: Boolean,
+    val lastSleep: String
+){
+    fun toSleepTracker() : SleepTrackerModel{
+        return SleepTrackerModel(id, userID, time, enabled, lastSleep)
+    }
+}
 
 @Serializable
-data class AlarmClockTrackerImpl(
-    override val id: Int,
-    override val userID: String,
-    override val date: String,
-    override var enabled: Boolean,
-    override val time: String
-) : AlarmClockTracker
+data class AlarmClockTrackerModelDto(
+    val id: Int,
+    val userID: String,
+    val date: String,
+    var enabled: Boolean,
+    val time: String
+){
+    fun toAlarmClockTracker() : AlarmClockTrackerModel{
+        return AlarmClockTrackerModel(id, userID, date, enabled, time)
+    }
+}
