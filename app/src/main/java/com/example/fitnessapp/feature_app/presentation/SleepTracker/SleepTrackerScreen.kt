@@ -81,7 +81,11 @@ fun SleepTrackerScreen(
                 backgroundColor = _F7F8F8,
                 textColor = Color.Black
             ) {
-                navController.popBackStack()
+                navController.navigate(Route.HomeScreen.route){
+                    popUpTo(Route.SleepTrackerScreen.route){
+                        inclusive = true
+                    }
+                }
             }
             Spacer(Modifier.height(35.dp))
             CustomCanvasBarChart(

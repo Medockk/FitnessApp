@@ -21,48 +21,48 @@ class TakePhotoViewModel @Inject constructor(
     private val _state = mutableStateOf(TakePhotoState())
     val state: State<TakePhotoState> = _state
 
-    fun onEvent(event: TakePhotoEvent){
-        when (event){
+    fun onEvent(event: TakePhotoEvent) {
+        when (event) {
             is TakePhotoEvent.TakePhoto -> {
-                if (_state.value.imageByteArray.size < 5) {
+                viewModelScope.launch(Dispatchers.IO) {
                     _state.value = state.value.copy(
+                        showIndicator = true,
                         imageByteArray = _state.value.imageByteArray + event.photo.toByteArray()
                     )
-
-                    viewModelScope.launch(Dispatchers.IO) {
-                        _state.value = state.value.copy(showIndicator = true)
-                        try {
-                            when (_state.value.imageByteArray.size){
-                                1 -> {
-                                    uploadPhotoUseCase(
-                                        photo = _state.value.imageByteArray[0],
-                                        category = GalleryData.FRONT_SIDE
-                                    )
-                                }
-                                2 -> {
-                                    uploadPhotoUseCase(
-                                        photo = _state.value.imageByteArray[1],
-                                        category = GalleryData.LEFT_SIDE
-                                    )
-                                }
-                                3 -> {
-                                    uploadPhotoUseCase(
-                                        photo = _state.value.imageByteArray[2],
-                                        category = GalleryData.REVERS_SIDE
-                                    )
-                                }
-                                4 -> {
-                                    uploadPhotoUseCase(
-                                        photo = _state.value.imageByteArray[3],
-                                        category = GalleryData.RIGHT_SIDE
-                                    )
-                                }
+                    try {
+                        when (_state.value.imageByteArray.size) {
+                            1 -> {
+                                uploadPhotoUseCase(
+                                    photo = _state.value.imageByteArray[0],
+                                    category = GalleryData.FRONT_SIDE
+                                )
                             }
-                        } catch (e: Exception) {
-                            _state.value = state.value.copy(exception = e.message.toString())
+
+                            2 -> {
+                                uploadPhotoUseCase(
+                                    photo = _state.value.imageByteArray[1],
+                                    category = GalleryData.LEFT_SIDE
+                                )
+                            }
+
+                            3 -> {
+                                uploadPhotoUseCase(
+                                    photo = _state.value.imageByteArray[2],
+                                    category = GalleryData.REVERS_SIDE
+                                )
+                            }
+
+                            else -> {
+                                uploadPhotoUseCase(
+                                    photo = event.photo.toByteArray(),
+                                    category = GalleryData.RIGHT_SIDE
+                                )
+                            }
                         }
-                        _state.value = state.value.copy(showIndicator = false)
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
                     }
+                    _state.value = state.value.copy(showIndicator = false)
                 }
             }
 
@@ -72,7 +72,7 @@ class TakePhotoViewModel @Inject constructor(
         }
     }
 
-    private fun Bitmap.toByteArray() : ByteArray{
+    private fun Bitmap.toByteArray(): ByteArray {
         val stream = ByteArrayOutputStream()
         this.compress(Bitmap.CompressFormat.PNG, 100, stream)
         return stream.toByteArray()

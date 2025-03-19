@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,7 +42,8 @@ fun CustomDateCard(
     onDateClick: (LocalDate) -> Unit,
 ) {
     val currentDay = remember { mutableStateOf(LocalDate.now()) }
-    val _day = remember { mutableStateOf(day) }
+    val _day = remember { mutableIntStateOf(day) }
+    val state = rememberLazyListState(day-2)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -50,8 +53,8 @@ fun CustomDateCard(
         ) {
             IconButton(
                 onClick = {
-                    if (0 != _day.value - 1) {
-                        _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                    if (0 != _day.intValue - 1) {
+                        _day.intValue = currentDay.value.minusMonths(1).dayOfMonth
                         currentDay.value = currentDay.value.minusMonths(1)
                     }
                 },
@@ -75,19 +78,19 @@ fun CustomDateCard(
                     when (currentDay.value.isLeapYear){
                         true -> {
                             //если февраль впсокосного года
-                            if (currentDay.value.month.value == 2 && _day.value <= currentDay.value.month.maxLength()-1){
-                                _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                            if (currentDay.value.month.value == 2 && _day.intValue <= currentDay.value.month.maxLength()-1){
+                                _day.intValue = currentDay.value.minusMonths(1).dayOfMonth
                                 currentDay.value = currentDay.value.plusMonths(1)
                             }
                             //если не февраль
-                            else if (_day.value <= currentDay.value.month.maxLength()){
-                                _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                            else if (_day.intValue <= currentDay.value.month.maxLength()){
+                                _day.intValue = currentDay.value.minusMonths(1).dayOfMonth
                                 currentDay.value = currentDay.value.plusMonths(1)
                             }
                         }
                         false -> {
-                            if (_day.value <= currentDay.value.month.maxLength()){
-                                _day.value = currentDay.value.minusMonths(1).dayOfMonth
+                            if (_day.intValue <= currentDay.value.month.maxLength()){
+                                _day.intValue = currentDay.value.minusMonths(1).dayOfMonth
                                 currentDay.value = currentDay.value.plusMonths(1)
                             }
                         }
@@ -105,6 +108,7 @@ fun CustomDateCard(
         }
         Spacer(Modifier.height(15.dp))
         LazyRow(
+            state = state,
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {

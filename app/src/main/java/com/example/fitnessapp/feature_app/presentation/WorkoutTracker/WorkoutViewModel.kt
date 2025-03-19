@@ -113,16 +113,20 @@ class WorkoutViewModel @Inject constructor(
                 }
                 viewModelScope.launch(Dispatchers.IO) {
 
+                    val index = _state.value.userWorkoutList.indexOf(event.userWorkoutData)
+                    _state.value.userWorkoutList[index].copy(isTurnOn = !event.userWorkoutData.isTurnOn)
                     _state.value = state.value.copy(
-                        userWorkoutList = _state.value.userWorkoutList - event.userWorkoutData + newData
+                        userWorkoutList = _state.value.userWorkoutList.apply {
+                            this[index].isTurnOn = !event.userWorkoutData.isTurnOn
+                        }
                     )
                     try {
-                        changeUserWorkoutStateUseCase(
-                            userWorkoutData = newData
-                        )
-                    } catch (e: Exception) {
-                        _state.value = state.value.copy(exception = e.message.toString())
-                    }
+                            changeUserWorkoutStateUseCase(
+                                userWorkoutData = newData
+                            )
+                        } catch (e: Exception) {
+                            _state.value = state.value.copy(exception = e.message.toString())
+                        }
                 }
             }
         }

@@ -9,15 +9,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -148,40 +149,39 @@ fun SignUpScreen(
             .background(Color.White)
     )
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(
                 start = 30.dp, end = 30.dp,
                 top = paddingTop.dp, bottom = paddingBottom.dp
             ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Column(
-                modifier = Modifier
-                    .fillParentMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Привет,",
-                    style = montserrat40016_1D1617
-                )
-                Spacer(Modifier.height(5.dp))
-                Text(
-                    text = "Создай аккаунт",
-                    style = montserrat70020Bold_1D1617
-                )
-                Spacer(Modifier.height(30.dp))
+        Text(
+            text = "Привет,",
+            style = montserrat40016_1D1617
+        )
+        Spacer(Modifier.height(5.dp))
+        Text(
+            text = "Создай аккаунт",
+            style = montserrat70020Bold_1D1617
+        )
+        Spacer(Modifier.height(30.dp))
 
-            }
-            Column(
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            LazyColumn(
                 modifier = Modifier
-                    .imePadding()
-                    .imeNestedScroll()
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.6f),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                signUpList.forEach {
+                items(signUpList){
                     CustomTextField(
                         value = it[0] as String,
                         onValueChange = it[1] as (String) -> Unit,
@@ -203,117 +203,117 @@ fun SignUpScreen(
                     )
                     Spacer(Modifier.height(15.dp))
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Checkbox(
-                        checked = state.checkBoxState,
-                        onCheckedChange = {
-                            viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(it))
-                        },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = _228F7D,
-                            uncheckedColor = _ADA4A5,
-                            checkmarkColor = Color.White,
-                            disabledCheckedColor = _228F7D,
-                            disabledUncheckedColor = _ADA4A5
-                        ),
-                        enabled = !state.showIndicator,
-                        modifier = Modifier.clip(RoundedCornerShape(3.dp))
-                    )
-                    TextButton(
-                        onClick = {
-                            viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(!state.checkBoxState))
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            containerColor = Color.Transparent
-                        ),
-                        enabled = !state.showIndicator
+
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
                     ) {
-                        Text(
-                            text = "Продолжая, вы принимаете нашу Политику конфиденциальности и Условия использования.",
-                            style = montserrat40010_ADA4A5
+                        Checkbox(
+                            checked = state.checkBoxState,
+                            onCheckedChange = {
+                                viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(it))
+                            },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = _228F7D,
+                                uncheckedColor = _ADA4A5,
+                                checkmarkColor = Color.White,
+                                disabledCheckedColor = _228F7D,
+                                disabledUncheckedColor = _ADA4A5
+                            ),
+                            enabled = !state.showIndicator,
+                            modifier = Modifier.clip(RoundedCornerShape(3.dp))
                         )
+                        TextButton(
+                            onClick = {
+                                viewModel.onEvent(SignUpEvent.ChangeCheckBoxState(!state.checkBoxState))
+                            },
+                            colors = ButtonDefaults.textButtonColors(
+                                containerColor = Color.Transparent
+                            ),
+                            enabled = !state.showIndicator
+                        ) {
+                            Text(
+                                text = "Продолжая, вы принимаете нашу Политику конфиденциальности и Условия использования.",
+                                style = montserrat40010_ADA4A5
+                            )
+                        }
                     }
+                }
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            CustomGreenButton(
+                text = "Зарегистрироваться",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .imePadding(),
+                tag = "btn",
+                enabled = !state.showIndicator
+            ) {
+                viewModel.onEvent(SignUpEvent.SignUp)
+            }
+            Spacer(Modifier.height(25.dp))
+
+            CustomHorizontalDivider(
+                color = _1D1617,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            Spacer(Modifier.height(25.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CustomAssistChip(
+                    icon =
+                        ImageVector.vectorResource(R.drawable.google_icon),
+                    modifier = Modifier
+                        .size(50.dp),
+                    enabled = !state.showIndicator
+                ) {
+                    authState.startFlow()
+                }
+                Spacer(Modifier.width(30.dp))
+                CustomAssistChip(
+                    icon =
+                        ImageVector.vectorResource(R.drawable.facebook_icon),
+                    modifier = Modifier
+                        .size(50.dp),
+                    enabled = !state.showIndicator
+                ) { }
+            }
+            Spacer(Modifier.height(20.dp))
+            TextButton(
+                onClick = {
+                    navController.navigate(Route.SignInScreen.route) {
+                        popUpTo(Route.SignUpScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = Color.Transparent
+                ),
+                enabled = !state.showIndicator
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Имеете уже аккаунт? ",
+                        style = montserrat50014_ADA4A5
+                    )
+                    Text(
+                        text = "Войти",
+                        style = montserrat50014_228F7D
+                    )
                 }
             }
         }
 
-        item {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillParentMaxWidth()
-            ) {
-                CustomGreenButton(
-                    text = "Зарегистрироваться",
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    tag = "btn",
-                    enabled = !state.showIndicator
-                ) {
-                    viewModel.onEvent(SignUpEvent.SignUp)
-                }
-                Spacer(Modifier.height(25.dp))
-                CustomHorizontalDivider(
-                    color = _1D1617,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(Modifier.height(25.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CustomAssistChip(
-                        icon =
-                        ImageVector.vectorResource(R.drawable.google_icon),
-                        modifier = Modifier
-                            .size(50.dp),
-                        enabled = !state.showIndicator
-                    ) {
-                        authState.startFlow()
-                    }
-                    Spacer(Modifier.width(30.dp))
-                    CustomAssistChip(
-                        icon =
-                        ImageVector.vectorResource(R.drawable.facebook_icon),
-                        modifier = Modifier
-                            .size(50.dp),
-                        enabled = !state.showIndicator
-                    ) { }
-                }
-                Spacer(Modifier.height(20.dp))
-                TextButton(
-                    onClick = {
-                        navController.navigate(Route.SignInScreen.route) {
-                            popUpTo(Route.SignUpScreen.route) {
-                                inclusive = true
-                            }
-                        }
-                    },
-                    colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.Transparent
-                    ),
-                    enabled = !state.showIndicator
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Имеете уже аккаунт? ",
-                            style = montserrat50014_ADA4A5
-                        )
-                        Text(
-                            text = "Войти",
-                            style = montserrat50014_228F7D
-                        )
-                    }
-                }
-            }
-        }
     }
 
     CustomIndicator(state.showIndicator)
