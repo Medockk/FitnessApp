@@ -109,7 +109,7 @@ fun WorkoutTrackerScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillParentMaxSize()
-                    .background(Color.White, RoundedCornerShape(40.dp))
+                    .background(Color.White, RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
                     .padding(horizontal = 30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -154,6 +154,7 @@ fun WorkoutTrackerScreen(
                         userWorkoutData = userWorkoutData,
                         modifier = Modifier
                             .fillParentMaxWidth()
+                            .animateItem()
                     ) {
                         viewModel.onEvent(WorkoutEvent.ChangeUserWorkoutState(userWorkoutData))
                     }

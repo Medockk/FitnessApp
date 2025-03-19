@@ -11,6 +11,13 @@ data class OnBoardItem(
 
 var onBoardItemList = listOf(
     OnBoardItem(
+        R.drawable.onboard_screen0,
+        "Отслеживайте свою цель",
+        "Не волнуйтесь, если у вас возникли проблемы " +
+                "с определением ваших целей. Мы можем помочь вам " +
+                "определить ваши цели и отслеживать их."
+    ),
+    OnBoardItem(
         image = R.drawable.onboard_screen1,
         title = "Сжигай лишнее",
         description = "Давайте продолжать заниматься, чтобы" +

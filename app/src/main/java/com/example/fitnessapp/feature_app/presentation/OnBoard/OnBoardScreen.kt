@@ -20,7 +20,7 @@ fun OnBoardScreen(
     val state = viewModel.state.value
     val pagerState = rememberPagerState(
         initialPage = state.currentPage
-    ) { state.pagesCount }
+    ) { state.onBoardItem.size }
 
     LaunchedEffect(key1 = !state.isComplete) {
         if (state.isComplete) {
@@ -43,7 +43,7 @@ fun OnBoardScreen(
         modifier = Modifier
             .fillMaxWidth(),
     ) {
-        if (state.currentPage != state.pagesCount) {
+        if (state.currentPage != state.onBoardItem.size) {
             OnBoardDefaultScreen(
                 onBoardItem = state.onBoardItem[pagerState.currentPage],
                 modifier = Modifier

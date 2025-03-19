@@ -59,12 +59,15 @@ fun TakePhotoScreen(
         }
     }
 
-    BackHandler(state.showIndicator) {
-        if (!state.showIndicator){
-            navController.navigate(Route.ProgressPhotoScreen.route) {
-                popUpTo(
-                    Route.TakePhotoScreen.route
-                ) { inclusive = true }
+    BackHandler(true) {
+        if (state.showIndicator) {
+            return@BackHandler
+        }
+        else {
+            navController.navigate(Route.ProgressPhotoScreen.route){
+                popUpTo(Route.TakePhotoScreen.route){
+                    inclusive = true
+                }
             }
         }
     }
