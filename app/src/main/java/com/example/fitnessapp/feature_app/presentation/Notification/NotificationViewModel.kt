@@ -63,6 +63,18 @@ class NotificationViewModel @Inject constructor(
                     exception = ""
                 )
             }
+
+            NotificationEvent.Refresh -> {
+                _state.value = state.value.copy(isRefreshing = true)
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        getNotifications()
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
+                }
+                _state.value = state.value.copy(isRefreshing = false)
+            }
         }
     }
 }

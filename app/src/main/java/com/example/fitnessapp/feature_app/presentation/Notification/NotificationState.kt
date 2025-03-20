@@ -5,6 +5,7 @@ import com.example.fitnessapp.feature_app.domain.model.NotificationData
 data class NotificationState(
 
     val notifications: List<NotificationData> = emptyList(),
+    val isRefreshing: Boolean = false,
 
     val exception: String = "",
     val showIndicator: Boolean = false,

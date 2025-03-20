@@ -4,11 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import com.example.fitnessapp.feature_app.domain.usecase.User.GetHeartRateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.ChangeUserWorkoutStateUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetAllWorkoutUseCase
 import com.example.fitnessapp.feature_app.domain.usecase.Workout.GetUserWorkoutUseCase
+import com.example.fitnessapp.feature_app.domain.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,9 +28,7 @@ class WorkoutViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.value = state.value.copy(
-                showIndicator = true
-            )
+            _state.value = state.value.copy(showIndicator = true)
             try {
                 getWorkoutBar()
                 getUserWorkout()
@@ -41,23 +39,25 @@ class WorkoutViewModel @Inject constructor(
                     showIndicator = false
                 )
             }
-            _state.value = state.value.copy(
-                showIndicator = false
-            )
+            _state.value = state.value.copy(showIndicator = false)
         }
     }
 
     private suspend fun getWorkoutBar() {
 
         getHeartRateUseCase().collect {
-            when (it){
+            when (it) {
                 is NetworkResult.Error<*> -> {
                     _state.value = state.value.copy(
                         exception = it.message ?: "Unknown error",
                         showIndicator = false
                     )
                 }
-                is NetworkResult.Loading<*> -> {_state.value = state.value.copy(showIndicator = true)}
+
+                is NetworkResult.Loading<*> -> {
+                    _state.value = state.value.copy(showIndicator = true)
+                }
+
                 is NetworkResult.Success<*> -> {
                     _state.value = state.value.copy(showIndicator = false)
                     it.data?.heartRateList?.forEach { char ->
@@ -65,7 +65,9 @@ class WorkoutViewModel @Inject constructor(
                             if (char.isDigit()) {
                                 withContext(Dispatchers.Main) {
                                     _state.value = state.value.copy(
-                                        workoutBar = _state.value.workoutBar.plus(char.toString().toFloat())
+                                        workoutBar = _state.value.workoutBar.plus(
+                                            char.toString().toFloat()
+                                        )
                                     )
                                 }
                             }
@@ -108,25 +110,25 @@ class WorkoutViewModel @Inject constructor(
 
             is WorkoutEvent.ChangeUserWorkoutState -> {
 
-                val newData = event.userWorkoutData.also {
-                    it.isTurnOn = !it.isTurnOn
+                val newData = event.userWorkoutData.copy(
+                    isTurnOn = !event.userWorkoutData.isTurnOn
+                )
+                val index = _state.value.userWorkoutList.indexOf(event.userWorkoutData)
+                _state.value.userWorkoutList.apply {
+                    val newList = this.toMutableList()
+                    newList[index] = newData
+                    _state.value = state.value.copy(
+                        userWorkoutList = newList
+                    )
                 }
                 viewModelScope.launch(Dispatchers.IO) {
-
-                    val index = _state.value.userWorkoutList.indexOf(event.userWorkoutData)
-                    _state.value.userWorkoutList[index].copy(isTurnOn = !event.userWorkoutData.isTurnOn)
-                    _state.value = state.value.copy(
-                        userWorkoutList = _state.value.userWorkoutList.apply {
-                            this[index].isTurnOn = !event.userWorkoutData.isTurnOn
-                        }
-                    )
                     try {
-                            changeUserWorkoutStateUseCase(
-                                userWorkoutData = newData
-                            )
-                        } catch (e: Exception) {
-                            _state.value = state.value.copy(exception = e.message.toString())
-                        }
+                        changeUserWorkoutStateUseCase(
+                            userWorkoutData = newData
+                        )
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
                 }
             }
         }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -58,7 +57,6 @@ import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SignUpScreen(
     navController: NavController,
@@ -155,7 +153,8 @@ fun SignUpScreen(
             .padding(
                 start = 30.dp, end = 30.dp,
                 top = paddingTop.dp, bottom = paddingBottom.dp
-            ),
+            )
+            .imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -171,8 +170,7 @@ fun SignUpScreen(
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .imePadding(),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyColumn(
@@ -249,8 +247,7 @@ fun SignUpScreen(
             CustomGreenButton(
                 text = "Зарегистрироваться",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .imePadding(),
+                    .fillMaxWidth(),
                 tag = "btn",
                 enabled = !state.showIndicator
             ) {
@@ -313,7 +310,6 @@ fun SignUpScreen(
                 }
             }
         }
-
     }
 
     CustomIndicator(state.showIndicator)

@@ -17,4 +17,5 @@ data class SleepTrackerState(
     val alarmEnd: String = "",
 
     val showIndicator: Boolean = false,
+    val isRefreshing: Boolean = false,
 )
