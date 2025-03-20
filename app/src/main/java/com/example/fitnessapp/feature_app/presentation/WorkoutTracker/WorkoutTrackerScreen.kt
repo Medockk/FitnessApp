@@ -2,6 +2,8 @@ package com.example.fitnessapp.feature_app.presentation.WorkoutTracker
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
@@ -149,12 +151,17 @@ fun WorkoutTrackerScreen(
                     Spacer(Modifier.height(15.dp))
                 }
 
-                items(state.userWorkoutList) { userWorkoutData ->
+                items(state.userWorkoutList.sortedBy {item -> item.isTurnOn }, key = {it.id}) { userWorkoutData ->
                     UserWorkoutCard(
                         userWorkoutData = userWorkoutData,
                         modifier = Modifier
                             .fillParentMaxWidth()
-                            .animateItem()
+                            .animateItem(
+                                fadeInSpec = spring(
+                                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                                    stiffness = Spring.StiffnessVeryLow
+                                )
+                            )
                     ) {
                         viewModel.onEvent(WorkoutEvent.ChangeUserWorkoutState(userWorkoutData))
                     }

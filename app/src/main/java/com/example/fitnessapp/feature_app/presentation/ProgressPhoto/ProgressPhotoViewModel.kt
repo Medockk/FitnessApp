@@ -57,6 +57,18 @@ class ProgressPhotoViewModel @Inject constructor(
             ProgressPhotoEvent.ResetException -> {
                 _state.value = state.value.copy(exception = "")
             }
+
+            is ProgressPhotoEvent.Refresh -> {
+                _state.value = state.value.copy(isRefreshing = true)
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        getUserGallery()
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(exception = e.message.toString())
+                    }
+                }
+                _state.value = state.value.copy(isRefreshing = false)
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import com.example.fitnessapp.feature_app.domain.model.GalleryData
 data class ProgressPhotoState(
     val exception: String = "",
     val showIndicator: Boolean = false,
+    val isRefreshing: Boolean = false,
 
     val gallery: List<GalleryData> = emptyList(),
     val nextPhotoDate: String = "",
